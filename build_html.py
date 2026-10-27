@@ -457,17 +457,29 @@ html_content = f"""<!DOCTYPE html>
       font-size: 14px;
       transition: all 0.2s;
     }}
+    .ep-play-btn svg {{
+      fill: var(--gold-primary);
+      transition: fill 0.2s;
+    }}
     .episode-card:hover .ep-play-btn,
     .ep-play-btn:hover,
     .episode-card.is-playing .ep-play-btn {{
       background: var(--gold-primary);
-      color: #0b1120 !important;
+      border-color: var(--gold-primary);
       transform: scale(1.06);
+    }}
+    .episode-card:hover .ep-play-btn svg,
+    .ep-play-btn:hover svg,
+    .episode-card.is-playing .ep-play-btn svg {{
+      fill: #0b1120 !important;
     }}
     .episode-card.is-playing .ep-play-btn:hover,
     .episode-card.is-playing .ep-play-btn:active {{
       background: var(--gold-light);
-      color: #0b1120 !important;
+    }}
+    .episode-card.is-playing .ep-play-btn:hover svg,
+    .episode-card.is-playing .ep-play-btn:active svg {{
+      fill: #0b1120 !important;
     }}
     .ep-duration-tag {{
       font-family: monospace;
@@ -646,22 +658,31 @@ html_content = f"""<!DOCTYPE html>
       transform: scale(1.1);
     }}
     .ctrl-btn-play {{
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       background: var(--gold-primary);
-      color: #0b1120 !important;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
+      transition: all 0.15s;
+    }}
+    .ctrl-btn-play svg {{
+      fill: #0b1120 !important;
     }}
     .ctrl-btn-play:hover,
     .ctrl-btn-play:active,
     .ctrl-btn-play:focus {{
       background: var(--gold-light);
-      color: #0b1120 !important;
       transform: scale(1.06);
+    }}
+    .ctrl-btn-play:hover svg,
+    .ctrl-btn-play:active svg,
+    .ctrl-btn-play:focus svg {{
+      fill: #0b1120 !important;
     }}
 
     .timeline-row {{
@@ -971,7 +992,7 @@ html_content = f"""<!DOCTYPE html>
         <div class="controls-row">
           <button class="ctrl-btn" onclick="skipTime(-15)" title="倒退 15 秒">↺ 15s</button>
           <button class="ctrl-btn" onclick="playPrev()" title="上一集">⏮</button>
-          <button class="ctrl-btn ctrl-btn-play" id="playBtn" onclick="togglePlay()" title="播放/暫停">▶</button>
+          <button class="ctrl-btn ctrl-btn-play" id="playBtn" onclick="togglePlay()" title="播放/暫停"><svg width="18" height="18" viewBox="0 0 24 24" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg></button>
           <button class="ctrl-btn" onclick="playNext()" title="下一集">⏭</button>
           <button class="ctrl-btn" onclick="skipTime(15)" title="快進 15 秒">15s ↻</button>
         </div>
@@ -1095,7 +1116,7 @@ html_content = f"""<!DOCTYPE html>
           <div class="ep-header">
             <div class="ep-main-info" onclick="handleRowClick(${{idx}})">
               <div class="ep-play-col">
-                <div class="ep-play-btn" id="card-play-btn-${{idx}}">▶</div>
+                <div class="ep-play-btn" id="card-play-btn-${{idx}}">${{SVG_PLAY}}</div>
                 <div class="ep-duration-tag">${{ep.duration_fmt}}</div>
               </div>
               <div class="ep-title">${{ep.title}}</div>
@@ -1204,17 +1225,23 @@ html_content = f"""<!DOCTYPE html>
       }}
     }}
 
+    const SVG_PLAY = '<svg width="14" height="14" viewBox="0 0 24 24" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
+    const SVG_PAUSE = '<svg width="14" height="14" viewBox="0 0 24 24" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
+    const SVG_PLAY_LG = '<svg width="18" height="18" viewBox="0 0 24 24" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
+    const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
+
     function updatePlayIcons(playing) {{
-      playBtn.textContent = playing ? '⏸' : '▶';
-      const cardBtn = document.getElementById(`card-play-btn-${{currentEpIndex}}`);
-      if (cardBtn) cardBtn.textContent = playing ? '⏸' : '▶';
+      playBtn.innerHTML = playing ? SVG_PAUSE_LG : SVG_PLAY_LG;
+      document.querySelectorAll('.ep-play-btn').forEach((btn, i) => {{
+        btn.innerHTML = (i === currentEpIndex && playing) ? SVG_PAUSE : SVG_PLAY;
+      }});
     }}
 
     function updateCardStyles(activeIdx, playing) {{
       document.querySelectorAll('.episode-card').forEach((c, i) => {{
         c.classList.toggle('is-playing', i === activeIdx);
         const cardPlayBtn = document.getElementById(`card-play-btn-${{i}}`);
-        if (cardPlayBtn) cardPlayBtn.textContent = (i === activeIdx && playing) ? '⏸' : '▶';
+        if (cardPlayBtn) cardPlayBtn.innerHTML = (i === activeIdx && playing) ? SVG_PAUSE : SVG_PLAY;
       }});
     }}
 
