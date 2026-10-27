@@ -35,17 +35,24 @@ if os.path.exists(CAVES_TXT_PATH):
             if not line_str or line_str.startswith("#"):
                 continue
             parts = [p.strip() for p in line_str.split("|")]
-            if len(parts) >= 1:
+            if len(parts) >= 4:
                 name = parts[0]
-                desc = parts[1] if len(parts) > 1 else ""
+                desc = parts[1]
+                status = parts[3]
+            elif len(parts) >= 2:
+                name = parts[0]
+                desc = parts[1]
                 status = parts[2] if len(parts) > 2 else "已上線"
-                is_active = ("播放中" in status or "當前" in status)
-                visible_caves.append({
-                    "name": name,
-                    "desc": desc,
-                    "status": status,
-                    "is_active": is_active
-                })
+            else:
+                continue
+
+            is_active = ("播放中" in status or "當前" in status)
+            visible_caves.append({
+                "name": name,
+                "desc": desc,
+                "status": status,
+                "is_active": is_active
+            })
 
 # Load base episodes.json
 with open(JSON_PATH, "r", encoding="utf-8") as f:
@@ -788,6 +795,7 @@ html_content = f"""<!DOCTYPE html>
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
     }}
     .cave-item.active-cave {{
       border-color: var(--gold-primary);
@@ -810,6 +818,8 @@ html_content = f"""<!DOCTYPE html>
       border-radius: 20px;
       background: rgba(255,255,255,0.05);
       color: var(--text-dim);
+      white-space: nowrap;
+      flex-shrink: 0;
     }}
     .cave-status-tag.active {{
       background: rgba(212, 175, 55, 0.2);
@@ -891,7 +901,7 @@ html_content = f"""<!DOCTYPE html>
           <img src="cover_channel.png" alt="兔子洞筆記封面" class="brand-avatar">
           <div>
             <div class="brand-title">兔子洞筆記</div>
-            <div class="brand-subtitle">Notes from the Rabbit Hole ・ 私人觀察隨選客廳</div>
+            <div class="brand-subtitle">Notes from the Rabbit Hole</div>
           </div>
         </div>
         <div class="header-actions">
@@ -1000,9 +1010,7 @@ html_content = f"""<!DOCTYPE html>
     <div class="modal-window" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="closeModal('otherCavesModal')">&times;</button>
       <div class="modal-title">🐇 兔子洞系列目錄</div>
-      <p class="modal-desc">
-        每一個洞窟都是一次偏執的深潛。已整理上線或籌備中的專題手記：
-      </p>
+
       <div class="caves-list-group" id="cavesListContainer"></div>
       <p style="font-size: 12px; color: var(--text-dim); margin-top: 20px; text-align: center;">
         ✦ 訂閱全頻道 RSS，即可在任一新窟完成時於 Podcast App 自動獲取最新集數！
