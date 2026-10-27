@@ -218,7 +218,7 @@ def scan_and_collect_episodes():
             file_size = os.path.getsize(fpath)
             chapters = get_audio_chapters(fpath)
 
-            pub_date = datetime(2026, 10, 27, 8, idx, 0, tzinfo=timezone.utc)
+            pub_date = datetime(2026, 10, 24, 12, idx, 0, tzinfo=timezone.utc)
 
             # Standard ASCII release filename for GitHub Releases & CDN (streamed directly without local duplicates)
             release_fname = f"{s_info['id']}_ep{idx:02d}.m4a"
@@ -286,7 +286,6 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
         '     xmlns:atom="http://www.w3.org/2005/Atom">',
         '  <channel>',
         f'    <title>{xml_escape(feed_title)}</title>',
-        f'    <link>{base_url}/</link>',
     ]
 
     if subtitle:
@@ -296,7 +295,7 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
         f'    <language>{CHANNEL_META["language"]}</language>',
         f'    <itunes:summary>{feed_desc_clean}</itunes:summary>',
         f'    <description>{feed_desc_clean}</description>',
-        '    <itunes:type>serial</itunes:type>',
+        '    <itunes:type>episodic</itunes:type>',
         '    <itunes:complete>yes</itunes:complete>',
         '    <itunes:explicit>false</itunes:explicit>',
         f'    <itunes:image href="{base_url}/{feed_cover}"/>',
