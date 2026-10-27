@@ -195,6 +195,9 @@ def scan_and_collect_episodes():
             mp4 = MP4(fpath)
 
             title_tag = mp4.tags.get("©nam", [fname[:-4]])[0]
+            clean_title = re.sub(r"^(?:Ep\d+|H\d+E\d+|\d+)[\s\-_:：]*", "", title_tag).strip()
+            formatted_title = f"H{s_info['season_num']:02d}E{idx:02d} {clean_title}"
+
             artist_tag = mp4.tags.get("©ART", [CHANNEL_META["author"]])[0]
             desc_tag = mp4.tags.get("desc", mp4.tags.get("©cmt", [""]))[0]
             notes_tag = mp4.tags.get("©lyr", [desc_tag])[0]
@@ -215,7 +218,7 @@ def scan_and_collect_episodes():
                 "series_title": s_info["title"],
                 "season": s_info["season_num"],
                 "episode": idx,
-                "title": title_tag,
+                "title": formatted_title,
                 "filename": fname,
                 "release_filename": release_fname,
                 "audio_url": audio_url,
