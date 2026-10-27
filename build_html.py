@@ -73,10 +73,12 @@ SYSTEM_IGNORE_FILES = {"desktop.ini", "thumbs.db", ".ds_store"}
 
 if os.path.exists(ref_src_dir):
     raw_files = sorted(glob.glob(os.path.join(ref_src_dir, "*")))
+    active_doc_filenames = set()
     for fpath in raw_files:
         if not os.path.isfile(fpath):
             continue
         fname = os.path.basename(fpath)
+        active_doc_filenames.add(fname)
         base_name, ext = os.path.splitext(fname)
         ext_lower = ext.lower()
 
@@ -114,6 +116,15 @@ if os.path.exists(ref_src_dir):
                 series_docs_content[doc_id] = ""
 
         ref_docs_list.append(doc_info)
+
+    # Synchronize and clean orphan docs in DOCS_DIR
+    if os.path.exists(DOCS_DIR):
+        for existing_doc in os.listdir(DOCS_DIR):
+            if existing_doc not in active_doc_filenames:
+                try:
+                    os.remove(os.path.join(DOCS_DIR, existing_doc))
+                except Exception:
+                    pass
 
 data["ref_docs_list"] = ref_docs_list
 data["series_docs_content"] = series_docs_content
