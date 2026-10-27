@@ -83,9 +83,24 @@ def main():
         file_size = os.path.getsize(fpath)
         size_mb = round(file_size / (1024 * 1024), 2)
 
-        if target_name in existing_assets and existing_assets[target_name]["size"] == file_size:
-            print(f"[SKIP] Ep{idx:02d} -> {target_name} ({size_mb} MB) is already uploaded with identical size.")
-            continue
+        if target_name in existing_assets:
+            if existing_assets[target_name]["size"] == file_size:
+                print(f"[SKIP] Ep{idx:02d} -> {target_name} ({size_mb} MB) is already uploaded with identical size.")
+                continue
+            else:
+                # File size changed, delete old asset before re-uploading
+                old_id = existing_assets[target_name]["id"]
+                print(f"\n[UPDATE] File size changed for {target_name} (old: {existing_assets[target_name]['size']}, new: {file_size}). Deleting asset {old_id}...")
+                del_req = urllib.request.Request(
+                    f"https://api.github.com/repos/{owner}/{repo}/releases/assets/{old_id}",
+                    headers=headers,
+                    method="DELETE"
+                )
+                try:
+                    with urllib.request.urlopen(del_req) as del_resp:
+                        print(f"  [OK] Deleted old {target_name}")
+                except Exception as e:
+                    print(f"  [WARN] Failed to delete old {target_name}: {e}")
 
         print(f"\n[UPLOADING] Ep{idx:02d} -> {target_name} ({size_mb} MB) from source file:")
         print(f"  Source: {os.path.basename(fpath)}")
