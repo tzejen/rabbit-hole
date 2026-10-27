@@ -24,11 +24,9 @@ sys.stdout.reconfigure(encoding="utf-8", line_buffering=True)
 BASE_DIR = r"G:\My Drive\NotebookLM"
 DIST_DIR = os.path.join(BASE_DIR, "podcast_distribution")
 ASSETS_DIR = os.path.join(DIST_DIR, "assets")
-RELEASE_AUDIO_DIR = os.path.join(DIST_DIR, "Release_Audio")
 CHANNEL_TXT_PATH = os.path.join(DIST_DIR, "channel.txt")
 CAVES_TXT_PATH = os.path.join(DIST_DIR, "caves.txt")
 os.makedirs(ASSETS_DIR, exist_ok=True)
-os.makedirs(RELEASE_AUDIO_DIR, exist_ok=True)
 
 # 1. Parse channel.txt
 def load_channel_meta():
@@ -208,12 +206,8 @@ def scan_and_collect_episodes():
 
             pub_date = datetime(2026, 10, 20 + (idx - 1), 8, 0, 0, tzinfo=timezone.utc)
 
-            # ASCII-safe release filename for GitHub Releases & CDN
+            # Standard ASCII release filename for GitHub Releases & CDN (streamed directly without local duplicates)
             release_fname = f"{s_info['id']}_ep{idx:02d}.m4a"
-            dst_release_file = os.path.join(RELEASE_AUDIO_DIR, release_fname)
-            if not os.path.exists(dst_release_file) or os.path.getsize(dst_release_file) != file_size:
-                shutil.copy2(fpath, dst_release_file)
-
             audio_url = f"https://github.com/{user}/{repo}/releases/download/v1.0.0/{release_fname}"
 
             ep_data = {
