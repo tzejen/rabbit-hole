@@ -1,6 +1,5 @@
 # ==============================================================================
 # 🐇 兔子洞筆記 (Notes from the Rabbit Hole) - 全頻道設定
-# 你可以直接用記事本編輯此檔案，修改頻道簡介、作者、聯絡信箱與 GitHub 網址！
 # ==============================================================================
 
 # GitHub 倉庫設定（用於產生 RSS 音檔下載連結與 GitHub Pages 網址）
@@ -9,16 +8,12 @@ GitHub_Repo: rabbit-hole
 
 # 頻道基本資料
 Title: 兔子洞筆記
-Subtitle: Notes from the Rabbit Hole
-Author: 知人 / 允思出品
-Email: podcast@yunsi.local
+Subtitle: 其他洞窟挖掘中
+Author: 
+Email: 
 Language: zh-tw
 Category: History
 Subcategory: Asian History
 
-# 頻道總體介紹（Show Description）
+# 頻道總體介紹（Show Description，留空保持簡潔）
 Description:
-掉進去純屬意外，挖到底純屬偏執。
-《兔子洞筆記》是一份關於萬物底層構造與文化密碼的私人觀察手記。
-從日文和製漢語、中世紀朝聖路、江戶鰻魚蒲燒到萬年核子符號學，
-我們以冷靜客觀的微物剖面與理性哲思，解構那些看似平常卻匪夷所思的大千世界。

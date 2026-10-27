@@ -32,15 +32,15 @@ os.makedirs(ASSETS_DIR, exist_ok=True)
 def load_channel_meta():
     meta = {
         "title": "兔子洞筆記",
-        "subtitle": "Notes from the Rabbit Hole",
-        "author": "知人 / 允思出品",
-        "email": "podcast@yunsi.local",
+        "subtitle": "其他洞窟挖掘中",
+        "author": "",
+        "email": "",
         "category": "History",
         "subcategory": "Asian History",
         "language": "zh-tw",
         "github_user": "tzejen",
         "github_repo": "rabbit-hole",
-        "description": "掉進去純屬意外，挖到底純屬偏執。《兔子洞筆記》是一份關於萬物底層構造與文化密碼的私人觀察手記。",
+        "description": "",
         "cover_filename": "cover_channel_1400.jpg"
     }
     if not os.path.exists(CHANNEL_TXT_PATH):
@@ -86,8 +86,7 @@ def load_channel_meta():
                     elif k_lower == "github_repo":
                         meta["github_repo"] = v_clean
 
-    if desc_lines:
-        meta["description"] = "\n".join(desc_lines).strip()
+    meta["description"] = "\n".join(desc_lines).strip() if desc_lines else ""
     return meta
 
 CHANNEL_META = load_channel_meta()
@@ -204,7 +203,7 @@ def scan_and_collect_episodes():
             file_size = os.path.getsize(fpath)
             chapters = get_audio_chapters(fpath)
 
-            pub_date = datetime(2026, 10, 20 + (idx - 1), 8, 0, 0, tzinfo=timezone.utc)
+            pub_date = datetime(2026, 10, 27, 8, idx, 0, tzinfo=timezone.utc)
 
             # Standard ASCII release filename for GitHub Releases & CDN (streamed directly without local duplicates)
             release_fname = f"{s_info['id']}_ep{idx:02d}.m4a"
@@ -259,6 +258,11 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
     base_url = f"https://{user}.github.io/{repo}"
     audio_base_url = f"https://github.com/{user}/{repo}/releases/download/v1.0.0"
 
+    author = CHANNEL_META.get("author", "").strip()
+    subtitle = CHANNEL_META.get("subtitle", "").strip()
+    email = CHANNEL_META.get("email", "").strip()
+    feed_desc_clean = xml_escape(feed_desc) if feed_desc else ""
+
     xml_lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<rss version="2.0"',
@@ -267,21 +271,32 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
         '     xmlns:atom="http://www.w3.org/2005/Atom">',
         '  <channel>',
         f'    <title>{xml_escape(feed_title)}</title>',
-        f'    <link>{base_url}/index.html</link>',
+    ]
+
+    if subtitle:
+        xml_lines.append(f'    <itunes:subtitle>{xml_escape(subtitle)}</itunes:subtitle>')
+
+    xml_lines.extend([
         f'    <language>{CHANNEL_META["language"]}</language>',
-        f'    <copyright>© {datetime.now().year} {xml_escape(CHANNEL_META["author"])}</copyright>',
-        f'    <itunes:author>{xml_escape(CHANNEL_META["author"])}</itunes:author>',
-        f'    <itunes:summary>{xml_escape(feed_desc)}</itunes:summary>',
-        f'    <description>{xml_escape(feed_desc)}</description>',
+        f'    <itunes:summary>{feed_desc_clean}</itunes:summary>',
+        f'    <description>{feed_desc_clean}</description>',
         '    <itunes:type>serial</itunes:type>',
+        '    <itunes:complete>yes</itunes:complete>',
         '    <itunes:explicit>false</itunes:explicit>',
         f'    <itunes:image href="{base_url}/{feed_cover}"/>',
-        '    <itunes:owner>',
-        f'      <itunes:name>{xml_escape(CHANNEL_META["author"])}</itunes:name>',
-        f'      <itunes:email>{CHANNEL_META["email"]}</itunes:email>',
-        '    </itunes:owner>',
-        f'    <itunes:category text="{CHANNEL_META["category"]}">'
-    ]
+    ])
+
+    if author:
+        xml_lines.extend([
+            f'    <copyright>© {datetime.now().year} {xml_escape(author)}</copyright>',
+            f'    <itunes:author>{xml_escape(author)}</itunes:author>',
+            '    <itunes:owner>',
+            f'      <itunes:name>{xml_escape(author)}</itunes:name>',
+            f'      <itunes:email>{email}</itunes:email>',
+            '    </itunes:owner>',
+        ])
+
+    xml_lines.append(f'    <itunes:category text="{CHANNEL_META["category"]}">')
     if CHANNEL_META.get("subcategory"):
         xml_lines.append(f'      <itunes:category text="{CHANNEL_META["subcategory"]}"/>')
     xml_lines.append('    </itunes:category>')

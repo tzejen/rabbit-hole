@@ -145,7 +145,7 @@ html_content = f"""<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>兔子洞筆記 (Notes from the Rabbit Hole) — 隨選隨聽客廳</title>
-  <meta name="description" content="掉進去純屬意外，挖到底純屬偏執。一本關於萬物底層構造與文化密碼的私人觀察手記。">
+  <meta name="description" content="兔子洞筆記 (Notes from the Rabbit Hole)">
   <link rel="icon" type="image/png" href="cover_channel.png">
   <style>
     :root {{

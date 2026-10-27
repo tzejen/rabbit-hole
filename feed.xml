@@ -5,25 +5,14 @@
      xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>兔子洞筆記 (Notes from the Rabbit Hole)</title>
-    <link>https://tzejen.github.io/rabbit-hole/index.html</link>
+    <itunes:subtitle>其他洞窟挖掘中</itunes:subtitle>
     <language>zh-tw</language>
-    <copyright>© 2026 知人 / 允思出品</copyright>
-    <itunes:author>知人 / 允思出品</itunes:author>
-    <itunes:summary>掉進去純屬意外，挖到底純屬偏執。
-《兔子洞筆記》是一份關於萬物底層構造與文化密碼的私人觀察手記。
-從日文和製漢語、中世紀朝聖路、江戶鰻魚蒲燒到萬年核子符號學，
-我們以冷靜客觀的微物剖面與理性哲思，解構那些看似平常卻匪夷所思的大千世界。</itunes:summary>
-    <description>掉進去純屬意外，挖到底純屬偏執。
-《兔子洞筆記》是一份關於萬物底層構造與文化密碼的私人觀察手記。
-從日文和製漢語、中世紀朝聖路、江戶鰻魚蒲燒到萬年核子符號學，
-我們以冷靜客觀的微物剖面與理性哲思，解構那些看似平常卻匪夷所思的大千世界。</description>
+    <itunes:summary></itunes:summary>
+    <description></description>
     <itunes:type>serial</itunes:type>
+    <itunes:complete>yes</itunes:complete>
     <itunes:explicit>false</itunes:explicit>
     <itunes:image href="https://tzejen.github.io/rabbit-hole/assets/cover_channel_1400.jpg"/>
-    <itunes:owner>
-      <itunes:name>知人 / 允思出品</itunes:name>
-      <itunes:email>podcast@yunsi.local</itunes:email>
-    </itunes:owner>
     <itunes:category text="History">
       <itunes:category text="Asian History"/>
     </itunes:category>
@@ -33,7 +22,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>1</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Tue, 20 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:01:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep01</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep01.m4a" length="39531179" type="audio/mp4"/>
       <itunes:duration>1219.0</itunes:duration>
@@ -48,7 +37,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>2</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Wed, 21 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:02:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep02</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep02.m4a" length="27007577" type="audio/mp4"/>
       <itunes:duration>1096.43</itunes:duration>
@@ -63,7 +52,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>3</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Thu, 22 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:03:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep03</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep03.m4a" length="30620155" type="audio/mp4"/>
       <itunes:duration>942.24</itunes:duration>
@@ -78,7 +67,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>4</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Fri, 23 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:04:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep04</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep04.m4a" length="20718634" type="audio/mp4"/>
       <itunes:duration>837.94</itunes:duration>
@@ -93,7 +82,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>5</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Sat, 24 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:05:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep05</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep05.m4a" length="31894754" type="audio/mp4"/>
       <itunes:duration>1104.16</itunes:duration>
@@ -108,7 +97,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>6</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Sun, 25 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:06:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep06</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep06.m4a" length="34951286" type="audio/mp4"/>
       <itunes:duration>1424.31</itunes:duration>
@@ -123,7 +112,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>7</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Mon, 26 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:07:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep07</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep07.m4a" length="28117196" type="audio/mp4"/>
       <itunes:duration>1142.57</itunes:duration>
@@ -138,7 +127,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>8</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Tue, 27 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:08:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep08</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep08.m4a" length="50600157" type="audio/mp4"/>
       <itunes:duration>1562.68</itunes:duration>
@@ -153,7 +142,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>9</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Wed, 28 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:09:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep09</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep09.m4a" length="23845324" type="audio/mp4"/>
       <itunes:duration>968.65</itunes:duration>
@@ -168,7 +157,7 @@
       <itunes:season>1</itunes:season>
       <itunes:episode>10</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
-      <pubDate>Thu, 29 Oct 2026 08:00:00 +0000</pubDate>
+      <pubDate>Tue, 27 Oct 2026 08:10:00 +0000</pubDate>
       <guid isPermaLink="false">cave01_ep10</guid>
       <enclosure url="https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/cave01_ep10.m4a" length="29459411" type="audio/mp4"/>
       <itunes:duration>1197.54</itunes:duration>

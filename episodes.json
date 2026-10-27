@@ -1,15 +1,15 @@
 {
   "channel": {
     "title": "兔子洞筆記",
-    "subtitle": "Notes from the Rabbit Hole",
-    "author": "知人 / 允思出品",
-    "email": "podcast@yunsi.local",
+    "subtitle": "其他洞窟挖掘中",
+    "author": "",
+    "email": "",
     "category": "History",
     "subcategory": "Asian History",
     "language": "zh-tw",
     "github_user": "tzejen",
     "github_repo": "rabbit-hole",
-    "description": "掉進去純屬意外，挖到底純屬偏執。\n《兔子洞筆記》是一份關於萬物底層構造與文化密碼的私人觀察手記。\n從日文和製漢語、中世紀朝聖路、江戶鰻魚蒲燒到萬年核子符號學，\n我們以冷靜客觀的微物剖面與理性哲思，解構那些看似平常卻匪夷所思的大千世界。",
+    "description": "",
     "cover_filename": "cover_channel_1400.jpg"
   },
   "series": [
@@ -87,8 +87,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Tue, 20 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-20T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:01:00 +0000",
+      "pub_date_iso": "2026-10-27T08:01:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -173,8 +173,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Wed, 21 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-21T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:02:00 +0000",
+      "pub_date_iso": "2026-10-27T08:02:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -245,8 +245,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Thu, 22 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-22T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:03:00 +0000",
+      "pub_date_iso": "2026-10-27T08:03:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -310,8 +310,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Fri, 23 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-23T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:04:00 +0000",
+      "pub_date_iso": "2026-10-27T08:04:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -375,8 +375,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Sat, 24 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-24T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:05:00 +0000",
+      "pub_date_iso": "2026-10-27T08:05:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -447,8 +447,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Sun, 25 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-25T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:06:00 +0000",
+      "pub_date_iso": "2026-10-27T08:06:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -512,8 +512,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Mon, 26 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-26T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:07:00 +0000",
+      "pub_date_iso": "2026-10-27T08:07:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -591,8 +591,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Tue, 27 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-27T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:08:00 +0000",
+      "pub_date_iso": "2026-10-27T08:08:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -656,8 +656,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Wed, 28 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-28T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:09:00 +0000",
+      "pub_date_iso": "2026-10-27T08:09:00+00:00"
     },
     {
       "series_id": "cave01",
@@ -728,8 +728,8 @@
         }
       ],
       "cover_image": "assets/cover_cave01.jpg",
-      "pub_date_rfc822": "Thu, 29 Oct 2026 08:00:00 +0000",
-      "pub_date_iso": "2026-10-29T08:00:00+00:00"
+      "pub_date_rfc822": "Tue, 27 Oct 2026 08:10:00 +0000",
+      "pub_date_iso": "2026-10-27T08:10:00+00:00"
     }
   ]
 }
