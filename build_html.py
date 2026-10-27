@@ -46,7 +46,7 @@ if os.path.exists(CAVES_TXT_PATH):
             else:
                 continue
 
-            is_active = ("播放中" in status or "當前" in status)
+            is_active = ("播放中" in status or "當前" in status or len(visible_caves) == 0)
             visible_caves.append({
                 "name": name,
                 "desc": desc,
@@ -315,7 +315,7 @@ html_content = f"""<!DOCTYPE html>
     .hero-title {{
       font-size: 26px;
       font-weight: 700;
-      color: var(--text-main);
+      color: #ffffff;
       margin-bottom: 10px;
       line-height: 1.3;
     }}
@@ -458,10 +458,16 @@ html_content = f"""<!DOCTYPE html>
       transition: all 0.2s;
     }}
     .episode-card:hover .ep-play-btn,
-    .ep-play-btn:hover {{
+    .ep-play-btn:hover,
+    .episode-card.is-playing .ep-play-btn {{
       background: var(--gold-primary);
-      color: #0b1120;
+      color: #0b1120 !important;
       transform: scale(1.06);
+    }}
+    .episode-card.is-playing .ep-play-btn:hover,
+    .episode-card.is-playing .ep-play-btn:active {{
+      background: var(--gold-light);
+      color: #0b1120 !important;
     }}
     .ep-duration-tag {{
       font-family: monospace;
@@ -476,7 +482,7 @@ html_content = f"""<!DOCTYPE html>
     .ep-title {{
       font-size: 15px;
       font-weight: 600;
-      color: var(--text-main);
+      color: #ffffff;
       line-height: 1.4;
       flex: 1;
       min-width: 0;
@@ -604,7 +610,7 @@ html_content = f"""<!DOCTYPE html>
     .track-title {{
       font-size: 14px;
       font-weight: 600;
-      color: var(--text-main);
+      color: #ffffff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -640,18 +646,21 @@ html_content = f"""<!DOCTYPE html>
       transform: scale(1.1);
     }}
     .ctrl-btn-play {{
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       background: var(--gold-primary);
-      color: #0b1120;
+      color: #0b1120 !important;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 18px;
     }}
-    .ctrl-btn-play:hover {{
+    .ctrl-btn-play:hover,
+    .ctrl-btn-play:active,
+    .ctrl-btn-play:focus {{
       background: var(--gold-light);
+      color: #0b1120 !important;
       transform: scale(1.06);
     }}
 
@@ -804,12 +813,12 @@ html_content = f"""<!DOCTYPE html>
     .cave-item-name {{
       font-size: 15px;
       font-weight: 600;
-      color: var(--text-main);
+      color: #ffffff;
     }}
     .cave-item-desc {{
-      font-size: 12px;
-      color: var(--text-dim);
-      margin-top: 2px;
+      font-size: 13px;
+      color: #ffffff;
+      margin-top: 4px;
     }}
     .cave-status-tag {{
       font-size: 12px;
@@ -1012,9 +1021,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="modal-title">🐇 兔子洞系列目錄</div>
 
       <div class="caves-list-group" id="cavesListContainer"></div>
-      <p style="font-size: 12px; color: var(--text-dim); margin-top: 20px; text-align: center;">
-        ✦ 訂閱全頻道 RSS，即可在任一新窟完成時於 Podcast App 自動獲取最新集數！
-      </p>
+
     </div>
   </div>
 

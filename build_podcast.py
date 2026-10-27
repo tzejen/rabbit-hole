@@ -104,14 +104,26 @@ def load_caves_list():
             if not line_str or line_str.startswith("#"):
                 continue
             parts = [p.strip() for p in line_str.split("|")]
-            if len(parts) >= 3:
+            if len(parts) >= 2:
                 cave_number = parts[0]
                 cave_title = parts[1]
-                folder_name = parts[2]
-                status = parts[3] if len(parts) > 3 else "已上線"
-                series_dir = os.path.join(BASE_DIR, folder_name)
+                custom_folder = parts[2] if len(parts) >= 4 else None
+                status = parts[3] if len(parts) >= 4 else (parts[2] if len(parts) == 3 else "已上線")
 
-                if os.path.isdir(series_dir):
+                # Auto-detect folder when not specified in caves.txt
+                if custom_folder and os.path.isdir(os.path.join(BASE_DIR, custom_folder)):
+                    series_dir = os.path.join(BASE_DIR, custom_folder)
+                elif "第一窟" in cave_number or "漢字" in cave_title or "詞彙" in cave_title:
+                    series_dir = os.path.join(BASE_DIR, "白話文運動與日文詞彙_ModernChinese")
+                else:
+                    series_dir = None
+                    for d in os.listdir(BASE_DIR):
+                        full = os.path.join(BASE_DIR, d)
+                        if os.path.isdir(full) and d.startswith(cave_title[:2]):
+                            series_dir = full
+                            break
+
+                if series_dir and os.path.isdir(series_dir):
                     caves.append({
                         "id": f"cave{idx:02d}",
                         "cave_number": cave_number,
