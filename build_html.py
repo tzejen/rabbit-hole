@@ -121,7 +121,7 @@ data["series_docs_content"] = series_docs_content
 # Convert local audio file paths to relative paths for browser playback
 for ep in data["episodes"]:
     rel_audio = os.path.relpath(ep["local_path"], DIST_DIR).replace("\\", "/")
-    ep["audio_src"] = rel_audio
+    ep["audio_src"] = ep.get("audio_url", f"https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/{ep.get('release_filename', ep['filename'])}")
     ep["summary"] = ep["summary"].replace("Created with Gemini Antigravity and Google Notebook", "").strip()
     ep["full_notes"] = ep["full_notes"].replace("Created with Gemini Antigravity and Google Notebook", "").strip()
 

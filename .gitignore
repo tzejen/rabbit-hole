@@ -10,3 +10,7 @@ desktop.ini
 
 # Temporary & draft covers
 Covers_Jiezi/
+
+# Audio binaries staging for GitHub Release
+Release_Audio/
+

@@ -24,9 +24,11 @@ sys.stdout.reconfigure(encoding="utf-8", line_buffering=True)
 BASE_DIR = r"G:\My Drive\NotebookLM"
 DIST_DIR = os.path.join(BASE_DIR, "podcast_distribution")
 ASSETS_DIR = os.path.join(DIST_DIR, "assets")
+RELEASE_AUDIO_DIR = os.path.join(DIST_DIR, "Release_Audio")
 CHANNEL_TXT_PATH = os.path.join(DIST_DIR, "channel.txt")
 CAVES_TXT_PATH = os.path.join(DIST_DIR, "caves.txt")
 os.makedirs(ASSETS_DIR, exist_ok=True)
+os.makedirs(RELEASE_AUDIO_DIR, exist_ok=True)
 
 # 1. Parse channel.txt
 def load_channel_meta():
@@ -188,6 +190,9 @@ def scan_and_collect_episodes():
         s_dir = s_info["dir"]
         m4a_files = sorted(glob.glob(os.path.join(s_dir, "[0-9][0-9]_*.m4a")))
 
+        user = CHANNEL_META.get("github_user", "tzejen")
+        repo = CHANNEL_META.get("github_repo", "rabbit-hole")
+
         for idx, fpath in enumerate(m4a_files, 1):
             fname = os.path.basename(fpath)
             mp4 = MP4(fpath)
@@ -203,6 +208,14 @@ def scan_and_collect_episodes():
 
             pub_date = datetime(2026, 10, 20 + (idx - 1), 8, 0, 0, tzinfo=timezone.utc)
 
+            # ASCII-safe release filename for GitHub Releases & CDN
+            release_fname = f"{s_info['id']}_ep{idx:02d}.m4a"
+            dst_release_file = os.path.join(RELEASE_AUDIO_DIR, release_fname)
+            if not os.path.exists(dst_release_file) or os.path.getsize(dst_release_file) != file_size:
+                shutil.copy2(fpath, dst_release_file)
+
+            audio_url = f"https://github.com/{user}/{repo}/releases/download/v1.0.0/{release_fname}"
+
             ep_data = {
                 "series_id": s_info["id"],
                 "cave_number": s_info["cave_number"],
@@ -211,6 +224,8 @@ def scan_and_collect_episodes():
                 "episode": idx,
                 "title": title_tag,
                 "filename": fname,
+                "release_filename": release_fname,
+                "audio_url": audio_url,
                 "local_path": fpath,
                 "file_size": file_size,
                 "duration_sec": duration_sec,
@@ -224,7 +239,7 @@ def scan_and_collect_episodes():
                 "pub_date_iso": pub_date.isoformat(),
             }
             all_episodes.append(ep_data)
-            print(f"  [OK] Ep{idx:02d}: {title_tag} ({ep_data['duration_fmt']}, {len(chapters)} chs)")
+            print(f"  [OK] Ep{idx:02d} -> {release_fname}: {title_tag} ({ep_data['duration_fmt']}, {len(chapters)} chs)")
 
     return all_episodes
 
@@ -278,7 +293,7 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
     xml_lines.append('    </itunes:category>')
 
     for ep in filtered_eps:
-        audio_url = f"{audio_base_url}/{xml_escape(ep['filename'])}"
+        audio_url = ep.get("audio_url", f"{audio_base_url}/{ep.get('release_filename', ep['filename'])}")
 
         ch_html = ""
         if ep["chapters"]:
