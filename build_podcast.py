@@ -274,6 +274,7 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
         '     xmlns:atom="http://www.w3.org/2005/Atom">',
         '  <channel>',
         f'    <title>{xml_escape(feed_title)}</title>',
+        f'    <link>{base_url}/</link>',
     ]
 
     if subtitle:

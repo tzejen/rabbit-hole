@@ -5,6 +5,7 @@
      xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>兔子洞筆記 (Notes from the Rabbit Hole)</title>
+    <link>https://tzejen.github.io/rabbit-hole/</link>
     <itunes:subtitle>其他洞窟挖掘中</itunes:subtitle>
     <language>zh-tw</language>
     <itunes:summary></itunes:summary>
