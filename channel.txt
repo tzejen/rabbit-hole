@@ -8,7 +8,7 @@ GitHub_Repo: rabbit-hole
 
 # 頻道基本資料
 Title: 兔子洞筆記
-Subtitle: 其他洞窟挖掘中
+Subtitle: Notes from the Rabbit Hole
 Author: 
 Email: 
 Language: zh-tw

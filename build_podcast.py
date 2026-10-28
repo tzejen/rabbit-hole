@@ -263,7 +263,7 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
         feed_cover = filtered_eps[0]["cover_image"]
     else:
         filtered_eps = episodes
-        feed_title = f"{CHANNEL_META['title']} (Notes from the Rabbit Hole)"
+        feed_title = CHANNEL_META["title"]
         feed_desc = CHANNEL_META["description"]
         feed_cover = f"assets/{CHANNEL_META['cover_filename']}"
 

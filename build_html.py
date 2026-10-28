@@ -151,7 +151,7 @@ html_content = f"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>兔子洞筆記 (Notes from the Rabbit Hole) — 隨選隨聽客廳</title>
+  <title>兔子洞筆記 — 隨選隨聽客廳</title>
   <meta name="description" content="兔子洞筆記 (Notes from the Rabbit Hole)">
   <link rel="icon" type="image/png" href="cover_channel.png">
   <style>
