@@ -124,10 +124,29 @@ def load_caves_list():
                             break
 
                 if series_dir and os.path.isdir(series_dir):
+                    series_desc = ""
+                    desc_file = os.path.join(series_dir, "desc.txt")
+                    if os.path.exists(desc_file):
+                        try:
+                            dlines = open(desc_file, "r", encoding="utf-8").read().splitlines()
+                            for didx, dl in enumerate(dlines):
+                                if "【系列簡介】" in dl:
+                                    collected = []
+                                    for follow in dlines[didx+1:]:
+                                        if follow.startswith("【各集目錄】") or follow.startswith("【隨身") or follow.startswith("■") or follow.startswith("第 "):
+                                            break
+                                        if follow.strip():
+                                            collected.append(follow.strip())
+                                    series_desc = "\n".join(collected).strip()
+                                    break
+                        except Exception:
+                            pass
+
                     caves.append({
                         "id": f"cave{idx:02d}",
                         "cave_number": cave_number,
                         "title": cave_title,
+                        "description": series_desc,
                         "dir": series_dir,
                         "cover_src": os.path.join(series_dir, "cover.jpg"),
                         "cover_dst_name": f"cover_cave{idx:02d}.jpg",
@@ -223,7 +242,12 @@ def scan_and_collect_episodes():
             file_size = os.path.getsize(fpath)
             chapters = get_audio_chapters(fpath)
 
-            pub_date = datetime(2026, 10, 24, 12, idx, 0, tzinfo=timezone.utc)
+            if s_info["id"] == "cave01":
+                pub_date = datetime(2026, 10, 24, 12, idx, 0, tzinfo=timezone.utc)
+            elif s_info["id"] == "cave02":
+                pub_date = datetime(2026, 10, 29, 12, idx, 0, tzinfo=timezone.utc)
+            else:
+                pub_date = datetime(2026, 10, 25 + s_info["season_num"], 12, idx, 0, tzinfo=timezone.utc)
 
             # Standard ASCII release filename for GitHub Releases & CDN (streamed directly without local duplicates)
             release_fname = f"{s_info['id']}_ep{idx:02d}.m4a"

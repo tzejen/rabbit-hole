@@ -2,9 +2,11 @@
 Builds the standalone, fully interactive index.html companion web player
 for 《兔子洞筆記》 with embedded episode data for zero-config local file:// playback.
 Supports:
-1. Sticky/fixed header bar that stays anchored at the top when scrolling.
-2. Completely code-free caves control via caves.txt.
-3. Softcoded reference documents from <Series>/References/ and credits from <Series>/credits.txt.
+1. Landing page with All Episodes (Newest to Oldest) and Series selector / tabs.
+2. Clicking a series card or tab filters to that series view with cover, description, and series resources.
+3. Clicking an episode row or series badge switches views or starts playing seamlessly.
+4. Softcoded reference documents and credits per series.
+5. URL hash navigation (#all, #cave01, #cave02).
 """
 
 import os
@@ -23,127 +25,93 @@ DOCS_DIR = os.path.join(DIST_DIR, "docs")
 CAVES_TXT_PATH = os.path.join(DIST_DIR, "caves.txt")
 os.makedirs(DOCS_DIR, exist_ok=True)
 
-# ==============================================================================
-# READ OTHER CAVES FROM PLAIN TEXT FILE (100% Code-Free: caves.txt)
-# ==============================================================================
-visible_caves = []
-if os.path.exists(CAVES_TXT_PATH):
-    with open(CAVES_TXT_PATH, "r", encoding="utf-8") as f:
-        for line in f:
-            line_str = line.strip()
-            # Skip comments and empty lines
-            if not line_str or line_str.startswith("#"):
-                continue
-            parts = [p.strip() for p in line_str.split("|")]
-            if len(parts) >= 4:
-                name = parts[0]
-                desc = parts[1]
-                status = parts[3]
-            elif len(parts) >= 2:
-                name = parts[0]
-                desc = parts[1]
-                status = parts[2] if len(parts) > 2 else "已上線"
-            else:
-                continue
-
-            is_active = ("播放中" in status or "當前" in status or len(visible_caves) == 0)
-            visible_caves.append({
-                "name": name,
-                "desc": desc,
-                "status": status,
-                "is_active": is_active
-            })
-
 # Load base episodes.json
 with open(JSON_PATH, "r", encoding="utf-8") as f:
     data = json.load(f)
 
-SERIES_DIR = r"G:\My Drive\NotebookLM\白話文運動與日文詞彙_ModernChinese"
-
-# 1. Softcoded Series Credits (from <Series>/credits.txt)
-credits_file = os.path.join(SERIES_DIR, "credits.txt")
+# 1. Softcoded Series Credits (from active series)
 series_credits = ""
-if os.path.exists(credits_file):
-    with open(credits_file, "r", encoding="utf-8") as f:
-        series_credits = f.read().strip()
-data["series_credits"] = series_credits
+for s_item in data.get("series", []):
+    s_dir = s_item.get("dir", "")
+    c_path = os.path.join(s_dir, "credits.txt")
+    if os.path.exists(c_path):
+        with open(c_path, "r", encoding="utf-8") as f:
+            series_credits += f.read().strip() + "\n\n"
+data["series_credits"] = series_credits.strip()
 
-# 2. Softcoded Reference Documents (auto-scanned from <Series>/References/)
-ref_src_dir = os.path.join(SERIES_DIR, "References")
+# 2. Softcoded Reference Documents (auto-scanned from all registered Series/References/)
 ref_docs_list = []
 series_docs_content = {}
 
-# Allowed document extensions
 ALLOWED_EXTENSIONS = {".md", ".pdf", ".docx", ".txt", ".html", ".epub"}
-# System junk & temporary lock files to strictly ignore
 SYSTEM_IGNORE_FILES = {"desktop.ini", "thumbs.db", ".ds_store"}
+active_doc_filenames = set()
 
-if os.path.exists(ref_src_dir):
-    raw_files = sorted(glob.glob(os.path.join(ref_src_dir, "*")))
-    active_doc_filenames = set()
-    for fpath in raw_files:
-        if not os.path.isfile(fpath):
-            continue
-        fname = os.path.basename(fpath)
-        active_doc_filenames.add(fname)
-        base_name, ext = os.path.splitext(fname)
-        ext_lower = ext.lower()
+for s_item in data.get("series", []):
+    s_dir = s_item.get("dir", "")
+    s_prefix = s_item.get("id", "series")
+    s_name = s_item.get("cave_number", "")
+    ref_src_dir = os.path.join(s_dir, "References")
 
-        # 1. Ignore desktop.ini, Thumbs.db, .DS_Store
-        if fname.lower() in SYSTEM_IGNORE_FILES:
-            continue
-        # 2. Ignore Word temporary lock files (~$*) and hidden/draft files (. or _)
-        if fname.startswith(".") or fname.startswith("_") or fname.startswith("~$"):
-            continue
-        # 3. Whitelist document extensions only
-        if ext_lower not in ALLOWED_EXTENSIONS:
-            continue
+    if os.path.exists(ref_src_dir):
+        raw_files = sorted(glob.glob(os.path.join(ref_src_dir, "*")))
+        for fpath in raw_files:
+            if not os.path.isfile(fpath):
+                continue
+            fname = os.path.basename(fpath)
+            dst_fname = f"{s_prefix}_{fname}"
+            active_doc_filenames.add(dst_fname)
+            base_name, ext = os.path.splitext(fname)
+            ext_lower = ext.lower()
 
-        display_title = re.sub(r"^\d+[\._\-\s]*", "", base_name).strip()
-        doc_id = re.sub(r"[^\w\-]", "_", base_name).lower()
+            if fname.lower() in SYSTEM_IGNORE_FILES or fname.startswith(".") or fname.startswith("_") or fname.startswith("~$"):
+                continue
+            if ext_lower not in ALLOWED_EXTENSIONS:
+                continue
 
-        dst_path = os.path.join(DOCS_DIR, fname)
-        shutil.copy2(fpath, dst_path)
+            clean_title = re.sub(r"^\d+[\._\-\s]*", "", base_name).strip()
+            display_title = f"[{s_name}] {clean_title}"
+            doc_id = re.sub(r"[^\w\-]", "_", f"{s_prefix}_{base_name}").lower()
 
-        doc_info = {
-            "id": doc_id,
-            "title": display_title,
-            "filename": fname,
-            "ext": ext_lower,
-            "is_pdf": (ext_lower == ".pdf"),
-            "is_download": (ext_lower in [".docx", ".epub"]),
-            "url": f"docs/{fname}"
-        }
+            dst_path = os.path.join(DOCS_DIR, dst_fname)
+            shutil.copy2(fpath, dst_path)
 
-        if ext_lower in [".md", ".txt", ".json"]:
-            try:
-                with open(fpath, "r", encoding="utf-8") as fp:
-                    series_docs_content[doc_id] = fp.read()
-            except Exception:
-                series_docs_content[doc_id] = ""
+            doc_info = {
+                "id": doc_id,
+                "title": display_title,
+                "filename": dst_fname,
+                "series_id": s_item.get("id"),
+                "ext": ext_lower,
+                "is_pdf": (ext_lower == ".pdf"),
+                "is_download": (ext_lower in [".docx", ".epub"]),
+                "url": f"docs/{dst_fname}"
+            }
 
-        ref_docs_list.append(doc_info)
-
-    # Synchronize and clean orphan docs in DOCS_DIR
-    if os.path.exists(DOCS_DIR):
-        for existing_doc in os.listdir(DOCS_DIR):
-            if existing_doc not in active_doc_filenames:
+            if ext_lower in [".md", ".txt", ".json"]:
                 try:
-                    os.remove(os.path.join(DOCS_DIR, existing_doc))
+                    with open(fpath, "r", encoding="utf-8") as fp:
+                        series_docs_content[doc_id] = fp.read()
                 except Exception:
-                    pass
+                    series_docs_content[doc_id] = ""
+
+            ref_docs_list.append(doc_info)
+
+if os.path.exists(DOCS_DIR):
+    for existing_doc in os.listdir(DOCS_DIR):
+        if existing_doc not in active_doc_filenames:
+            try:
+                os.remove(os.path.join(DOCS_DIR, existing_doc))
+            except Exception:
+                pass
 
 data["ref_docs_list"] = ref_docs_list
 data["series_docs_content"] = series_docs_content
 
-# Convert local audio file paths to relative paths for browser playback
+# Clean summaries
 for ep in data["episodes"]:
-    rel_audio = os.path.relpath(ep["local_path"], DIST_DIR).replace("\\", "/")
-    ep["audio_src"] = ep.get("audio_url", f"https://github.com/tzejen/rabbit-hole/releases/download/v1.0.0/{ep.get('release_filename', ep['filename'])}")
     ep["summary"] = ep["summary"].replace("Created with Gemini Antigravity and Google Notebook", "").strip()
     ep["full_notes"] = ep["full_notes"].replace("Created with Gemini Antigravity and Google Notebook", "").strip()
 
-data["other_caves"] = visible_caves
 data_json_str = json.dumps(data, ensure_ascii=False)
 
 html_content = f"""<!DOCTYPE html>
@@ -197,103 +165,245 @@ html_content = f"""<!DOCTYPE html>
     }}
 
     .container {{
-      max-width: 1000px;
+      max-width: 1060px;
       margin: 0 auto;
       padding: 0 24px;
     }}
 
     /* Top Sticky/Fixed Header Bar */
-    header.site-header {{
+    .site-header {{
       position: sticky;
       top: 0;
-      z-index: 900;
+      z-index: 100;
       background: rgba(11, 17, 32, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 14px 0;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border-color);
-      margin-bottom: 24px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }}
     .header-content {{
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      padding: 12px 0;
     }}
     .brand-group {{
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      cursor: pointer;
     }}
     .brand-avatar {{
-      width: 52px;
-      height: 52px;
-      border-radius: 12px;
-      border: 2px solid var(--gold-primary);
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      border: 1px solid var(--border-color);
     }}
     .brand-title {{
-      font-size: 24px;
+      font-size: 19px;
       font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--gold-primary);
+      color: #ffffff;
+      letter-spacing: 0.5px;
     }}
     .brand-subtitle {{
       font-size: 12px;
-      color: var(--text-muted);
-      letter-spacing: 0.5px;
+      color: var(--gold-light);
+      font-weight: 400;
+      margin-top: 1px;
     }}
-
     .header-actions {{
       display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 10px;
     }}
     .btn {{
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      border-radius: 9999px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
+      gap: 6px;
+      transition: all 0.2s;
       border: 1px solid transparent;
-      transition: all 0.2s ease;
-      text-decoration: none;
+      outline: none;
     }}
     .btn-gold {{
-      background: linear-gradient(135deg, #d4af37, #b89327);
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dim) 100%);
       color: #0b1120;
+      font-weight: 600;
     }}
     .btn-gold:hover {{
-      background: linear-gradient(135deg, #f3d478, #d4af37);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
       text-decoration: none;
     }}
     .btn-outline {{
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
+      background: transparent;
+      border-color: var(--border-color);
       color: var(--text-main);
     }}
     .btn-outline:hover {{
-      background: rgba(212, 175, 55, 0.1);
       border-color: var(--gold-primary);
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.05);
       text-decoration: none;
     }}
 
-    /* Hero Banner - Compact */
+    /* Series Navigation Tabs */
+    .nav-tabs-bar {{
+      display: flex;
+      gap: 10px;
+      margin: 24px 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }}
+    .tab-pill {{
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }}
+    .tab-pill:hover {{
+      background: var(--bg-card-hover);
+      color: var(--gold-light);
+      border-color: var(--gold-light);
+    }}
+    .tab-pill.active {{
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%);
+      color: var(--gold-light);
+      border-color: var(--gold-primary);
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }}
+    .tab-badge {{
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+    }}
+    .tab-pill.active .tab-badge {{
+      background: var(--gold-primary);
+      color: #0b1120;
+      font-weight: 700;
+    }}
+
+    /* Series Cards Overview Grid (Landing View) */
+    .series-overview-section {{
+      margin-bottom: 32px;
+    }}
+    .section-heading {{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+    }}
+    .section-title {{
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }}
+    .section-subtitle {{
+      font-size: 13px;
+      color: var(--text-dim);
+    }}
+    .series-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }}
+    .series-promo-card {{
+      background: linear-gradient(145deg, #131d35 0%, #172442 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      gap: 18px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }}
+    .series-promo-card:hover {{
+      transform: translateY(-3px);
+      border-color: var(--gold-primary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }}
+    .series-promo-cover {{
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }}
+    .series-promo-body {{
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }}
+    .series-promo-cave {{
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }}
+    .series-promo-title {{
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }}
+    .series-promo-desc {{
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }}
+    .series-promo-footer {{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }}
+    .series-promo-footer b {{
+      color: var(--gold-light);
+    }}
+
+    /* Series Hero Banner (Dedicated Series View) */
     .hero-banner {{
       background: linear-gradient(145deg, #131d35 0%, #172442 100%);
       border: 1px solid var(--border-color);
       border-radius: 20px;
       padding: 26px 28px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       display: flex;
       gap: 28px;
       align-items: center;
@@ -312,8 +422,19 @@ html_content = f"""<!DOCTYPE html>
       flex: 1;
       min-width: 0;
     }}
+    .hero-cave-tag {{
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }}
     .hero-title {{
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 700;
       color: #ffffff;
       margin-bottom: 10px;
@@ -331,7 +452,7 @@ html_content = f"""<!DOCTYPE html>
       gap: 20px;
       font-size: 13px;
       color: var(--text-dim);
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
     }}
     .stat-item b {{
@@ -339,67 +460,53 @@ html_content = f"""<!DOCTYPE html>
       font-weight: 600;
     }}
 
-    /* Softcoded Credits Inside Hero Box */
     .hero-credits {{
-      font-size: 10px;
-      color: #94a3b8;
-      letter-spacing: 0.3px;
+      font-size: 12px;
+      color: var(--gold-light);
       margin-bottom: 12px;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      text-align: right;
-      opacity: 0.75;
+      gap: 6px;
     }}
 
-    /* Series Level Documentation & Resources - Left-aligned wrap */
     .series-resources {{
       display: flex;
       align-items: center;
+      gap: 8px;
       flex-wrap: wrap;
-      gap: 10px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      justify-content: flex-start;
-      text-align: left;
     }}
     .resources-label {{
       font-size: 13px;
-      color: var(--gold-light);
+      color: var(--text-muted);
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
     }}
     .resources-pills-wrap {{
       display: flex;
-      align-items: center;
-      flex-wrap: wrap;
       gap: 8px;
-      justify-content: flex-start;
-      text-align: left;
+      flex-wrap: wrap;
     }}
     .resource-pill {{
-      background: rgba(212, 175, 55, 0.1);
-      border: 1px solid rgba(212, 175, 55, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
       color: var(--text-main);
       font-size: 12px;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 6px;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
-      white-space: nowrap;
     }}
     .resource-pill:hover {{
-      background: var(--gold-primary);
-      color: #0b1120;
+      background: rgba(212, 175, 55, 0.15);
       border-color: var(--gold-primary);
-      transform: translateY(-1px);
+      color: var(--gold-light);
+      text-decoration: none;
     }}
 
-    /* Episode Cards - Compact 1-Row Layout */
+    /* Episodes List */
     .episodes-list {{
       display: flex;
       flex-direction: column;
@@ -407,25 +514,23 @@ html_content = f"""<!DOCTYPE html>
     }}
     .episode-card {{
       background: var(--bg-card);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 14px 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px 20px;
       transition: all 0.2s ease;
-      cursor: pointer;
     }}
     .episode-card:hover {{
       background: var(--bg-card-hover);
-      border-color: var(--border-color);
-      transform: translateY(-1px);
+      border-color: var(--border-focus);
     }}
     .episode-card.is-playing {{
       border-color: var(--gold-primary);
-      background: rgba(212, 175, 55, 0.08);
+      background: rgba(212, 175, 55, 0.06);
     }}
     .ep-header {{
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 16px;
     }}
     .ep-main-info {{
@@ -433,179 +538,156 @@ html_content = f"""<!DOCTYPE html>
       align-items: center;
       gap: 16px;
       flex: 1;
+      cursor: pointer;
       min-width: 0;
     }}
     .ep-play-col {{
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       flex-shrink: 0;
-      width: 44px;
     }}
     .ep-play-btn {{
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid var(--gold-primary);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--border-color);
       color: var(--gold-primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      font-size: 14px;
       transition: all 0.2s;
     }}
-    .ep-play-btn svg {{
-      fill: var(--gold-primary);
-      transition: fill 0.2s;
+    .episode-card:hover .ep-play-btn {{
+      background: var(--gold-primary);
+      color: #0b1120;
+      transform: scale(1.05);
     }}
-    .episode-card:hover .ep-play-btn,
-    .ep-play-btn:hover,
     .episode-card.is-playing .ep-play-btn {{
       background: var(--gold-primary);
-      border-color: var(--gold-primary);
-      transform: scale(1.06);
-    }}
-    .episode-card:hover .ep-play-btn svg,
-    .ep-play-btn:hover svg,
-    .episode-card.is-playing .ep-play-btn svg {{
-      fill: #0b1120 !important;
-    }}
-    .episode-card.is-playing .ep-play-btn:hover,
-    .episode-card.is-playing .ep-play-btn:active {{
-      background: var(--gold-light);
-    }}
-    .episode-card.is-playing .ep-play-btn:hover svg,
-    .episode-card.is-playing .ep-play-btn:active svg {{
-      fill: #0b1120 !important;
+      color: #0b1120;
     }}
     .ep-duration-tag {{
-      font-family: monospace;
       font-size: 11px;
       color: var(--text-dim);
-      letter-spacing: 0.3px;
+      font-family: monospace;
     }}
-    .episode-card:hover .ep-duration-tag {{
-      color: var(--gold-light);
-    }}
-
-    .ep-title {{
-      font-size: 15px;
-      font-weight: 600;
-      color: #ffffff;
-      line-height: 1.4;
+    .ep-text-block {{
       flex: 1;
       min-width: 0;
     }}
+    .ep-series-badge {{
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold-primary);
+      margin-bottom: 2px;
+      cursor: pointer;
+    }}
+    .ep-series-badge:hover {{
+      text-decoration: underline;
+    }}
+    .ep-title {{
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.4;
+    }}
+    .episode-card.is-playing .ep-title {{
+      color: var(--gold-light);
+    }}
     .ep-toggle-btn {{
       background: transparent;
-      border: none;
-      color: var(--text-dim);
-      font-size: 13px;
-      cursor: pointer;
-      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-muted);
       border-radius: 6px;
-      transition: all 0.2s;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
       flex-shrink: 0;
+      transition: all 0.2s;
     }}
     .ep-toggle-btn:hover {{
-      color: var(--gold-primary);
-      background: rgba(255,255,255,0.04);
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
     }}
-
-    /* Episode Expanded Drawer */
     .ep-details {{
       display: none;
-      margin-top: 16px;
-      padding-top: 16px;
+      margin-top: 14px;
+      padding-top: 14px;
       border-top: 1px solid rgba(255,255,255,0.06);
     }}
     .ep-details.show {{
       display: block;
     }}
     .ep-summary-text {{
-      font-size: 14px;
+      font-size: 13.5px;
       color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 18px;
-      background: rgba(0,0,0,0.25);
-      padding: 14px 18px;
-      border-radius: 8px;
-      border-left: 3px solid var(--gold-primary);
-    }}
-    .chapters-title {{
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--gold-primary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      line-height: 1.6;
       margin-bottom: 12px;
     }}
+    .chapters-title {{
+      font-size: 12px;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }}
     .chapters-grid {{
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }}
     .chapter-pill {{
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 13px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.2s;
     }}
     .chapter-pill:hover {{
-      background: rgba(212, 175, 55, 0.12);
+      background: rgba(212, 175, 55, 0.15);
       border-color: var(--gold-primary);
       color: var(--gold-light);
     }}
     .chapter-time {{
       font-family: monospace;
+      color: var(--gold-dim);
       font-size: 11px;
-      color: var(--gold-primary);
-      background: rgba(212, 175, 55, 0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-weight: 600;
-    }}
-    .chapter-name {{
-      flex: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }}
 
-    /* Fixed Bottom Player */
+    /* Bottom Persistent Audio Player */
     .bottom-player {{
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(15, 23, 42, 0.96);
       backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid var(--border-color);
-      padding: 16px 24px;
-      z-index: 1000;
-      box-shadow: 0 -8px 24px rgba(0,0,0,0.5);
+      padding: 12px 24px;
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.6);
+      z-index: 200;
     }}
     .player-inner {{
-      max-width: 1000px;
+      max-width: 1060px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 280px 1fr 180px;
+      display: flex;
       align-items: center;
       gap: 20px;
     }}
     .track-info {{
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      width: 260px;
       min-width: 0;
     }}
     .track-thumb {{
@@ -629,14 +711,17 @@ html_content = f"""<!DOCTYPE html>
     }}
     .track-artist {{
       font-size: 12px;
-      color: var(--text-dim);
+      color: var(--gold-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }}
-
     .player-center {{
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }}
     .controls-row {{
       display: flex;
@@ -648,99 +733,89 @@ html_content = f"""<!DOCTYPE html>
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      font-size: 16px;
-      padding: 6px;
-      border-radius: 50%;
-      transition: all 0.15s;
-    }}
-    .ctrl-btn:hover {{
-      color: var(--gold-primary);
-      transform: scale(1.1);
-    }}
-    .ctrl-btn-play {{
-      width: 44px;
-      height: 44px;
-      background: var(--gold-primary);
-      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: none;
+      transition: color 0.2s;
+    }}
+    .ctrl-btn:hover {{
+      color: var(--gold-light);
+    }}
+    .ctrl-btn-play {{
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--gold-primary);
+      color: #0b1120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
-      transition: all 0.15s;
+      border: none;
+      transition: transform 0.2s, background 0.2s;
     }}
-    .ctrl-btn-play svg {{
-      fill: #0b1120 !important;
-    }}
-    .ctrl-btn-play:hover,
-    .ctrl-btn-play:active,
-    .ctrl-btn-play:focus {{
+    .ctrl-btn-play:hover {{
+      transform: scale(1.08);
       background: var(--gold-light);
-      transform: scale(1.06);
     }}
-    .ctrl-btn-play:hover svg,
-    .ctrl-btn-play:active svg,
-    .ctrl-btn-play:focus svg {{
-      fill: #0b1120 !important;
-    }}
-
-    .timeline-row {{
+    .progress-row {{
       width: 100%;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+    }}
+    .time-label {{
       font-size: 11px;
       font-family: monospace;
       color: var(--text-dim);
+      width: 42px;
+      text-align: center;
     }}
-    .progress-bar-container {{
+    .progress-bar {{
       flex: 1;
       height: 6px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 3px;
       cursor: pointer;
       position: relative;
+      overflow: hidden;
     }}
-    .progress-bar-fill {{
+    .progress-fill {{
       height: 100%;
       background: var(--gold-primary);
       border-radius: 3px;
       width: 0%;
-      position: relative;
+      transition: width 0.1s linear;
     }}
-
     .player-right {{
       display: flex;
       align-items: center;
+      gap: 12px;
+      width: 120px;
       justify-content: flex-end;
-      gap: 14px;
     }}
     .speed-btn {{
       background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid var(--border-color);
       color: var(--gold-light);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 8px;
       border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-family: monospace;
       cursor: pointer;
-    }}
-    .speed-btn:hover {{
-      border-color: var(--gold-primary);
     }}
 
     /* Modals */
     .modal-backdrop {{
-      display: none;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
-      z-index: 2000;
+      z-index: 300;
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
@@ -749,60 +824,56 @@ html_content = f"""<!DOCTYPE html>
       display: flex;
     }}
     .modal-window {{
-      background: var(--bg-card);
+      background: #131d35;
       border: 1px solid var(--border-color);
-      border-radius: 20px;
-      max-width: 650px;
+      border-radius: 18px;
       width: 100%;
+      max-width: 580px;
       max-height: 85vh;
       overflow-y: auto;
-      padding: 32px;
-      box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
       position: relative;
     }}
     .modal-close {{
       position: absolute;
-      top: 20px;
+      top: 18px;
       right: 20px;
       background: transparent;
       border: none;
       color: var(--text-dim);
-      font-size: 22px;
+      font-size: 24px;
       cursor: pointer;
     }}
     .modal-close:hover {{
-      color: var(--text-main);
+      color: #ffffff;
     }}
     .modal-title {{
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
-      color: var(--gold-primary);
+      color: #ffffff;
       margin-bottom: 12px;
     }}
     .modal-desc {{
       font-size: 14px;
       color: var(--text-muted);
       line-height: 1.6;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
     }}
     .feed-box {{
-      background: rgba(0,0,0,0.3);
-      border: 1px dashed var(--border-color);
-      padding: 12px 16px;
-      border-radius: 8px;
       display: flex;
-      align-items: center;
-      gap: 12px;
+      gap: 8px;
       margin-bottom: 20px;
     }}
     .feed-input {{
       flex: 1;
-      background: transparent;
-      border: none;
+      background: #0b1120;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
       color: var(--gold-light);
       font-family: monospace;
       font-size: 13px;
-      outline: none;
     }}
     .steps-list {{
       font-size: 13px;
@@ -810,124 +881,82 @@ html_content = f"""<!DOCTYPE html>
       line-height: 1.8;
       padding-left: 20px;
     }}
-
-    /* Other Caves List in Modal */
-    .caves-list-group {{
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }}
-    .cave-item {{
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 14px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }}
-    .cave-item.active-cave {{
-      border-color: var(--gold-primary);
-      background: rgba(212, 175, 55, 0.08);
-    }}
-    .cave-item-name {{
-      font-size: 15px;
-      font-weight: 600;
+    .steps-list b {{
       color: #ffffff;
     }}
-    .cave-item-desc {{
-      font-size: 13px;
-      color: #ffffff;
-      margin-top: 4px;
-    }}
-    .cave-status-tag {{
-      font-size: 12px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
-      color: var(--text-dim);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }}
-    .cave-status-tag.active {{
-      background: rgba(212, 175, 55, 0.2);
-      color: var(--gold-light);
-      border: 1px solid var(--gold-primary);
-    }}
 
-    /* Doc Content in Modal */
-    .doc-content-box {{
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.8;
-      white-space: pre-wrap;
-      font-family: var(--font-stack);
-      background: rgba(0,0,0,0.25);
-      padding: 18px;
-      border-radius: 10px;
-      max-height: 50vh;
-      overflow-y: auto;
-    }}
-
-    /* Toast */
     .toast {{
       position: fixed;
-      top: 24px;
+      top: 20px;
       left: 50%;
-      transform: translateX(-50%) translateY(-100px);
+      transform: translateX(-50%);
       background: var(--gold-primary);
       color: #0b1120;
-      font-weight: 700;
       padding: 10px 24px;
-      border-radius: 9999px;
+      border-radius: 20px;
+      font-weight: 600;
       font-size: 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-      z-index: 3000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      z-index: 400;
+      opacity: 0;
       pointer-events: none;
+      transition: opacity 0.3s;
     }}
     .toast.show {{
-      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }}
+
+    .pre-box {{
+      background: #0b1120;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 13px;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.7;
+      max-height: 60vh;
+      overflow-y: auto;
+      font-family: var(--font-stack);
     }}
 
     @media (max-width: 768px) {{
       .hero-banner {{
         flex-direction: column;
-        align-items: flex-start;
+        text-align: center;
         padding: 20px;
       }}
       .hero-cover {{
-        width: 130px;
-        height: 130px;
+        width: 140px;
+        height: 140px;
       }}
-      .player-inner {{
-        grid-template-columns: 1fr 100px;
+      .hero-stats {{
+        justify-content: center;
       }}
-      .player-center {{
-        grid-column: 1 / -1;
-        order: 2;
+      .series-resources {{
+        justify-content: center;
       }}
       .track-info {{
-        order: 1;
+        width: 160px;
+      }}
+      .track-thumb {{
+        display: none;
       }}
       .player-right {{
-        order: 1;
+        display: none;
       }}
     }}
   </style>
 </head>
 <body>
 
-  <!-- Toast Notification -->
   <div id="toast" class="toast">已複製到剪貼簿！</div>
 
-  <!-- Sticky / Fixed Header Bar (Pinned across full width) -->
   <header class="site-header">
     <div class="container">
       <div class="header-content">
-        <div class="brand-group">
+        <div class="brand-group" onclick="selectSeries('all')">
           <img src="cover_channel.png" alt="兔子洞筆記封面" class="brand-avatar">
           <div>
             <div class="brand-title">兔子洞筆記</div>
@@ -935,11 +964,11 @@ html_content = f"""<!DOCTYPE html>
           </div>
         </div>
         <div class="header-actions">
-          <button class="btn btn-outline" onclick="openOtherCavesModal()">
-            <span>🐇 其他洞窟</span>
+          <button class="btn btn-outline" onclick="openSubscribeModal('all')">
+            <span>📡 總頻道 RSS</span>
           </button>
-          <button class="btn btn-gold" onclick="openSubscribeModal('all')">
-            <span>📡 訂閱 Podcast</span>
+          <button class="btn btn-gold" id="headerSeriesFeedBtn" onclick="openCurrentSeriesFeed()">
+            <span>🎙️ 訂閱本專案</span>
           </button>
         </div>
       </div>
@@ -947,25 +976,35 @@ html_content = f"""<!DOCTYPE html>
   </header>
 
   <div class="container">
-    <!-- Hero Banner (第一窟) - Compact Layout -->
-    <section class="hero-banner">
-      <img src="assets/cover_cave01_hanzi.jpg" alt="第一窟封面" class="hero-cover">
+    <!-- Series Navigation Tabs -->
+    <nav class="nav-tabs-bar" id="seriesTabsBar"></nav>
+
+    <!-- Top Series Overview Section (Only on 'All Episodes' view) -->
+    <section class="series-overview-section" id="seriesOverviewSection">
+      <div class="section-heading">
+        <div class="section-title">
+          <span>🏛️</span> <span>探索洞窟系列</span>
+        </div>
+        <div class="section-subtitle">點擊卡片進入專題導覽與文獻</div>
+      </div>
+      <div class="series-grid" id="seriesCardsGrid"></div>
+    </section>
+
+    <!-- Hero Banner (Only shown in dedicated series view) -->
+    <section class="hero-banner" id="seriesHeroBanner" style="display: none;">
+      <img id="heroCoverImg" src="assets/cover_cave01.jpg" alt="系列封面" class="hero-cover">
       <div class="hero-info">
-        <h1 class="hero-title">漢字大遷徙：近代中日詞彙革命</h1>
-        <p class="hero-desc">
-          當西方近代哲學與科學衝擊東亞，我們每天使用的「經濟、社會、哲學、主觀、客觀」從何而來？
-          從江戶蘭學的刑場解剖、嚴復與梁啟超的譯詞對決，到五四言文一致運動與台灣東亞回流——解構現代漢語底層的驚人零件。
-        </p>
-        <div class="hero-stats">
-          <div class="stat-item">集數：<b>10 集</b></div>
-          <div class="stat-item">總長：<b>3 小時 15 分</b></div>
-          <div class="stat-item">語言：<b>中文</b></div>
+        <div class="hero-cave-tag" id="heroCaveTag">第一窟</div>
+        <h1 class="hero-title" id="heroTitle">系列標題</h1>
+        <p class="hero-desc" id="heroDesc">系列簡介說明</p>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat-item">集數：<b id="heroStatCount">0 集</b></div>
+          <div class="stat-item">總長：<b id="heroStatDur">0 分鐘</b></div>
+          <div class="stat-item">狀態：<b id="heroStatStatus">已上線</b></div>
         </div>
 
-        <!-- Softcoded Series Credits (in the title box, shown only if present) -->
         <div class="hero-credits" id="heroCreditsContainer"></div>
 
-        <!-- Softcoded Series Resources (Left-aligned wrap) -->
         <div class="series-resources" id="seriesResourcesBox">
           <span class="resources-label">📚 系列資料庫：</span>
           <div class="resources-pills-wrap" id="resourcesPillsWrap"></div>
@@ -973,35 +1012,54 @@ html_content = f"""<!DOCTYPE html>
       </div>
     </section>
 
+    <!-- Episodes Section Header -->
+    <div class="section-heading" style="margin-top: 10px;">
+      <div class="section-title">
+        <span id="episodesListIcon">🎙️</span> <span id="episodesListHeading">所有單集</span>
+      </div>
+      <div class="section-subtitle" id="episodesListSubheading">最新至最舊排序</div>
+    </div>
+
     <!-- Episodes List -->
     <div class="episodes-list" id="episodesList"></div>
   </div>
 
-  <!-- Bottom Persistent Audio Player -->
+  <!-- Bottom Audio Player -->
   <div class="bottom-player" id="bottomPlayer">
     <div class="player-inner">
       <div class="track-info">
-        <img id="playerThumb" src="assets/cover_cave01_hanzi.jpg" class="track-thumb" alt="封面">
+        <img id="playerThumb" src="assets/cover_channel_1400.jpg" class="track-thumb" alt="封面">
         <div class="track-text">
           <div class="track-title" id="playerTitle">點擊任一單集開始收聽</div>
-          <div class="track-artist" id="playerArtist">兔子洞筆記・第一窟</div>
+          <div class="track-artist" id="playerArtist">兔子洞筆記</div>
         </div>
       </div>
 
       <div class="player-center">
         <div class="controls-row">
-          <button class="ctrl-btn" onclick="skipTime(-15)" title="倒退 15 秒">↺ 15s</button>
-          <button class="ctrl-btn" onclick="playPrev()" title="上一集">⏮</button>
-          <button class="ctrl-btn ctrl-btn-play" id="playBtn" onclick="togglePlay()" title="播放/暫停"><svg width="18" height="18" viewBox="0 0 24 24" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg></button>
-          <button class="ctrl-btn" onclick="playNext()" title="下一集">⏭</button>
-          <button class="ctrl-btn" onclick="skipTime(15)" title="快進 15 秒">15s ↻</button>
+          <button class="ctrl-btn" onclick="playPrev()" title="上一集">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+          </button>
+          <button class="ctrl-btn" onclick="skipTime(-15)" title="倒退 15 秒">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.2 3.16-1.98 5.12-1.98 3.53 0 6.51 2.37 7.42 5.62l2.38-.79C20.81 11.23 17.03 8 12.5 8z"/></svg>
+          </button>
+          <button class="ctrl-btn-play" id="playBtn" onclick="togglePlay()" title="播放/暫停">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>
+          </button>
+          <button class="ctrl-btn" onclick="skipTime(30)" title="快進 30 秒">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.2-3.16-1.98-5.12-1.98-3.53 0-6.51 2.37-7.42 5.62l-2.38-.79C3.19 11.23 6.97 8 11.5 8z"/></svg>
+          </button>
+          <button class="ctrl-btn" onclick="playNext()" title="下一集">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+          </button>
         </div>
-        <div class="timeline-row">
-          <span id="currentTime">00:00</span>
-          <div class="progress-bar-container" id="progressBar" onclick="seek(event)">
-            <div class="progress-bar-fill" id="progressFill"></div>
+
+        <div class="progress-row">
+          <span class="time-label" id="currentTime">00:00</span>
+          <div class="progress-bar" id="progressBar" onclick="seek(event)">
+            <div class="progress-fill" id="progressFill"></div>
           </div>
-          <span id="totalDuration">00:00</span>
+          <span class="time-label" id="totalDuration">00:00</span>
         </div>
       </div>
 
@@ -1011,15 +1069,14 @@ html_content = f"""<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- Hidden Audio Element -->
   <audio id="audioElement" preload="metadata"></audio>
 
   <!-- Combined Subscribe Modal -->
   <div class="modal-backdrop" id="subscribeModal" onclick="closeModal('subscribeModal')">
     <div class="modal-window" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="closeModal('subscribeModal')">&times;</button>
-      <div class="modal-title">訂閱《兔子洞筆記》</div>
-      <p class="modal-desc">
+      <div class="modal-title" id="subscribeModalTitle">訂閱《兔子洞筆記》</div>
+      <p class="modal-desc" id="subscribeModalDesc">
         複製下方的私人 Podcast RSS 訂閱連結，在任何你常用的播客 App 內貼上即可完成訂閱。
       </p>
       <div class="feed-box">
@@ -1035,30 +1092,20 @@ html_content = f"""<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- Other Caves Modal (Dynamically Populated from caves.txt) -->
-  <div class="modal-backdrop" id="otherCavesModal" onclick="closeModal('otherCavesModal')">
-    <div class="modal-window" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeModal('otherCavesModal')">&times;</button>
-      <div class="modal-title">🐇 兔子洞系列目錄</div>
-
-      <div class="caves-list-group" id="cavesListContainer"></div>
-
-    </div>
-  </div>
-
   <!-- Resource Document Modal -->
   <div class="modal-backdrop" id="resourceModal" onclick="closeModal('resourceModal')">
-    <div class="modal-window" style="max-width: 800px;" onclick="event.stopPropagation()">
+    <div class="modal-window" style="max-width: 720px;" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="closeModal('resourceModal')">&times;</button>
-      <div class="modal-title" id="resourceModalTitle">系列資料文件</div>
-      <div class="doc-content-box" id="resourceModalContent"></div>
+      <div class="modal-title" id="resourceModalTitle">📑 參考資料</div>
+      <pre class="pre-box" id="resourceModalContent"></pre>
     </div>
   </div>
 
-  <!-- Application Script -->
   <script>
     const PODCAST_DATA = {data_json_str};
-    let currentEpIndex = 0;
+
+    let activeFilter = 'all'; // 'all' or series_id ('cave01', 'cave02')
+    let currentPlayingEp = null;
     let isPlaying = false;
 
     const audio = document.getElementById('audioElement');
@@ -1074,23 +1121,158 @@ html_content = f"""<!DOCTYPE html>
     const speeds = [1.0, 1.25, 1.5, 2.0];
     let currentSpeedIdx = 0;
 
-    // Render Hero Credits (Softcoded)
-    function renderHeroCredits() {{
-      const container = document.getElementById('heroCreditsContainer');
-      const credits = PODCAST_DATA.series_credits;
-      if (credits) {{
-        container.innerHTML = `<span>✧</span> <span>${{credits}}</span>`;
-        container.style.display = 'flex';
+    const SVG_PLAY = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
+    const SVG_PAUSE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
+    const SVG_PLAY_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
+    const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
+
+    function init() {{
+      // Read initial filter from URL hash (#cave01, #cave02, or default 'all')
+      const hash = window.location.hash.replace('#', '').trim();
+      if (hash && (hash === 'all' || PODCAST_DATA.series.some(s => s.id === hash))) {{
+        activeFilter = hash;
       }} else {{
-        container.style.display = 'none';
+        activeFilter = 'all';
+      }}
+
+      renderTabs();
+      renderSeriesCards();
+      renderView();
+    }}
+
+    window.addEventListener('hashchange', () => {{
+      const hash = window.location.hash.replace('#', '').trim();
+      if (hash && (hash === 'all' || PODCAST_DATA.series.some(s => s.id === hash))) {{
+        if (activeFilter !== hash) {{
+          activeFilter = hash;
+          renderTabs();
+          renderView();
+        }}
+      }}
+    }});
+
+    function selectSeries(seriesId) {{
+      activeFilter = seriesId;
+      window.location.hash = seriesId;
+      renderTabs();
+      renderView();
+      window.scrollTo({{ top: 0, behavior: 'smooth' }});
+    }}
+
+    function renderTabs() {{
+      const bar = document.getElementById('seriesTabsBar');
+      const allCount = PODCAST_DATA.episodes.length;
+
+      let html = `
+        <div class="tab-pill ${{activeFilter === 'all' ? 'active' : ''}}" onclick="selectSeries('all')">
+          <span>全部單集</span>
+          <span class="tab-badge">${{allCount}}</span>
+        </div>
+      `;
+
+      PODCAST_DATA.series.forEach(s => {{
+        const sCount = PODCAST_DATA.episodes.filter(e => e.series_id === s.id).length;
+        html += `
+          <div class="tab-pill ${{activeFilter === s.id ? 'active' : ''}}" onclick="selectSeries('${{s.id}}')">
+            <span>${{s.cave_number}}・${{s.title}}</span>
+            <span class="tab-badge">${{sCount}}</span>
+          </div>
+        `;
+      }});
+
+      bar.innerHTML = html;
+    }}
+
+    function renderSeriesCards() {{
+      const grid = document.getElementById('seriesCardsGrid');
+      grid.innerHTML = PODCAST_DATA.series.map(s => {{
+        const sEps = PODCAST_DATA.episodes.filter(e => e.series_id === s.id);
+        const totalSec = sEps.reduce((acc, cur) => acc + (cur.duration_sec || 0), 0);
+        const durHours = Math.round(totalSec / 3600 * 10) / 10;
+        const durText = durHours >= 1 ? `${{durHours}} 小時` : `${{Math.round(totalSec/60)}} 分鐘`;
+
+        return `
+          <div class="series-promo-card" onclick="selectSeries('${{s.id}}')">
+            <img src="assets/${{s.cover_dst_name}}" alt="${{s.title}}" class="series-promo-cover">
+            <div class="series-promo-body">
+              <div>
+                <div class="series-promo-cave">${{s.cave_number}}</div>
+                <div class="series-promo-title">${{s.title}}</div>
+                <div class="series-promo-desc">${{s.description || '探索深度人文歷史與專題。'}}</div>
+              </div>
+              <div class="series-promo-footer">
+                <span>集數：<b>${{sEps.length}} 集</b></span>
+                <span>時長：<b>${{durText}}</b></span>
+                <span>狀態：<b>${{s.status}}</b></span>
+              </div>
+            </div>
+          </div>
+        `;
+      }}).join('');
+    }}
+
+    function renderView() {{
+      const overviewSec = document.getElementById('seriesOverviewSection');
+      const heroBanner = document.getElementById('seriesHeroBanner');
+      const headingIcon = document.getElementById('episodesListIcon');
+      const headingText = document.getElementById('episodesListHeading');
+      const subheading = document.getElementById('episodesListSubheading');
+      const seriesFeedBtn = document.getElementById('headerSeriesFeedBtn');
+
+      if (activeFilter === 'all') {{
+        // Landing Mode: Show Series Overview + All Episodes (Newest to Oldest)
+        overviewSec.style.display = 'block';
+        heroBanner.style.display = 'none';
+        headingIcon.textContent = '🎙️';
+        headingText.textContent = '所有單集';
+        subheading.textContent = '按發布時間排序（最新至最舊）';
+        seriesFeedBtn.style.display = 'none';
+
+        // Sort: newest first (cave02 before cave01)
+        const sortedEps = [...PODCAST_DATA.episodes].sort((a, b) => {{
+          return new Date(b.pub_date_iso || 0) - new Date(a.pub_date_iso || 0);
+        }});
+        renderEpisodesList(sortedEps);
+      }} else {{
+        // Series Mode: Hide overview, Show detailed Series Hero Banner
+        overviewSec.style.display = 'none';
+        heroBanner.style.display = 'flex';
+        seriesFeedBtn.style.display = 'inline-flex';
+
+        const curSeries = PODCAST_DATA.series.find(s => s.id === activeFilter);
+        if (curSeries) {{
+          document.getElementById('heroCoverImg').src = `assets/${{curSeries.cover_dst_name}}`;
+          document.getElementById('heroCaveTag').textContent = curSeries.cave_number;
+          document.getElementById('heroTitle').textContent = curSeries.title;
+          document.getElementById('heroDesc').textContent = curSeries.description || '';
+
+          const sEps = PODCAST_DATA.episodes.filter(e => e.series_id === curSeries.id);
+          const totalSec = sEps.reduce((acc, cur) => acc + (cur.duration_sec || 0), 0);
+          const durHours = Math.round(totalSec / 3600 * 10) / 10;
+          const durText = durHours >= 1 ? `${{durHours}} 小時` : `${{Math.round(totalSec/60)}} 分鐘`;
+
+          document.getElementById('heroStatCount').textContent = `${{sEps.length}} 集`;
+          document.getElementById('heroStatDur').textContent = durText;
+          document.getElementById('heroStatStatus').textContent = curSeries.status;
+
+          headingIcon.textContent = '📖';
+          headingText.textContent = `${{curSeries.cave_number}}・各集單集目錄`;
+          subheading.textContent = `共 ${{sEps.length}} 集完整版`;
+
+          // Render series resources
+          renderSeriesResources(curSeries.id);
+
+          // In dedicated series view, order sequentially 1..N
+          const seriesEps = [...sEps].sort((a, b) => a.episode - b.episode);
+          renderEpisodesList(seriesEps);
+        }}
       }}
     }}
 
-    // Render Softcoded Series Reference Documents (Left-aligned wrap)
-    function renderSeriesResources() {{
+    function renderSeriesResources(seriesId) {{
       const box = document.getElementById('seriesResourcesBox');
       const wrap = document.getElementById('resourcesPillsWrap');
-      const docs = PODCAST_DATA.ref_docs_list || [];
+      const docs = (PODCAST_DATA.ref_docs_list || []).filter(d => d.series_id === seriesId);
 
       if (docs.length === 0) {{
         box.style.display = 'none';
@@ -1108,62 +1290,54 @@ html_content = f"""<!DOCTYPE html>
       }}).join('');
     }}
 
-    // Render Episodes List - Compact 1-Row Layout
-    function renderEpisodes() {{
+    function renderEpisodesList(episodes) {{
       const list = document.getElementById('episodesList');
-      list.innerHTML = PODCAST_DATA.episodes.map((ep, idx) => `
-        <div class="episode-card" id="card-${{idx}}">
-          <div class="ep-header">
-            <div class="ep-main-info" onclick="handleRowClick(${{idx}})">
-              <div class="ep-play-col">
-                <div class="ep-play-btn" id="card-play-btn-${{idx}}">${{SVG_PLAY}}</div>
-                <div class="ep-duration-tag">${{ep.duration_fmt}}</div>
-              </div>
-              <div class="ep-title">${{ep.title}}</div>
-            </div>
-            <button class="ep-toggle-btn" onclick="toggleDetails(${{idx}}, event)">
-              展開 ▾
-            </button>
-          </div>
-
-          <div class="ep-details" id="details-${{idx}}">
-            <div class="ep-summary-text">${{ep.summary}}</div>
-            <div class="chapters-title">📑 本集章節時間軸（點擊直接跳轉收聽）</div>
-            <div class="chapters-grid">
-              ${{ep.chapters.map(ch => `
-                <div class="chapter-pill" onclick="jumpToChapter(${{idx}}, ${{ch.start}})">
-                  <span class="chapter-time">${{ch.start_fmt}}</span>
-                  <span class="chapter-name" title="${{ch.title}}">${{ch.title}}</span>
+      list.innerHTML = episodes.map(ep => {{
+        const isCurrentPlaying = (currentPlayingEp && currentPlayingEp.release_filename === ep.release_filename);
+        return `
+          <div class="episode-card ${{isCurrentPlaying ? 'is-playing' : ''}}" id="card-${{ep.release_filename}}">
+            <div class="ep-header">
+              <div class="ep-main-info" onclick="handleEpisodeClick('${{ep.release_filename}}')">
+                <div class="ep-play-col">
+                  <div class="ep-play-btn" id="play-btn-${{ep.release_filename}}">
+                    ${{(isCurrentPlaying && isPlaying) ? SVG_PAUSE : SVG_PLAY}}
+                  </div>
+                  <div class="ep-duration-tag">${{ep.duration_fmt}}</div>
                 </div>
-              `).join('')}}
+                <div class="ep-text-block">
+                  <div class="ep-series-badge" onclick="event.stopPropagation(); selectSeries('${{ep.series_id}}')">
+                    ${{ep.cave_number}}・${{ep.series_title}}
+                  </div>
+                  <div class="ep-title">${{ep.title}}</div>
+                </div>
+              </div>
+              <button class="ep-toggle-btn" onclick="toggleDetails('${{ep.release_filename}}', event)">
+                展開 ▾
+              </button>
+            </div>
+
+            <div class="ep-details" id="details-${{ep.release_filename}}">
+              <div class="ep-summary-text">${{ep.summary}}</div>
+              ${{ep.chapters && ep.chapters.length > 0 ? `
+                <div class="chapters-title">📑 本集章節時間軸（點擊直接跳轉收聽）</div>
+                <div class="chapters-grid">
+                  ${{ep.chapters.map(ch => `
+                    <div class="chapter-pill" onclick="jumpToChapter('${{ep.release_filename}}', ${{ch.start}})">
+                      <span class="chapter-time">${{ch.start_fmt}}</span>
+                      <span class="chapter-name" title="${{ch.title}}">${{ch.title}}</span>
+                    </div>
+                  `).join('')}}
+                </div>
+              ` : ''}}
             </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }}).join('');
     }}
 
-    // Render Other Caves Modal Content from caves.txt
-    function renderOtherCaves() {{
-      const container = document.getElementById('cavesListContainer');
-      const caves = PODCAST_DATA.other_caves || [];
-      if (caves.length === 0) {{
-        container.innerHTML = '<div style="text-align: center; color: var(--text-dim); padding: 20px;">目前尚無其他展示洞窟。</div>';
-        return;
-      }}
-      container.innerHTML = caves.map(cave => `
-        <div class="cave-item ${{cave.is_active ? 'active-cave' : ''}}">
-          <div>
-            <div class="cave-item-name">${{cave.name}}</div>
-            <div class="cave-item-desc">${{cave.desc}}</div>
-          </div>
-          <span class="cave-status-tag ${{cave.is_active ? 'active' : ''}}">${{cave.status}}</span>
-        </div>
-      `).join('');
-    }}
-
-    function toggleDetails(idx, evt) {{
+    function toggleDetails(relFname, evt) {{
       if (evt) evt.stopPropagation();
-      const el = document.getElementById(`details-${{idx}}`);
+      const el = document.getElementById(`details-${{relFname}}`);
       const btn = evt.currentTarget;
       if (el.classList.contains('show')) {{
         el.classList.remove('show');
@@ -1174,32 +1348,37 @@ html_content = f"""<!DOCTYPE html>
       }}
     }}
 
-    function handleRowClick(idx) {{
-      if (currentEpIndex === idx && audio.src && !audio.src.endsWith('.html') && !audio.src.endsWith('/')) {{
+    function handleEpisodeClick(relFname) {{
+      const ep = PODCAST_DATA.episodes.find(e => e.release_filename === relFname);
+      if (!ep) return;
+
+      if (currentPlayingEp && currentPlayingEp.release_filename === relFname && audio.src) {{
         togglePlay();
       }} else {{
-        loadAndPlayEpisode(idx);
+        loadAndPlayEpisode(ep);
       }}
     }}
 
-    function loadAndPlayEpisode(idx) {{
-      currentEpIndex = idx;
-      const ep = PODCAST_DATA.episodes[idx];
-      audio.src = ep.audio_src;
+    function loadAndPlayEpisode(ep) {{
+      currentPlayingEp = ep;
+      audio.src = ep.audio_src || ep.audio_url;
       playerTitle.textContent = ep.title;
       playerArtist.textContent = `${{ep.cave_number}}・${{ep.series_title}}`;
       playerThumb.src = ep.cover_image;
-      
-      updateCardStyles(idx, true);
+
+      updateAllCardPlayStates(true);
       audio.play().then(() => {{
         isPlaying = true;
         updatePlayIcons(true);
       }}).catch(e => console.log('Audio playback error: ', e));
     }}
 
-    function jumpToChapter(idx, timestamp) {{
-      if (currentEpIndex !== idx || !audio.src || audio.src.endsWith('.html')) {{
-        loadAndPlayEpisode(idx);
+    function jumpToChapter(relFname, timestamp) {{
+      const ep = PODCAST_DATA.episodes.find(e => e.release_filename === relFname);
+      if (!ep) return;
+
+      if (!currentPlayingEp || currentPlayingEp.release_filename !== relFname) {{
+        loadAndPlayEpisode(ep);
       }}
       audio.currentTime = timestamp;
       audio.play().then(() => {{
@@ -1210,50 +1389,56 @@ html_content = f"""<!DOCTYPE html>
 
     function togglePlay() {{
       if (!audio.src || audio.src.endsWith('.html') || audio.src.endsWith('/')) {{
-        loadAndPlayEpisode(0);
+        if (PODCAST_DATA.episodes.length > 0) {{
+          loadAndPlayEpisode(PODCAST_DATA.episodes[0]);
+        }}
         return;
       }}
       if (audio.paused) {{
         audio.play().then(() => {{
           isPlaying = true;
           updatePlayIcons(true);
+          updateAllCardPlayStates(true);
         }});
       }} else {{
         audio.pause();
         isPlaying = false;
         updatePlayIcons(false);
+        updateAllCardPlayStates(false);
       }}
     }}
 
-    const SVG_PLAY = '<svg width="14" height="14" viewBox="0 0 24 24" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
-    const SVG_PAUSE = '<svg width="14" height="14" viewBox="0 0 24 24" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
-    const SVG_PLAY_LG = '<svg width="18" height="18" viewBox="0 0 24 24" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
-    const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
-
     function updatePlayIcons(playing) {{
       playBtn.innerHTML = playing ? SVG_PAUSE_LG : SVG_PLAY_LG;
-      document.querySelectorAll('.ep-play-btn').forEach((btn, i) => {{
-        btn.innerHTML = (i === currentEpIndex && playing) ? SVG_PAUSE : SVG_PLAY;
-      }});
     }}
 
-    function updateCardStyles(activeIdx, playing) {{
-      document.querySelectorAll('.episode-card').forEach((c, i) => {{
-        c.classList.toggle('is-playing', i === activeIdx);
-        const cardPlayBtn = document.getElementById(`card-play-btn-${{i}}`);
-        if (cardPlayBtn) cardPlayBtn.innerHTML = (i === activeIdx && playing) ? SVG_PAUSE : SVG_PLAY;
+    function updateAllCardPlayStates(playing) {{
+      document.querySelectorAll('.episode-card').forEach(c => {{
+        c.classList.remove('is-playing');
       }});
+      if (currentPlayingEp) {{
+        const activeCard = document.getElementById(`card-${{currentPlayingEp.release_filename}}`);
+        if (activeCard) {{
+          activeCard.classList.add('is-playing');
+          const btn = document.getElementById(`play-btn-${{currentPlayingEp.release_filename}}`);
+          if (btn) btn.innerHTML = playing ? SVG_PAUSE : SVG_PLAY;
+        }}
+      }}
     }}
 
     function playNext() {{
-      if (currentEpIndex < PODCAST_DATA.episodes.length - 1) {{
-        loadAndPlayEpisode(currentEpIndex + 1);
+      if (!currentPlayingEp) return;
+      const idx = PODCAST_DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
+      if (idx !== -1 && idx < PODCAST_DATA.episodes.length - 1) {{
+        loadAndPlayEpisode(PODCAST_DATA.episodes[idx + 1]);
       }}
     }}
 
     function playPrev() {{
-      if (currentEpIndex > 0) {{
-        loadAndPlayEpisode(currentEpIndex - 1);
+      if (!currentPlayingEp) return;
+      const idx = PODCAST_DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
+      if (idx > 0) {{
+        loadAndPlayEpisode(PODCAST_DATA.episodes[idx - 1]);
       }}
     }}
 
@@ -1261,17 +1446,17 @@ html_content = f"""<!DOCTYPE html>
       audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + delta));
     }}
 
-    function cycleSpeed() {{
-      currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
-      const s = speeds[currentSpeedIdx];
-      audio.playbackRate = s;
-      speedBtn.textContent = s.toFixed(1) + 'x';
-    }}
-
     function seek(e) {{
       const rect = e.currentTarget.getBoundingClientRect();
       const pos = (e.clientX - rect.left) / rect.width;
       audio.currentTime = pos * audio.duration;
+    }}
+
+    function cycleSpeed() {{
+      currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
+      const spd = speeds[currentSpeedIdx];
+      audio.playbackRate = spd;
+      speedBtn.textContent = `${{spd.toFixed(1)}}x`;
     }}
 
     // Audio Event Listeners
@@ -1287,11 +1472,13 @@ html_content = f"""<!DOCTYPE html>
     audio.addEventListener('play', () => {{
       isPlaying = true;
       updatePlayIcons(true);
+      updateAllCardPlayStates(true);
     }});
 
     audio.addEventListener('pause', () => {{
       isPlaying = false;
       updatePlayIcons(false);
+      updateAllCardPlayStates(false);
     }});
 
     audio.addEventListener('ended', () => {{
@@ -1302,29 +1489,45 @@ html_content = f"""<!DOCTYPE html>
       if (isNaN(sec)) return '00:00';
       const m = Math.floor(sec / 60);
       const s = Math.floor(sec % 60);
-      return `${{String(m).padStart(2, '0')}}:${{String(s).padStart(2, '0')}}`;
+      return `${{m.toString().padStart(2, '0')}}:${{s.toString().padStart(2, '0')}}`;
     }}
 
-    // Subscription & Modals
     function openSubscribeModal(type) {{
       const modal = document.getElementById('subscribeModal');
       const input = document.getElementById('modalFeedInput');
-      const feedName = (type === 'all') ? 'feed.xml' : 'feed_cave01_hanzi.xml';
+      const title = document.getElementById('subscribeModalTitle');
+      const desc = document.getElementById('subscribeModalDesc');
+
+      let feedName = 'feed.xml';
+      if (type === 'all') {{
+        title.textContent = '訂閱《兔子洞筆記》全頻道';
+        desc.textContent = '包含所有洞窟系列更新的 Master RSS 訂閱源。';
+        feedName = 'feed.xml';
+      }} else {{
+        const curSeries = PODCAST_DATA.series.find(s => s.id === type);
+        title.textContent = `訂閱專題：${{curSeries ? curSeries.title : ''}}`;
+        desc.textContent = `僅訂閱${{curSeries ? curSeries.cave_number : ''}}獨立專題 RSS。`;
+        feedName = `feed_${{type}}.xml`;
+      }}
+
       const fullUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) + feedName;
       input.value = fullUrl;
       modal.classList.add('active');
     }}
 
-    function openOtherCavesModal() {{
-      renderOtherCaves();
-      document.getElementById('otherCavesModal').classList.add('active');
+    function openCurrentSeriesFeed() {{
+      if (activeFilter && activeFilter !== 'all') {{
+        openSubscribeModal(activeFilter);
+      }} else {{
+        openSubscribeModal('all');
+      }}
     }}
 
     function openDocModal(docId, docTitle) {{
       const modal = document.getElementById('resourceModal');
       const title = document.getElementById('resourceModalTitle');
       const box = document.getElementById('resourceModalContent');
-      
+
       title.textContent = `📑 ${{docTitle}}`;
       box.textContent = PODCAST_DATA.series_docs_content[docId] || '尚無文檔內容。';
       modal.classList.add('active');
@@ -1347,10 +1550,8 @@ html_content = f"""<!DOCTYPE html>
       setTimeout(() => t.classList.remove('show'), 2500);
     }}
 
-    // Init
-    renderHeroCredits();
-    renderSeriesResources();
-    renderEpisodes();
+    // Init App
+    init();
   </script>
 </body>
 </html>
