@@ -2,11 +2,12 @@
 Builds the standalone, fully interactive index.html companion web player
 for 《兔子洞筆記》 with embedded episode data for zero-config local file:// playback.
 Clean UX & Responsiveness:
-1. Landing page displays full-width Series Cards (sorted newest to oldest: Cave02 -> Cave01).
-2. Top horizontal scrollbar / tab pills removed.
-3. Removed redundant "所有單集" section from landing page.
-4. Clicking a series card seamlessly opens that series' dedicated page (Hero, info, docs, and episodes).
-5. Fixed mobile/narrow-width text wrapping: stat items and titles use nowrap / flex-wrap cleanly so individual characters/words never get split across lines awkwardly.
+1. Landing page heading: "探索洞窟" (changed from 探索洞窟系列).
+2. Reference docs display clean title without series prefixes like [第二窟] or [第一窟].
+3. Series cards are full-width, sorted newest to oldest.
+4. Compact series cards with caret button (▾/▴) to toggle the description on demand (closed by default).
+   When closed, shows: Main Title, Cave Tag, Stats line (集數、時長、狀態), References pills, and caret toggle.
+5. Robust responsive nowrap layout for stats and pills.
 """
 
 import os
@@ -49,7 +50,6 @@ active_doc_filenames = set()
 for s_item in data.get("series", []):
     s_dir = s_item.get("dir", "")
     s_prefix = s_item.get("id", "series")
-    s_name = s_item.get("cave_number", "")
     ref_src_dir = os.path.join(s_dir, "References")
 
     if os.path.exists(ref_src_dir):
@@ -68,8 +68,10 @@ for s_item in data.get("series", []):
             if ext_lower not in ALLOWED_EXTENSIONS:
                 continue
 
+            # Clean display title: remove numeric prefixes and any [第二窟]/[第一窟] tags
             clean_title = re.sub(r"^\d+[\._\-\s]*", "", base_name).strip()
-            display_title = f"[{s_name}] {clean_title}"
+            clean_title = re.sub(r"^\[.*?\]\s*", "", clean_title).strip()
+            display_title = clean_title
             doc_id = re.sub(r"[^\w\-]", "_", f"{s_prefix}_{base_name}").lower()
 
             dst_path = os.path.join(DOCS_DIR, dst_fname)
@@ -306,69 +308,109 @@ html_content = f"""<!DOCTYPE html>
     .series-list-stack {{
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }}
 
     .series-promo-card {{
       background: linear-gradient(145deg, #131d35 0%, #172442 100%);
       border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 24px;
+      border-radius: 16px;
+      padding: 18px 20px;
       display: flex;
-      gap: 24px;
-      cursor: pointer;
+      gap: 20px;
+      align-items: flex-start;
       transition: all 0.25s ease;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
       position: relative;
     }}
     .series-promo-card:hover {{
-      transform: translateY(-3px);
       border-color: var(--gold-primary);
-      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 10px 28px rgba(212, 175, 55, 0.18);
     }}
     .series-promo-cover {{
-      width: 140px;
-      height: 140px;
-      border-radius: 14px;
+      width: 96px;
+      height: 96px;
+      border-radius: 12px;
       object-fit: cover;
       flex-shrink: 0;
       border: 1px solid var(--border-color);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+      cursor: pointer;
     }}
     .series-promo-body {{
       flex: 1;
       min-width: 0;
       display: flex;
       flex-direction: column;
+      gap: 8px;
+    }}
+    .series-card-top-row {{
+      display: flex;
       justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }}
+    .series-title-group {{
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
     }}
     .series-promo-cave {{
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--gold-primary);
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       display: inline-block;
     }}
     .series-promo-title {{
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 700;
       color: #ffffff;
       line-height: 1.35;
-      margin-bottom: 8px;
       word-break: break-word;
     }}
+    .series-promo-title:hover {{
+      color: var(--gold-light);
+    }}
+
+    .series-toggle-btn {{
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }}
+    .series-toggle-btn:hover {{
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.1);
+    }}
+
     .series-promo-desc {{
+      display: none;
       font-size: 13.5px;
       color: var(--text-muted);
       line-height: 1.6;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(11, 17, 32, 0.4);
+      border-radius: 8px;
+      border-left: 3px solid var(--gold-primary);
+      margin: 4px 0 6px;
     }}
+    .series-promo-desc.show {{
+      display: block;
+    }}
+
     .series-promo-footer {{
       display: flex;
       align-items: center;
@@ -387,14 +429,41 @@ html_content = f"""<!DOCTYPE html>
       color: var(--gold-light);
       white-space: nowrap;
     }}
-    .enter-series-pill {{
+
+    .series-card-resources {{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }}
+    .series-card-res-label {{
+      font-size: 11px;
+      color: var(--text-dim);
+      white-space: nowrap;
+      font-weight: 600;
+    }}
+
+    .enter-series-btn {{
       margin-left: auto;
       font-size: 13px;
       font-weight: 600;
       color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 4px 12px;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }}
+    .enter-series-btn:hover {{
+      background: var(--gold-primary);
+      color: #0b1120;
+      border-color: var(--gold-primary);
     }}
 
     /* Series Hero Banner (Dedicated Series View) */
@@ -589,18 +658,6 @@ html_content = f"""<!DOCTYPE html>
     .ep-text-block {{
       flex: 1;
       min-width: 0;
-    }}
-    .ep-series-badge {{
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--gold-primary);
-      margin-bottom: 2px;
-      cursor: pointer;
-      white-space: nowrap;
-    }}
-    .ep-series-badge:hover {{
-      text-decoration: underline;
     }}
     .ep-title {{
       font-size: 16px;
@@ -942,12 +999,12 @@ html_content = f"""<!DOCTYPE html>
     @media (max-width: 768px) {{
       .series-promo-card {{
         flex-direction: column;
-        padding: 18px;
-        gap: 16px;
+        padding: 16px;
+        gap: 14px;
       }}
       .series-promo-cover {{
         width: 100%;
-        height: 180px;
+        height: 160px;
       }}
       .hero-banner {{
         flex-direction: column;
@@ -1006,7 +1063,7 @@ html_content = f"""<!DOCTYPE html>
     <!-- Breadcrumb / Back button (Series View Only) -->
     <div class="series-nav-bar" id="seriesNavBar" style="display: none;">
       <button class="back-btn" onclick="selectSeries('home')">
-        <span>← 返回所有洞窟系列</span>
+        <span>← 返回探索洞窟</span>
       </button>
       <button class="btn btn-gold" onclick="openCurrentSeriesFeed()">
         <span>📡 訂閱此系列 RSS</span>
@@ -1017,7 +1074,7 @@ html_content = f"""<!DOCTYPE html>
     <section class="series-overview-section" id="seriesOverviewSection">
       <div class="section-heading">
         <div class="section-title">
-          <span>🏛️</span> <span>探索洞窟系列</span>
+          <span>🏛️</span> <span>探索洞窟</span>
         </div>
         <div class="section-subtitle">點擊系列卡片進入專題導覽與單集收聽</div>
       </div>
@@ -1198,6 +1255,21 @@ html_content = f"""<!DOCTYPE html>
       window.scrollTo({{ top: 0, behavior: 'smooth' }});
     }}
 
+    function toggleSeriesDesc(sId, evt) {{
+      if (evt) evt.stopPropagation();
+      const descEl = document.getElementById(`series-desc-${{sId}}`);
+      const btn = document.getElementById(`series-toggle-btn-${{sId}}`);
+      if (!descEl || !btn) return;
+
+      if (descEl.classList.contains('show')) {{
+        descEl.classList.remove('show');
+        btn.innerHTML = '簡介 ▾';
+      }} else {{
+        descEl.classList.add('show');
+        btn.innerHTML = '收合 ▴';
+      }}
+    }}
+
     // Render Full-width Series Cards (sorted newest to oldest by season_num descending)
     function renderSeriesCards() {{
       const grid = document.getElementById('seriesCardsGrid');
@@ -1209,21 +1281,47 @@ html_content = f"""<!DOCTYPE html>
         const durHours = Math.round(totalSec / 3600 * 10) / 10;
         const durText = durHours >= 1 ? `${{durHours}} 小時` : `${{Math.round(totalSec/60)}} 分鐘`;
 
+        // Filter resources for this series
+        const sDocs = (PODCAST_DATA.ref_docs_list || []).filter(d => d.series_id === s.id);
+
         return `
-          <div class="series-promo-card" onclick="selectSeries('${{s.id}}')">
-            <img src="assets/${{s.cover_dst_name}}" alt="${{s.title}}" class="series-promo-cover">
+          <div class="series-promo-card" id="series-card-${{s.id}}">
+            <img src="assets/${{s.cover_dst_name}}" alt="${{s.title}}" class="series-promo-cover" onclick="selectSeries('${{s.id}}')">
             <div class="series-promo-body">
-              <div>
-                <span class="series-promo-cave">${{s.cave_number}}</span>
-                <div class="series-promo-title">${{s.title}}</div>
-                <div class="series-promo-desc">${{s.description || '探索深度人文歷史與文化專題。'}}</div>
+              <div class="series-card-top-row">
+                <div class="series-title-group" onclick="selectSeries('${{s.id}}')">
+                  <span class="series-promo-cave">${{s.cave_number}}</span>
+                  <div class="series-promo-title">${{s.title}}</div>
+                </div>
+                <button class="series-toggle-btn" id="series-toggle-btn-${{s.id}}" onclick="toggleSeriesDesc('${{s.id}}', event)">
+                  簡介 ▾
+                </button>
               </div>
+
+              <!-- Collapsible description (closed by default) -->
+              <div class="series-promo-desc" id="series-desc-${{s.id}}">
+                ${{s.description || '探索深度人文歷史與文化專題。'}}
+              </div>
+
+              <!-- Stats & Enter button -->
               <div class="series-promo-footer">
                 <span class="series-promo-stat">集數：<b>${{sEps.length}} 集</b></span>
                 <span class="series-promo-stat">時長：<b>${{durText}}</b></span>
                 <span class="series-promo-stat">狀態：<b>${{s.status}}</b></span>
-                <span class="enter-series-pill">前往專題 ➔</span>
+                <button class="enter-series-btn" onclick="selectSeries('${{s.id}}')">進入系列 ➔</button>
               </div>
+
+              <!-- Inline References Pills -->
+              ${{sDocs.length > 0 ? `
+                <div class="series-card-resources">
+                  <span class="series-card-res-label">📚 參考文獻：</span>
+                  ${{sDocs.map(doc => `
+                    <button class="resource-pill" style="padding: 3px 10px; font-size: 11px;" onclick="event.stopPropagation(); openDocModal('${{doc.id}}', '${{doc.title}}')">
+                      📑 ${{doc.title}}
+                    </button>
+                  `).join('')}}
+                </div>
+              ` : ''}}
             </div>
           </div>
         `;
