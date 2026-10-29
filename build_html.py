@@ -1,12 +1,12 @@
 """
 Builds the standalone, fully interactive index.html companion web player
 for 《兔子洞筆記》 with embedded episode data for zero-config local file:// playback.
-Supports:
-1. Landing page with All Episodes (Newest to Oldest) and Series selector / tabs.
-2. Clicking a series card or tab filters to that series view with cover, description, and series resources.
-3. Clicking an episode row or series badge switches views or starts playing seamlessly.
-4. Softcoded reference documents and credits per series.
-5. URL hash navigation (#all, #cave01, #cave02).
+Clean UX & Responsiveness:
+1. Landing page displays full-width Series Cards (sorted newest to oldest: Cave02 -> Cave01).
+2. Top horizontal scrollbar / tab pills removed.
+3. Removed redundant "所有單集" section from landing page.
+4. Clicking a series card seamlessly opens that series' dedicated page (Hero, info, docs, and episodes).
+5. Fixed mobile/narrow-width text wrapping: stat items and titles use nowrap / flex-wrap cleanly so individual characters/words never get split across lines awkwardly.
 """
 
 import os
@@ -22,7 +22,6 @@ DIST_DIR = r"G:\My Drive\NotebookLM\podcast_distribution"
 JSON_PATH = os.path.join(DIST_DIR, "episodes.json")
 HTML_PATH = os.path.join(DIST_DIR, "index.html")
 DOCS_DIR = os.path.join(DIST_DIR, "docs")
-CAVES_TXT_PATH = os.path.join(DIST_DIR, "caves.txt")
 os.makedirs(DOCS_DIR, exist_ok=True)
 
 # Load base episodes.json
@@ -165,9 +164,9 @@ html_content = f"""<!DOCTYPE html>
     }}
 
     .container {{
-      max-width: 1060px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 20px;
     }}
 
     /* Top Sticky/Fixed Header Bar */
@@ -192,6 +191,7 @@ html_content = f"""<!DOCTYPE html>
       align-items: center;
       gap: 14px;
       cursor: pointer;
+      user-select: none;
     }}
     .brand-avatar {{
       width: 44px;
@@ -228,6 +228,7 @@ html_content = f"""<!DOCTYPE html>
       transition: all 0.2s;
       border: 1px solid transparent;
       outline: none;
+      white-space: nowrap;
     }}
     .btn-gold {{
       background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dim) 100%);
@@ -251,108 +252,88 @@ html_content = f"""<!DOCTYPE html>
       text-decoration: none;
     }}
 
-    /* Series Navigation Tabs */
-    .nav-tabs-bar {{
-      display: flex;
-      gap: 10px;
-      margin: 24px 0 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      overflow-x: auto;
-      scrollbar-width: thin;
-    }}
-    .tab-pill {{
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 500;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      cursor: pointer;
+    /* Breadcrumbs / Back button in Series View */
+    .series-nav-bar {{
+      margin: 20px 0 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      white-space: nowrap;
+      justify-content: space-between;
+    }}
+    .back-btn {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
       transition: all 0.2s;
     }}
-    .tab-pill:hover {{
-      background: var(--bg-card-hover);
-      color: var(--gold-light);
-      border-color: var(--gold-light);
-    }}
-    .tab-pill.active {{
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%);
-      color: var(--gold-light);
-      border-color: var(--gold-primary);
-      font-weight: 600;
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
-    }}
-    .tab-badge {{
-      font-size: 11px;
-      padding: 2px 7px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text-main);
-    }}
-    .tab-pill.active .tab-badge {{
+    .back-btn:hover {{
       background: var(--gold-primary);
       color: #0b1120;
-      font-weight: 700;
+      text-decoration: none;
+      border-color: var(--gold-primary);
     }}
 
-    /* Series Cards Overview Grid (Landing View) */
+    /* Series Cards Overview (Full-width vertical stack, sorted newest to oldest) */
     .series-overview-section {{
-      margin-bottom: 32px;
+      margin: 24px 0 32px;
     }}
     .section-heading {{
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }}
     .section-title {{
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 700;
       color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }}
     .section-subtitle {{
       font-size: 13px;
       color: var(--text-dim);
     }}
-    .series-grid {{
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 18px;
+
+    .series-list-stack {{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }}
+
     .series-promo-card {{
       background: linear-gradient(145deg, #131d35 0%, #172442 100%);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 24px;
       display: flex;
-      gap: 18px;
+      gap: 24px;
       cursor: pointer;
       transition: all 0.25s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
       position: relative;
-      overflow: hidden;
     }}
     .series-promo-card:hover {{
       transform: translateY(-3px);
       border-color: var(--gold-primary);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
     }}
     .series-promo-cover {{
-      width: 100px;
-      height: 100px;
-      border-radius: 12px;
+      width: 140px;
+      height: 140px;
+      border-radius: 14px;
       object-fit: cover;
       flex-shrink: 0;
       border: 1px solid var(--border-color);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
     }}
     .series-promo-body {{
       flex: 1;
@@ -362,39 +343,58 @@ html_content = f"""<!DOCTYPE html>
       justify-content: space-between;
     }}
     .series-promo-cave {{
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--gold-primary);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 4px;
+      display: inline-block;
     }}
     .series-promo-title {{
-      font-size: 16px;
+      font-size: 19px;
       font-weight: 700;
       color: #ffffff;
       line-height: 1.35;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      word-break: break-word;
     }}
     .series-promo-desc {{
-      font-size: 12px;
+      font-size: 13.5px;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.6;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }}
     .series-promo-footer {{
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 12px;
+      gap: 16px;
+      font-size: 13px;
       color: var(--text-dim);
+      flex-wrap: wrap;
     }}
-    .series-promo-footer b {{
+    .series-promo-stat {{
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }}
+    .series-promo-stat b {{
       color: var(--gold-light);
+      white-space: nowrap;
+    }}
+    .enter-series-pill {{
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold-light);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }}
 
     /* Series Hero Banner (Dedicated Series View) */
@@ -402,7 +402,7 @@ html_content = f"""<!DOCTYPE html>
       background: linear-gradient(145deg, #131d35 0%, #172442 100%);
       border: 1px solid var(--border-color);
       border-radius: 20px;
-      padding: 26px 28px;
+      padding: 28px;
       margin-bottom: 24px;
       display: flex;
       gap: 28px;
@@ -432,6 +432,7 @@ html_content = f"""<!DOCTYPE html>
       padding: 3px 10px;
       border-radius: 12px;
       margin-bottom: 8px;
+      white-space: nowrap;
     }}
     .hero-title {{
       font-size: 24px;
@@ -439,6 +440,7 @@ html_content = f"""<!DOCTYPE html>
       color: #ffffff;
       margin-bottom: 10px;
       line-height: 1.3;
+      word-break: break-word;
     }}
     .hero-desc {{
       font-size: 14px;
@@ -449,15 +451,22 @@ html_content = f"""<!DOCTYPE html>
     .hero-stats {{
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 18px;
       font-size: 13px;
       color: var(--text-dim);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       flex-wrap: wrap;
+    }}
+    .stat-item {{
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
     }}
     .stat-item b {{
       color: var(--gold-light);
       font-weight: 600;
+      white-space: nowrap;
     }}
 
     .hero-credits {{
@@ -479,6 +488,7 @@ html_content = f"""<!DOCTYPE html>
       font-size: 13px;
       color: var(--text-muted);
       font-weight: 600;
+      white-space: nowrap;
     }}
     .resources-pills-wrap {{
       display: flex;
@@ -498,6 +508,7 @@ html_content = f"""<!DOCTYPE html>
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }}
     .resource-pill:hover {{
       background: rgba(212, 175, 55, 0.15);
@@ -573,6 +584,7 @@ html_content = f"""<!DOCTYPE html>
       font-size: 11px;
       color: var(--text-dim);
       font-family: monospace;
+      white-space: nowrap;
     }}
     .ep-text-block {{
       flex: 1;
@@ -585,6 +597,7 @@ html_content = f"""<!DOCTYPE html>
       color: var(--gold-primary);
       margin-bottom: 2px;
       cursor: pointer;
+      white-space: nowrap;
     }}
     .ep-series-badge:hover {{
       text-decoration: underline;
@@ -594,6 +607,7 @@ html_content = f"""<!DOCTYPE html>
       font-weight: 600;
       color: var(--text-main);
       line-height: 1.4;
+      word-break: break-word;
     }}
     .episode-card.is-playing .ep-title {{
       color: var(--gold-light);
@@ -608,6 +622,7 @@ html_content = f"""<!DOCTYPE html>
       cursor: pointer;
       flex-shrink: 0;
       transition: all 0.2s;
+      white-space: nowrap;
     }}
     .ep-toggle-btn:hover {{
       border-color: var(--gold-primary);
@@ -650,6 +665,7 @@ html_content = f"""<!DOCTYPE html>
       gap: 6px;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }}
     .chapter-pill:hover {{
       background: rgba(212, 175, 55, 0.15);
@@ -677,7 +693,7 @@ html_content = f"""<!DOCTYPE html>
       z-index: 200;
     }}
     .player-inner {{
-      max-width: 1060px;
+      max-width: 1000px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -770,6 +786,7 @@ html_content = f"""<!DOCTYPE html>
       color: var(--text-dim);
       width: 42px;
       text-align: center;
+      white-space: nowrap;
     }}
     .progress-bar {{
       flex: 1;
@@ -791,7 +808,7 @@ html_content = f"""<!DOCTYPE html>
       display: flex;
       align-items: center;
       gap: 12px;
-      width: 120px;
+      width: 100px;
       justify-content: flex-end;
     }}
     .speed-btn {{
@@ -803,6 +820,7 @@ html_content = f"""<!DOCTYPE html>
       font-size: 12px;
       font-family: monospace;
       cursor: pointer;
+      white-space: nowrap;
     }}
 
     /* Modals */
@@ -922,6 +940,15 @@ html_content = f"""<!DOCTYPE html>
     }}
 
     @media (max-width: 768px) {{
+      .series-promo-card {{
+        flex-direction: column;
+        padding: 18px;
+        gap: 16px;
+      }}
+      .series-promo-cover {{
+        width: 100%;
+        height: 180px;
+      }}
       .hero-banner {{
         flex-direction: column;
         text-align: center;
@@ -956,7 +983,7 @@ html_content = f"""<!DOCTYPE html>
   <header class="site-header">
     <div class="container">
       <div class="header-content">
-        <div class="brand-group" onclick="selectSeries('all')">
+        <div class="brand-group" onclick="selectSeries('home')">
           <img src="cover_channel.png" alt="兔子洞筆記封面" class="brand-avatar">
           <div>
             <div class="brand-title">兔子洞筆記</div>
@@ -967,8 +994,8 @@ html_content = f"""<!DOCTYPE html>
           <button class="btn btn-outline" onclick="openSubscribeModal('all')">
             <span>📡 總頻道 RSS</span>
           </button>
-          <button class="btn btn-gold" id="headerSeriesFeedBtn" onclick="openCurrentSeriesFeed()">
-            <span>🎙️ 訂閱本專案</span>
+          <button class="btn btn-gold" id="headerSeriesFeedBtn" style="display: none;" onclick="openCurrentSeriesFeed()">
+            <span>🎙️ 訂閱本專題</span>
           </button>
         </div>
       </div>
@@ -976,25 +1003,32 @@ html_content = f"""<!DOCTYPE html>
   </header>
 
   <div class="container">
-    <!-- Series Navigation Tabs -->
-    <nav class="nav-tabs-bar" id="seriesTabsBar"></nav>
+    <!-- Breadcrumb / Back button (Series View Only) -->
+    <div class="series-nav-bar" id="seriesNavBar" style="display: none;">
+      <button class="back-btn" onclick="selectSeries('home')">
+        <span>← 返回所有洞窟系列</span>
+      </button>
+      <button class="btn btn-gold" onclick="openCurrentSeriesFeed()">
+        <span>📡 訂閱此系列 RSS</span>
+      </button>
+    </div>
 
-    <!-- Top Series Overview Section (Only on 'All Episodes' view) -->
+    <!-- Home View: Full-width Series Cards (sorted newest to oldest) -->
     <section class="series-overview-section" id="seriesOverviewSection">
       <div class="section-heading">
         <div class="section-title">
           <span>🏛️</span> <span>探索洞窟系列</span>
         </div>
-        <div class="section-subtitle">點擊卡片進入專題導覽與文獻</div>
+        <div class="section-subtitle">點擊系列卡片進入專題導覽與單集收聽</div>
       </div>
-      <div class="series-grid" id="seriesCardsGrid"></div>
+      <div class="series-list-stack" id="seriesCardsGrid"></div>
     </section>
 
-    <!-- Hero Banner (Only shown in dedicated series view) -->
+    <!-- Series View: Hero Banner -->
     <section class="hero-banner" id="seriesHeroBanner" style="display: none;">
-      <img id="heroCoverImg" src="assets/cover_cave01.jpg" alt="系列封面" class="hero-cover">
+      <img id="heroCoverImg" src="assets/cover_cave02.jpg" alt="系列封面" class="hero-cover">
       <div class="hero-info">
-        <div class="hero-cave-tag" id="heroCaveTag">第一窟</div>
+        <div class="hero-cave-tag" id="heroCaveTag">第二窟</div>
         <h1 class="hero-title" id="heroTitle">系列標題</h1>
         <p class="hero-desc" id="heroDesc">系列簡介說明</p>
         <div class="hero-stats" id="heroStats">
@@ -1012,19 +1046,19 @@ html_content = f"""<!DOCTYPE html>
       </div>
     </section>
 
-    <!-- Episodes Section Header -->
-    <div class="section-heading" style="margin-top: 10px;">
+    <!-- Series View: Episodes Section Header -->
+    <div class="section-heading" id="episodesHeadingSection" style="display: none; margin-top: 10px;">
       <div class="section-title">
-        <span id="episodesListIcon">🎙️</span> <span id="episodesListHeading">所有單集</span>
+        <span id="episodesListIcon">📖</span> <span id="episodesListHeading">各集單集目錄</span>
       </div>
-      <div class="section-subtitle" id="episodesListSubheading">最新至最舊排序</div>
+      <div class="section-subtitle" id="episodesListSubheading">完整收錄</div>
     </div>
 
-    <!-- Episodes List -->
-    <div class="episodes-list" id="episodesList"></div>
+    <!-- Series View: Episodes List -->
+    <div class="episodes-list" id="episodesList" style="display: none;"></div>
   </div>
 
-  <!-- Bottom Audio Player -->
+  <!-- Bottom Persistent Audio Player -->
   <div class="bottom-player" id="bottomPlayer">
     <div class="player-inner">
       <div class="track-info">
@@ -1104,7 +1138,7 @@ html_content = f"""<!DOCTYPE html>
   <script>
     const PODCAST_DATA = {data_json_str};
 
-    let activeFilter = 'all'; // 'all' or series_id ('cave01', 'cave02')
+    let activeSeriesId = 'home'; // 'home' or series_id ('cave02', 'cave01')
     let currentPlayingEp = null;
     let isPlaying = false;
 
@@ -1127,65 +1161,49 @@ html_content = f"""<!DOCTYPE html>
     const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
 
     function init() {{
-      // Read initial filter from URL hash (#cave01, #cave02, or default 'all')
       const hash = window.location.hash.replace('#', '').trim();
-      if (hash && (hash === 'all' || PODCAST_DATA.series.some(s => s.id === hash))) {{
-        activeFilter = hash;
+      if (hash && PODCAST_DATA.series.some(s => s.id === hash)) {{
+        activeSeriesId = hash;
       }} else {{
-        activeFilter = 'all';
+        activeSeriesId = 'home';
       }}
 
-      renderTabs();
       renderSeriesCards();
       renderView();
     }}
 
     window.addEventListener('hashchange', () => {{
       const hash = window.location.hash.replace('#', '').trim();
-      if (hash && (hash === 'all' || PODCAST_DATA.series.some(s => s.id === hash))) {{
-        if (activeFilter !== hash) {{
-          activeFilter = hash;
-          renderTabs();
+      if (hash && PODCAST_DATA.series.some(s => s.id === hash)) {{
+        if (activeSeriesId !== hash) {{
+          activeSeriesId = hash;
+          renderView();
+        }}
+      }} else if (!hash || hash === 'home') {{
+        if (activeSeriesId !== 'home') {{
+          activeSeriesId = 'home';
           renderView();
         }}
       }}
     }});
 
     function selectSeries(seriesId) {{
-      activeFilter = seriesId;
-      window.location.hash = seriesId;
-      renderTabs();
+      activeSeriesId = seriesId;
+      if (seriesId === 'home') {{
+        history.pushState(null, '', window.location.pathname);
+      }} else {{
+        window.location.hash = seriesId;
+      }}
       renderView();
       window.scrollTo({{ top: 0, behavior: 'smooth' }});
     }}
 
-    function renderTabs() {{
-      const bar = document.getElementById('seriesTabsBar');
-      const allCount = PODCAST_DATA.episodes.length;
-
-      let html = `
-        <div class="tab-pill ${{activeFilter === 'all' ? 'active' : ''}}" onclick="selectSeries('all')">
-          <span>全部單集</span>
-          <span class="tab-badge">${{allCount}}</span>
-        </div>
-      `;
-
-      PODCAST_DATA.series.forEach(s => {{
-        const sCount = PODCAST_DATA.episodes.filter(e => e.series_id === s.id).length;
-        html += `
-          <div class="tab-pill ${{activeFilter === s.id ? 'active' : ''}}" onclick="selectSeries('${{s.id}}')">
-            <span>${{s.cave_number}}・${{s.title}}</span>
-            <span class="tab-badge">${{sCount}}</span>
-          </div>
-        `;
-      }});
-
-      bar.innerHTML = html;
-    }}
-
+    // Render Full-width Series Cards (sorted newest to oldest by season_num descending)
     function renderSeriesCards() {{
       const grid = document.getElementById('seriesCardsGrid');
-      grid.innerHTML = PODCAST_DATA.series.map(s => {{
+      const sortedSeries = [...PODCAST_DATA.series].sort((a, b) => (b.season_num || 0) - (a.season_num || 0));
+
+      grid.innerHTML = sortedSeries.map(s => {{
         const sEps = PODCAST_DATA.episodes.filter(e => e.series_id === s.id);
         const totalSec = sEps.reduce((acc, cur) => acc + (cur.duration_sec || 0), 0);
         const durHours = Math.round(totalSec / 3600 * 10) / 10;
@@ -1196,14 +1214,15 @@ html_content = f"""<!DOCTYPE html>
             <img src="assets/${{s.cover_dst_name}}" alt="${{s.title}}" class="series-promo-cover">
             <div class="series-promo-body">
               <div>
-                <div class="series-promo-cave">${{s.cave_number}}</div>
+                <span class="series-promo-cave">${{s.cave_number}}</span>
                 <div class="series-promo-title">${{s.title}}</div>
-                <div class="series-promo-desc">${{s.description || '探索深度人文歷史與專題。'}}</div>
+                <div class="series-promo-desc">${{s.description || '探索深度人文歷史與文化專題。'}}</div>
               </div>
               <div class="series-promo-footer">
-                <span>集數：<b>${{sEps.length}} 集</b></span>
-                <span>時長：<b>${{durText}}</b></span>
-                <span>狀態：<b>${{s.status}}</b></span>
+                <span class="series-promo-stat">集數：<b>${{sEps.length}} 集</b></span>
+                <span class="series-promo-stat">時長：<b>${{durText}}</b></span>
+                <span class="series-promo-stat">狀態：<b>${{s.status}}</b></span>
+                <span class="enter-series-pill">前往專題 ➔</span>
               </div>
             </div>
           </div>
@@ -1213,33 +1232,30 @@ html_content = f"""<!DOCTYPE html>
 
     function renderView() {{
       const overviewSec = document.getElementById('seriesOverviewSection');
+      const navBar = document.getElementById('seriesNavBar');
       const heroBanner = document.getElementById('seriesHeroBanner');
-      const headingIcon = document.getElementById('episodesListIcon');
-      const headingText = document.getElementById('episodesListHeading');
-      const subheading = document.getElementById('episodesListSubheading');
-      const seriesFeedBtn = document.getElementById('headerSeriesFeedBtn');
+      const headingSec = document.getElementById('episodesHeadingSection');
+      const epList = document.getElementById('episodesList');
+      const headerSeriesBtn = document.getElementById('headerSeriesFeedBtn');
 
-      if (activeFilter === 'all') {{
-        // Landing Mode: Show Series Overview + All Episodes (Newest to Oldest)
+      if (activeSeriesId === 'home') {{
+        // Landing Mode: Only show Series Cards Stack
         overviewSec.style.display = 'block';
+        navBar.style.display = 'none';
         heroBanner.style.display = 'none';
-        headingIcon.textContent = '🎙️';
-        headingText.textContent = '所有單集';
-        subheading.textContent = '按發布時間排序（最新至最舊）';
-        seriesFeedBtn.style.display = 'none';
-
-        // Sort: newest first (cave02 before cave01)
-        const sortedEps = [...PODCAST_DATA.episodes].sort((a, b) => {{
-          return new Date(b.pub_date_iso || 0) - new Date(a.pub_date_iso || 0);
-        }});
-        renderEpisodesList(sortedEps);
+        headingSec.style.display = 'none';
+        epList.style.display = 'none';
+        headerSeriesBtn.style.display = 'none';
       }} else {{
-        // Series Mode: Hide overview, Show detailed Series Hero Banner
+        // Series Mode: Show Hero, Resources, and Episodes of that specific series
         overviewSec.style.display = 'none';
+        navBar.style.display = 'flex';
         heroBanner.style.display = 'flex';
-        seriesFeedBtn.style.display = 'inline-flex';
+        headingSec.style.display = 'flex';
+        epList.style.display = 'flex';
+        headerSeriesBtn.style.display = 'inline-flex';
 
-        const curSeries = PODCAST_DATA.series.find(s => s.id === activeFilter);
+        const curSeries = PODCAST_DATA.series.find(s => s.id === activeSeriesId);
         if (curSeries) {{
           document.getElementById('heroCoverImg').src = `assets/${{curSeries.cover_dst_name}}`;
           document.getElementById('heroCaveTag').textContent = curSeries.cave_number;
@@ -1255,11 +1271,9 @@ html_content = f"""<!DOCTYPE html>
           document.getElementById('heroStatDur').textContent = durText;
           document.getElementById('heroStatStatus').textContent = curSeries.status;
 
-          headingIcon.textContent = '📖';
-          headingText.textContent = `${{curSeries.cave_number}}・各集單集目錄`;
-          subheading.textContent = `共 ${{sEps.length}} 集完整版`;
+          document.getElementById('episodesListHeading').textContent = `${{curSeries.cave_number}}・各集單集目錄`;
+          document.getElementById('episodesListSubheading').textContent = `共 ${{sEps.length}} 集完整版`;
 
-          // Render series resources
           renderSeriesResources(curSeries.id);
 
           // In dedicated series view, order sequentially 1..N
@@ -1305,9 +1319,6 @@ html_content = f"""<!DOCTYPE html>
                   <div class="ep-duration-tag">${{ep.duration_fmt}}</div>
                 </div>
                 <div class="ep-text-block">
-                  <div class="ep-series-badge" onclick="event.stopPropagation(); selectSeries('${{ep.series_id}}')">
-                    ${{ep.cave_number}}・${{ep.series_title}}
-                  </div>
                   <div class="ep-title">${{ep.title}}</div>
                 </div>
               </div>
@@ -1499,7 +1510,7 @@ html_content = f"""<!DOCTYPE html>
       const desc = document.getElementById('subscribeModalDesc');
 
       let feedName = 'feed.xml';
-      if (type === 'all') {{
+      if (type === 'all' || type === 'home') {{
         title.textContent = '訂閱《兔子洞筆記》全頻道';
         desc.textContent = '包含所有洞窟系列更新的 Master RSS 訂閱源。';
         feedName = 'feed.xml';
@@ -1516,8 +1527,8 @@ html_content = f"""<!DOCTYPE html>
     }}
 
     function openCurrentSeriesFeed() {{
-      if (activeFilter && activeFilter !== 'all') {{
-        openSubscribeModal(activeFilter);
+      if (activeSeriesId && activeSeriesId !== 'home') {{
+        openSubscribeModal(activeSeriesId);
       }} else {{
         openSubscribeModal('all');
       }}
