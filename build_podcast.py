@@ -197,7 +197,12 @@ def scan_and_collect_episodes():
             print(f"  [OK] Copied series cover -> {s_info['cover_dst_name']}")
 
         s_dir = s_info["dir"]
-        m4a_files = sorted(glob.glob(os.path.join(s_dir, "[0-9][0-9]_*.m4a")))
+        m4a_files = sorted([
+            f for f in glob.glob(os.path.join(s_dir, "[0-9][0-9]_*.m4a"))
+            if "Candidate" not in os.path.basename(f)
+            and "MicroCut" not in os.path.basename(f)
+            and "_v" not in os.path.basename(f)
+        ])
 
         user = CHANNEL_META.get("github_user", "tzejen")
         repo = CHANNEL_META.get("github_repo", "rabbit-hole")

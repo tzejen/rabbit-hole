@@ -9,7 +9,7 @@ GitHub_Repo: rabbit-hole
 # 頻道基本資料
 Title: 兔子洞筆記
 Subtitle: Notes from the Rabbit Hole
-Author: 
+Author: 兔子洞筆記
 Email: 
 Language: zh-tw
 Category: History
