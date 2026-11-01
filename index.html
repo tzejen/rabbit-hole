@@ -211,6 +211,7 @@
       transition: all 0.25s ease;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
       position: relative;
+      cursor: pointer;
     }
     .series-promo-card:hover {
       border-color: var(--gold-primary);
@@ -1380,11 +1381,11 @@
         const durText = durHours >= 1 ? `${durHours} 小時` : `${Math.round(totalSec/60)} 分鐘`;
 
         return `
-          <div class="series-promo-card" id="series-card-${s.id}">
-            <img src="assets/${s.cover_dst_name}" alt="${s.title}" class="series-promo-cover" onclick="selectSeries('${s.id}')">
+          <div class="series-promo-card" id="series-card-${s.id}" onclick="selectSeries('${s.id}')">
+            <img src="assets/${s.cover_dst_name}" alt="${s.title}" class="series-promo-cover">
             <div class="series-promo-body">
               <div class="series-card-top-row">
-                <div class="series-title-group" onclick="selectSeries('${s.id}')">
+                <div class="series-title-group">
                   <span class="series-promo-cave">${s.cave_number}</span>
                   <div class="series-promo-title">${s.title}</div>
                 </div>
@@ -1394,16 +1395,15 @@
               </div>
 
               <!-- Collapsible description (closed by default) -->
-              <div class="series-promo-desc" id="series-desc-${s.id}">
+              <div class="series-promo-desc" id="series-desc-${s.id}" onclick="event.stopPropagation()">
                 ${s.description || '探索深度人文歷史與文化專題。'}
               </div>
 
-              <!-- Stats & Enter button -->
+              <!-- Stats -->
               <div class="series-promo-footer">
                 <span class="series-promo-stat">集數：<b>${sEps.length} 集</b></span>
                 <span class="series-promo-stat">時長：<b>${durText}</b></span>
                 <span class="series-promo-stat">狀態：<b>${s.status}</b></span>
-                <button class="enter-series-btn" onclick="selectSeries('${s.id}')">進入系列 ➔</button>
               </div>
             </div>
           </div>
