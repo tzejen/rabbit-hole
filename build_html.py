@@ -479,7 +479,7 @@ html_content = f"""<!DOCTYPE html>
       border: 1px solid var(--border-color);
       border-radius: 20px;
       padding: 28px;
-      margin-bottom: 24px;
+      margin: 20px 0 24px;
       display: flex;
       gap: 28px;
       align-items: center;
@@ -1259,16 +1259,6 @@ html_content = f"""<!DOCTYPE html>
   </header>
 
   <div class="container">
-    <!-- Breadcrumb / Back button (Series View Only) -->
-    <div class="series-nav-bar" id="seriesNavBar" style="display: none;">
-      <button class="back-btn" onclick="selectSeries('home')">
-        <span>← 返回探索洞窟</span>
-      </button>
-      <button class="btn btn-gold" onclick="openCurrentSeriesFeed()">
-        <span>📡 訂閱此系列 RSS</span>
-      </button>
-    </div>
-
     <!-- Home View: Full-width Series Cards (sorted newest to oldest) -->
     <section class="series-overview-section" id="seriesOverviewSection">
       <div class="section-heading">
@@ -1530,7 +1520,6 @@ html_content = f"""<!DOCTYPE html>
 
     function renderView() {{
       const overviewSec = document.getElementById('seriesOverviewSection');
-      const navBar = document.getElementById('seriesNavBar');
       const heroBanner = document.getElementById('seriesHeroBanner');
       const headingSec = document.getElementById('episodesHeadingSection');
       const epList = document.getElementById('episodesList');
@@ -1539,7 +1528,6 @@ html_content = f"""<!DOCTYPE html>
       if (activeSeriesId === 'home') {{
         // Landing Mode: Only show Series Cards Stack
         overviewSec.style.display = 'block';
-        navBar.style.display = 'none';
         heroBanner.style.display = 'none';
         headingSec.style.display = 'none';
         epList.style.display = 'none';
@@ -1547,7 +1535,6 @@ html_content = f"""<!DOCTYPE html>
       }} else {{
         // Series Mode: Show Hero, Resources, and Episodes of that specific series
         overviewSec.style.display = 'none';
-        navBar.style.display = 'flex';
         heroBanner.style.display = 'flex';
         headingSec.style.display = 'flex';
         epList.style.display = 'flex';
