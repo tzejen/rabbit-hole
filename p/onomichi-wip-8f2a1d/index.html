@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>尾道漫遊：坡道、老屋與島波海道 — 專屬聆聽客廳</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/jpeg" href="cover.jpg">
+  <style>
+    :root {
+      --bg-midnight: #0b1120;
+      --bg-card: #131d35;
+      --bg-card-hover: #192745;
+      --bg-player: #0f172a;
+      --gold-primary: #d4af37;
+      --gold-light: #f3d478;
+      --gold-dim: #997e29;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-color: rgba(212, 175, 55, 0.2);
+      --border-focus: rgba(212, 175, 55, 0.5);
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-midnight);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      line-height: 1.6;
+      padding-bottom: 150px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: linear-gradient(180deg, rgba(19, 29, 53, 0.95) 0%, rgba(11, 17, 32, 0.8) 100%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 24px 20px;
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid var(--gold-primary);
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+    }
+
+    .badge-private {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      border: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+
+    .hero-banner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 32px;
+      display: flex;
+      gap: 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero-cover {
+      width: 140px;
+      height: 140px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid var(--gold-primary);
+      flex-shrink: 0;
+    }
+
+    .hero-content h2 {
+      font-size: 1.5rem;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+
+    .hero-meta {
+      font-size: 0.85rem;
+      color: var(--gold-dim);
+      margin-bottom: 12px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .episode-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .episode-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .episode-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-focus);
+      transform: translateY(-2px);
+    }
+
+    .episode-card.active {
+      border-color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .ep-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-grow: 1;
+    }
+
+    .play-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .play-btn:hover {
+      background: var(--gold-primary);
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    .ep-info h3 {
+      font-size: 1.05rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .ep-info p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .ep-duration {
+      font-size: 0.85rem;
+      color: var(--gold-dim);
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    /* References Section */
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .doc-pill {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .doc-pill:hover {
+      border-color: var(--gold-primary);
+      background: var(--bg-card-hover);
+    }
+
+    /* Bottom Player Bar */
+    .player-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.96);
+      border-top: 1px solid var(--border-color);
+      backdrop-filter: blur(16px);
+      padding: 14px 20px;
+      z-index: 200;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    }
+
+    .player-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .player-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .now-playing {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+      flex-grow: 1;
+    }
+
+    .now-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .ctrl-btn {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .ctrl-btn:hover {
+      color: var(--gold-primary);
+    }
+
+    .ctrl-btn-play {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--gold-primary);
+      color: #000;
+      font-size: 1.2rem;
+    }
+
+    .ctrl-btn-play:hover {
+      background: var(--gold-light);
+      color: #000;
+    }
+
+    .rate-btn {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--gold-dim);
+      padding: 4px 8px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .rate-btn:hover {
+      color: var(--gold-light);
+      border-color: var(--gold-primary);
+    }
+
+    /* Progress bar */
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .time-lbl {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-variant-numeric: tabular-nums;
+      width: 42px;
+    }
+
+    .time-right { text-align: right; }
+
+    .progress-bar {
+      flex-grow: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold-primary));
+      border-radius: 3px;
+      width: 0%;
+      pointer-events: none;
+    }
+
+    /* Modal for Docs */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 500;
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      max-width: 760px;
+      width: 100%;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      color: var(--gold-light);
+      font-size: 1.15rem;
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      line-height: 1.8;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 640px) {
+      .hero-banner { flex-direction: column; align-items: center; text-align: center; }
+      .hero-cover { width: 120px; height: 120px; }
+      .hero-meta { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <img src="cover.jpg" alt="Cover" class="brand-icon">
+        <div>
+          <h1>尾道漫遊：坡道、老屋與島波海道</h1>
+        </div>
+      </div>
+      <span class="badge-private">🔒 專屬不公開預覽</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-banner">
+      <img src="cover.jpg" alt="Series Cover" class="hero-cover">
+      <div class="hero-content">
+        <h2>尾道漫遊：坡道、老屋與島波海道</h2>
+        <div class="hero-meta">
+          <span>5 集全</span>
+          <span>•</span>
+          <span>內部搶先版</span>
+        </div>
+        <p class="hero-desc">本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。</p>
+      </div>
+    </section>
+
+    <div class="section-title">
+      <span>🎙️ 各集選播</span>
+    </div>
+
+    <div class="episode-list" id="episodesContainer">
+      <!-- Injected by JS -->
+    </div>
+
+    <div class="section-title" id="docsTitle" style="display: none;">
+      <span>📑 隨選文獻與行前指南</span>
+    </div>
+    <div class="docs-grid" id="docsContainer">
+      <!-- Injected by JS -->
+    </div>
+  </main>
+
+  <!-- Player Bar -->
+  <div class="player-bar">
+    <div class="player-inner">
+      <div class="player-top">
+        <div class="now-playing">
+          <span id="nowPlayingTitle" class="now-title">點選上方任一集開始播放</span>
+        </div>
+        <div class="player-controls">
+          <button class="ctrl-btn" onclick="seekBy(-15)" title="倒退 15 秒">↺ 15s</button>
+          <button class="ctrl-btn ctrl-btn-play" id="playBtn" onclick="togglePlay()">▶</button>
+          <button class="ctrl-btn" onclick="seekBy(30)" title="快進 30 秒">30s ↻</button>
+          <button class="rate-btn" id="rateBtn" onclick="togglePlaybackRate()">1.0x</button>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <span class="time-lbl" id="currTime">00:00</span>
+        <div class="progress-bar" id="progressBar" onclick="seekClick(event)">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="time-lbl time-right" id="totalTime">00:00</span>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioElement" preload="metadata"></audio>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="docModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">文獻閱讀</h3>
+        <button class="close-btn" onclick="closeDocModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const DATA = {"series_info": {"id": "onomichi-wip-8f2a1d", "cave_number": "未公開專題", "title": "尾道漫遊：坡道、老屋與島波海道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "dir": "G:\\My Drive\\NotebookLM\\202610_尾道", "cover_src": "G:\\My Drive\\NotebookLM\\202610_尾道\\cover.jpg", "cover_dst_name": "cover.jpg", "season_num": 1, "status": "內部搶先版"}, "episodes": [{"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 1, "title": "Ep01 尾道山城老屋再生", "filename": "01_尾道山城老屋再生.m4a", "release_filename": "01_尾道山城老屋再生.m4a", "audio_url": "audio/01_尾道山城老屋再生.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\01_尾道山城老屋再生.m4a", "file_size": 34086358, "duration_sec": 1059.085351, "duration_fmt": "17:39", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 05:25:58 +0000", "pub_date_iso": "2026-11-01T05:25:58.792327+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "filename": "02_大師鏡頭與筆下的尾道.m4a", "release_filename": "02_大師鏡頭與筆下的尾道.m4a", "audio_url": "audio/02_大師鏡頭與筆下的尾道.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\02_大師鏡頭與筆下的尾道.m4a", "file_size": 33624456, "duration_sec": 1044.73542, "duration_fmt": "17:24", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 05:25:58 +0000", "pub_date_iso": "2026-11-01T05:25:58.890632+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 3, "title": "Ep03 尾道立體散步地圖", "filename": "03_尾道立體散步地圖.m4a", "release_filename": "03_尾道立體散步地圖.m4a", "audio_url": "audio/03_尾道立體散步地圖.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\03_尾道立體散步地圖.m4a", "file_size": 36979188, "duration_sec": 1148.969796, "duration_fmt": "19:08", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 05:25:58 +0000", "pub_date_iso": "2026-11-01T05:25:58.991656+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 4, "title": "Ep04 島波海道電輔車跳島", "filename": "04_島波海道電輔車跳島.m4a", "release_filename": "04_島波海道電輔車跳島.m4a", "audio_url": "audio/04_島波海道電輔車跳島.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\04_島波海道電輔車跳島.m4a", "file_size": 30878161, "duration_sec": 959.402086, "duration_fmt": "15:59", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 05:25:59 +0000", "pub_date_iso": "2026-11-01T05:25:59.102078+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 5, "title": "Ep05 尾道拉麵與行前清單", "filename": "05_尾道拉麵與行前清單.m4a", "release_filename": "05_尾道拉麵與行前清單.m4a", "audio_url": "audio/05_尾道拉麵與行前清單.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\05_尾道拉麵與行前清單.m4a", "file_size": 33430973, "duration_sec": 1038.721451, "duration_fmt": "17:18", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 05:25:59 +0000", "pub_date_iso": "2026-11-01T05:25:59.196357+00:00"}], "ref_docs_list": [{"id": "onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良", "title": "Ep1 港口與寺廟_尾道怎麼變成西之奈良", "filename": "Ep1 港口與寺廟_尾道怎麼變成西之奈良.md", "series_id": "onomichi-wip-8f2a1d", "ext": ".md", "is_pdf": false, "is_download": false, "url": "docs/Ep1 港口與寺廟_尾道怎麼變成西之奈良.md"}], "series_docs_content": {"onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良": "\n        \n          \n            \n              \n      \n        \n        \n      \n     \n      \n        \n              \n            \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n      \n    \n            \n            \n              \n      \n        \n              Search results\n              \n            \n        \n        \n        No emoji found\n      \n     \n      \n        \n              Recently used\n              \n            \n        \n        \n      \n    \n             \n            \n              \n            \n            Loading\n          \n          \n        \n      "}};
+    const audio = document.getElementById('audioElement');
+    let currentIndex = -1;
+    const rates = [1.0, 1.2, 1.5, 1.8, 2.0];
+    let rateIdx = 0;
+
+    function init() {
+      renderEpisodes();
+      renderDocs();
+      setupAudioListeners();
+    }
+
+    function renderEpisodes() {
+      const container = document.getElementById('episodesContainer');
+      container.innerHTML = '';
+      DATA.episodes.forEach((ep, idx) => {
+        const card = document.createElement('div');
+        card.className = 'episode-card';
+        card.id = `ep-card-${idx}`;
+        card.onclick = (e) => {
+          if (e.target.tagName !== 'BUTTON') playEpisode(idx);
+        };
+
+        card.innerHTML = `
+          <div class="ep-left">
+            <button class="play-btn" onclick="event.stopPropagation(); playEpisode(${idx})" id="card-btn-${idx}">▶</button>
+            <div class="ep-info">
+              <h3>${ep.title}</h3>
+              <p>${ep.summary || ep.full_notes || '點擊即可即時收聽完整節目'}</p>
+            </div>
+          </div>
+          <span class="ep-duration">${ep.duration_fmt}</span>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderDocs() {
+      if (!DATA.ref_docs_list || DATA.ref_docs_list.length === 0) return;
+      document.getElementById('docsTitle').style.display = 'flex';
+      const container = document.getElementById('docsContainer');
+      container.innerHTML = '';
+      DATA.ref_docs_list.forEach(doc => {
+        const pill = document.createElement('div');
+        pill.className = 'doc-pill';
+        pill.onclick = () => openDoc(doc.id, doc.title, doc.url, doc.is_pdf);
+        pill.innerHTML = `
+          <span>📄 ${doc.title}</span>
+          <span style="font-size:0.8rem; color:var(--gold-dim);">${doc.ext.toUpperCase()}</span>
+        `;
+        container.appendChild(pill);
+      });
+    }
+
+    function playEpisode(index) {
+      if (currentIndex === index && !audio.paused) {
+        audio.pause();
+        updatePlayState(false);
+        return;
+      }
+
+      currentIndex = index;
+      const ep = DATA.episodes[index];
+      audio.src = ep.audio_url;
+      audio.playbackRate = rates[rateIdx];
+      audio.play();
+
+      document.getElementById('nowPlayingTitle').textContent = ep.title;
+      document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('active'));
+      const activeCard = document.getElementById(`ep-card-${index}`);
+      if (activeCard) activeCard.classList.add('active');
+
+      updatePlayState(true);
+    }
+
+    function togglePlay() {
+      if (currentIndex === -1) {
+        playEpisode(0);
+        return;
+      }
+      if (audio.paused) {
+        audio.play();
+        updatePlayState(true);
+      } else {
+        audio.pause();
+        updatePlayState(false);
+      }
+    }
+
+    function updatePlayState(isPlaying) {
+      const mainBtn = document.getElementById('playBtn');
+      mainBtn.textContent = isPlaying ? '⏸' : '▶';
+      DATA.episodes.forEach((_, idx) => {
+        const btn = document.getElementById(`card-btn-${idx}`);
+        if (btn) {
+          btn.textContent = (idx === currentIndex && isPlaying) ? '⏸' : '▶';
+        }
+      });
+    }
+
+    function seekBy(seconds) {
+      if (!audio.duration) return;
+      audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + seconds));
+    }
+
+    function togglePlaybackRate() {
+      rateIdx = (rateIdx + 1) % rates.length;
+      const r = rates[rateIdx];
+      audio.playbackRate = r;
+      document.getElementById('rateBtn').textContent = r.toFixed(1) + 'x';
+    }
+
+    function seekClick(e) {
+      if (!audio.duration) return;
+      const bar = document.getElementById('progressBar');
+      const rect = bar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+      audio.currentTime = ratio * audio.duration;
+    }
+
+    function setupAudioListeners() {
+      audio.ontimeupdate = () => {
+        if (!audio.duration) return;
+        const ratio = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progressFill').style.width = ratio + '%';
+        document.getElementById('currTime').textContent = fmtTime(audio.currentTime);
+      };
+
+      audio.onloadedmetadata = () => {
+        document.getElementById('totalTime').textContent = fmtTime(audio.duration);
+      };
+
+      audio.onended = () => {
+        if (currentIndex < DATA.episodes.length - 1) {
+          playEpisode(currentIndex + 1);
+        } else {
+          updatePlayState(false);
+        }
+      };
+    }
+
+    function fmtTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function openDoc(docId, title, url, isPdf) {
+      if (isPdf) {
+        window.open(url, '_blank');
+        return;
+      }
+      const content = DATA.series_docs_content[docId] || '尚無內容';
+      document.getElementById('modalTitle').textContent = `📑 ${title}`;
+      document.getElementById('modalBody').textContent = content;
+      document.getElementById('docModal').classList.add('active');
+    }
+
+    function closeDocModal() {
+      document.getElementById('docModal').classList.remove('active');
+    }
+
+    window.onclick = (e) => {
+      const modal = document.getElementById('docModal');
+      if (e.target === modal) closeDocModal();
+    };
+
+    init();
+  </script>
+</body>
+</html>

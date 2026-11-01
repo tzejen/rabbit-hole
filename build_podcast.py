@@ -410,6 +410,13 @@ def main():
     # 3. Build Web Player (index.html)
     import build_html
 
+    # 4. Build Unlisted Private Pages
+    try:
+        import build_private
+        build_private.main()
+    except Exception as e:
+        print(f"[WARN] build_private failed: {e}")
+
     print("\n[SUCCESS] All distribution metadata, RSS feeds, and Web Player generated cleanly!")
 
 if __name__ == "__main__":
