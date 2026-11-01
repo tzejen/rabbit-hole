@@ -759,9 +759,11 @@ def generate_private_html(output_dir, series_info, episodes, ref_docs, docs_cont
     }}
 
     @media (max-width: 640px) {{
-      .hero-banner {{ flex-direction: column; align-items: center; text-align: center; }}
-      .hero-cover {{ width: 120px; height: 120px; }}
+      .hero-banner {{ flex-direction: column; align-items: center; text-align: center; padding: 18px 16px; gap: 14px; }}
+      .hero-cover {{ width: 96px; height: 96px; }}
       .hero-meta {{ justify-content: center; }}
+      .hero-desc {{ text-align: left; font-size: 0.9rem; }}
+      .badge-private {{ white-space: nowrap; flex-shrink: 0; }}
     }}
   </style>
 </head>

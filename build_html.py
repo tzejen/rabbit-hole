@@ -194,6 +194,7 @@ html_content = f"""<!DOCTYPE html>
       gap: 14px;
       cursor: pointer;
       user-select: none;
+      min-width: 0;
     }}
     .brand-avatar {{
       width: 44px;
@@ -201,18 +202,21 @@ html_content = f"""<!DOCTYPE html>
       border-radius: 10px;
       object-fit: cover;
       border: 1px solid var(--border-color);
+      flex-shrink: 0;
     }}
     .brand-title {{
       font-size: 19px;
       font-weight: 700;
       color: #ffffff;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }}
     .brand-subtitle {{
       font-size: 12px;
       color: var(--gold-light);
       font-weight: 400;
       margin-top: 1px;
+      white-space: nowrap;
     }}
     .header-actions {{
       display: flex;
@@ -299,6 +303,8 @@ html_content = f"""<!DOCTYPE html>
       display: flex;
       align-items: center;
       gap: 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }}
     .section-subtitle {{
       font-size: 13px;
@@ -997,38 +1003,212 @@ html_content = f"""<!DOCTYPE html>
     }}
 
     @media (max-width: 768px) {{
-      .series-promo-card {{
+      .container {{
+        padding: 0 14px;
+      }}
+      /* Header: prevent vertical text wrapping & hide duplicate series button */
+      .header-content {{
+        padding: 10px 0;
+        gap: 8px;
+      }}
+      .brand-group {{
+        gap: 10px;
+      }}
+      .brand-avatar {{
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+      }}
+      .brand-title {{
+        font-size: 17px;
+      }}
+      .brand-subtitle {{
+        font-size: 11px;
+      }}
+      .header-actions .btn {{
+        padding: 6px 11px;
+        font-size: 12px;
+      }}
+      #headerSeriesFeedBtn {{
+        display: none !important;
+      }}
+
+      /* Section Heading: stack title and subtitle cleanly */
+      .section-heading {{
         flex-direction: column;
-        padding: 16px;
-        gap: 14px;
+        align-items: flex-start;
+        gap: 4px;
+        margin-bottom: 14px;
+      }}
+      .section-title {{
+        font-size: 19px;
+      }}
+      .section-subtitle {{
+        font-size: 12.5px;
+      }}
+
+      /* Series Promo Card: small 64x64 square cover beside title, full-width footer below */
+      .series-promo-card {{
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 10px 12px;
+        padding: 14px;
+        align-items: center;
+      }}
+      .series-promo-body {{
+        display: contents;
       }}
       .series-promo-cover {{
-        width: 100%;
-        height: 160px;
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+        grid-column: 1;
+        grid-row: 1;
+      }}
+      .series-card-top-row {{
+        grid-column: 2;
+        grid-row: 1;
+        align-items: flex-start;
+        gap: 8px;
+      }}
+      .series-promo-title {{
+        font-size: 15.5px;
+        line-height: 1.3;
+      }}
+      .series-toggle-btn {{
+        padding: 4px 8px;
+        font-size: 11.5px;
+      }}
+      .series-promo-desc,
+      .series-promo-footer,
+      .series-card-resources {{
+        grid-column: 1 / -1;
+      }}
+      .series-promo-footer {{
+        gap: 10px;
+        font-size: 12.5px;
+        padding-top: 4px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }}
+      .series-card-resources {{
+        gap: 6px;
+      }}
+      .series-card-res-label {{
+        flex-basis: 100%;
+        margin-bottom: 1px;
+      }}
+
+      /* Series View Hero Banner: smaller 96x96 square cover & cleaner spacing */
+      .series-nav-bar {{
+        margin: 14px 0 12px;
+        gap: 8px;
+      }}
+      .back-btn,
+      .series-nav-bar .btn {{
+        padding: 6px 12px;
+        font-size: 12.5px;
       }}
       .hero-banner {{
         flex-direction: column;
         text-align: center;
-        padding: 20px;
+        padding: 18px 16px;
+        gap: 14px;
       }}
       .hero-cover {{
-        width: 140px;
-        height: 140px;
+        width: 96px;
+        height: 96px;
+        border-radius: 12px;
+      }}
+      .hero-title {{
+        font-size: 19px;
+      }}
+      .hero-desc {{
+        font-size: 13px;
+        text-align: left;
       }}
       .hero-stats {{
         justify-content: center;
+        gap: 12px;
+        font-size: 12.5px;
       }}
       .series-resources {{
         justify-content: center;
       }}
+      .resources-pills-wrap {{
+        justify-content: center;
+      }}
+
+      /* Episode Card on Mobile */
+      .episode-card {{
+        padding: 12px 14px;
+      }}
+      .ep-header {{
+        gap: 10px;
+      }}
+      .ep-main-info {{
+        gap: 12px;
+      }}
+      .ep-title {{
+        font-size: 14.5px;
+      }}
+      .ep-toggle-btn {{
+        padding: 5px 8px;
+        font-size: 11.5px;
+      }}
+
+      /* Bottom Persistent Audio Player: 2-row full-width mobile layout */
+      .bottom-player {{
+        padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      }}
+      .player-inner {{
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 8px 10px;
+        align-items: center;
+      }}
+      .player-center {{
+        display: contents;
+      }}
       .track-info {{
-        width: 160px;
+        grid-column: 1;
+        grid-row: 1;
+        width: auto;
+        gap: 8px;
       }}
       .track-thumb {{
-        display: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+      }}
+      .track-title {{
+        font-size: 13px;
+      }}
+      .track-artist {{
+        font-size: 11px;
+      }}
+      .controls-row {{
+        grid-column: 2;
+        grid-row: 1;
+        gap: 8px;
+      }}
+      .ctrl-btn-play {{
+        width: 36px;
+        height: 36px;
       }}
       .player-right {{
-        display: none;
+        grid-column: 3;
+        grid-row: 1;
+        width: auto;
+        display: flex;
+      }}
+      .speed-btn {{
+        padding: 3px 6px;
+        font-size: 11px;
+      }}
+      .progress-row {{
+        grid-column: 1 / -1;
+        grid-row: 2;
+        gap: 8px;
       }}
     }}
   </style>
