@@ -1295,14 +1295,6 @@ html_content = f"""<!DOCTYPE html>
       </div>
     </section>
 
-    <!-- Series View: Episodes Section Header -->
-    <div class="section-heading" id="episodesHeadingSection" style="display: none; margin-top: 10px;">
-      <div class="section-title">
-        <span id="episodesListIcon">📖</span> <span id="episodesListHeading">各集單集目錄</span>
-      </div>
-      <div class="section-subtitle" id="episodesListSubheading">完整收錄</div>
-    </div>
-
     <!-- Series View: Episodes List -->
     <div class="episodes-list" id="episodesList" style="display: none;"></div>
   </div>
@@ -1521,7 +1513,6 @@ html_content = f"""<!DOCTYPE html>
     function renderView() {{
       const overviewSec = document.getElementById('seriesOverviewSection');
       const heroBanner = document.getElementById('seriesHeroBanner');
-      const headingSec = document.getElementById('episodesHeadingSection');
       const epList = document.getElementById('episodesList');
       const headerSeriesBtn = document.getElementById('headerSeriesFeedBtn');
 
@@ -1529,14 +1520,12 @@ html_content = f"""<!DOCTYPE html>
         // Landing Mode: Only show Series Cards Stack
         overviewSec.style.display = 'block';
         heroBanner.style.display = 'none';
-        headingSec.style.display = 'none';
         epList.style.display = 'none';
         headerSeriesBtn.style.display = 'none';
       }} else {{
         // Series Mode: Show Hero, Resources, and Episodes of that specific series
         overviewSec.style.display = 'none';
         heroBanner.style.display = 'flex';
-        headingSec.style.display = 'flex';
         epList.style.display = 'flex';
         headerSeriesBtn.style.display = 'inline-flex';
 
@@ -1559,9 +1548,6 @@ html_content = f"""<!DOCTYPE html>
           document.getElementById('heroStatCount').textContent = `${{sEps.length}} 集`;
           document.getElementById('heroStatDur').textContent = durText;
           document.getElementById('heroStatStatus').textContent = curSeries.status;
-
-          document.getElementById('episodesListHeading').textContent = `${{curSeries.cave_number}}・各集單集目錄`;
-          document.getElementById('episodesListSubheading').textContent = `共 ${{sEps.length}} 集完整版`;
 
           renderSeriesResources(curSeries.id);
 
