@@ -497,6 +497,13 @@ html_content = f"""<!DOCTYPE html>
       flex: 1;
       min-width: 0;
     }}
+    .hero-tag-row {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }}
     .hero-cave-tag {{
       display: inline-block;
       font-size: 12px;
@@ -506,7 +513,6 @@ html_content = f"""<!DOCTYPE html>
       border: 1px solid rgba(212, 175, 55, 0.3);
       padding: 3px 10px;
       border-radius: 12px;
-      margin-bottom: 8px;
       white-space: nowrap;
     }}
     .hero-title {{
@@ -518,10 +524,19 @@ html_content = f"""<!DOCTYPE html>
       word-break: break-word;
     }}
     .hero-desc {{
+      display: none;
       font-size: 14px;
       color: var(--text-muted);
       line-height: 1.6;
       margin-bottom: 14px;
+      padding: 10px 14px;
+      background: rgba(11, 17, 32, 0.4);
+      border-radius: 8px;
+      border-left: 3px solid var(--gold-primary);
+      text-align: left;
+    }}
+    .hero-desc.show {{
+      display: block;
     }}
     .hero-stats {{
       display: flex;
@@ -1119,6 +1134,9 @@ html_content = f"""<!DOCTYPE html>
         height: 96px;
         border-radius: 12px;
       }}
+      .hero-tag-row {{
+        justify-content: center;
+      }}
       .hero-title {{
         font-size: 19px;
       }}
@@ -1265,7 +1283,10 @@ html_content = f"""<!DOCTYPE html>
     <section class="hero-banner" id="seriesHeroBanner" style="display: none;">
       <img id="heroCoverImg" src="assets/cover_cave02.jpg" alt="系列封面" class="hero-cover">
       <div class="hero-info">
-        <div class="hero-cave-tag" id="heroCaveTag">第二窟</div>
+        <div class="hero-tag-row">
+          <div class="hero-cave-tag" id="heroCaveTag">第二窟</div>
+          <button class="series-toggle-btn" id="heroDescToggleBtn" onclick="toggleHeroDesc()">簡介 ▾</button>
+        </div>
         <h1 class="hero-title" id="heroTitle">系列標題</h1>
         <p class="hero-desc" id="heroDesc">系列簡介說明</p>
         <div class="hero-stats" id="heroStats">
@@ -1450,6 +1471,20 @@ html_content = f"""<!DOCTYPE html>
       }}
     }}
 
+    function toggleHeroDesc() {{
+      const descEl = document.getElementById('heroDesc');
+      const btn = document.getElementById('heroDescToggleBtn');
+      if (!descEl || !btn) return;
+
+      if (descEl.classList.contains('show')) {{
+        descEl.classList.remove('show');
+        btn.innerHTML = '簡介 ▾';
+      }} else {{
+        descEl.classList.add('show');
+        btn.innerHTML = '收合 ▴';
+      }}
+    }}
+
     // Render Full-width Series Cards (sorted newest to oldest by season_num descending)
     function renderSeriesCards() {{
       const grid = document.getElementById('seriesCardsGrid');
@@ -1460,9 +1495,6 @@ html_content = f"""<!DOCTYPE html>
         const totalSec = sEps.reduce((acc, cur) => acc + (cur.duration_sec || 0), 0);
         const durHours = Math.round(totalSec / 3600 * 10) / 10;
         const durText = durHours >= 1 ? `${{durHours}} 小時` : `${{Math.round(totalSec/60)}} 分鐘`;
-
-        // Filter resources for this series
-        const sDocs = (PODCAST_DATA.ref_docs_list || []).filter(d => d.series_id === s.id);
 
         return `
           <div class="series-promo-card" id="series-card-${{s.id}}">
@@ -1490,18 +1522,6 @@ html_content = f"""<!DOCTYPE html>
                 <span class="series-promo-stat">狀態：<b>${{s.status}}</b></span>
                 <button class="enter-series-btn" onclick="selectSeries('${{s.id}}')">進入系列 ➔</button>
               </div>
-
-              <!-- Inline References Pills -->
-              ${{sDocs.length > 0 ? `
-                <div class="series-card-resources">
-                  <span class="series-card-res-label">📚 參考文獻：</span>
-                  ${{sDocs.map(doc => `
-                    <button class="resource-pill" style="padding: 3px 10px; font-size: 11px;" onclick="event.stopPropagation(); openDocModal('${{doc.id}}', '${{doc.title}}')">
-                      📑 ${{doc.title}}
-                    </button>
-                  `).join('')}}
-                </div>
-              ` : ''}}
             </div>
           </div>
         `;
@@ -1538,7 +1558,11 @@ html_content = f"""<!DOCTYPE html>
           document.getElementById('heroCoverImg').src = `assets/${{curSeries.cover_dst_name}}`;
           document.getElementById('heroCaveTag').textContent = curSeries.cave_number;
           document.getElementById('heroTitle').textContent = curSeries.title;
-          document.getElementById('heroDesc').textContent = curSeries.description || '';
+          const heroDescEl = document.getElementById('heroDesc');
+          const heroToggleBtn = document.getElementById('heroDescToggleBtn');
+          heroDescEl.textContent = curSeries.description || '';
+          heroDescEl.classList.remove('show');
+          if (heroToggleBtn) heroToggleBtn.innerHTML = '簡介 ▾';
 
           const sEps = PODCAST_DATA.episodes.filter(e => e.series_id === curSeries.id);
           const totalSec = sEps.reduce((acc, cur) => acc + (cur.duration_sec || 0), 0);
