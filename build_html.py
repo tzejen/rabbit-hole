@@ -25,105 +25,121 @@ HTML_PATH = os.path.join(DIST_DIR, "index.html")
 DOCS_DIR = os.path.join(DIST_DIR, "docs")
 os.makedirs(DOCS_DIR, exist_ok=True)
 
-# Load base episodes.json
-with open(JSON_PATH, "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-# 1. Softcoded Series Credits (from active series)
-series_credits = ""
-for s_item in data.get("series", []):
-    s_dir = s_item.get("dir", "")
-    c_path = os.path.join(s_dir, "credits.txt")
-    if os.path.exists(c_path):
-        with open(c_path, "r", encoding="utf-8") as f:
-            series_credits += f.read().strip() + "\n\n"
-data["series_credits"] = series_credits.strip()
-
-# 2. Softcoded Reference Documents (auto-scanned from all registered Series/References/)
-ref_docs_list = []
-series_docs_content = {}
-
 ALLOWED_EXTENSIONS = {".md", ".pdf", ".docx", ".txt", ".html", ".epub"}
 SYSTEM_IGNORE_FILES = {"desktop.ini", "thumbs.db", ".ds_store"}
-active_doc_filenames = set()
 
-for s_item in data.get("series", []):
-    s_dir = s_item.get("dir", "")
-    s_prefix = s_item.get("id", "series")
-    ref_src_dir = os.path.join(s_dir, "References")
+def build_public_html():
+    os.makedirs(DOCS_DIR, exist_ok=True)
+    # Load base episodes.json
+    with open(JSON_PATH, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-    if os.path.exists(ref_src_dir):
-        raw_files = sorted(glob.glob(os.path.join(ref_src_dir, "*")))
-        for fpath in raw_files:
-            if not os.path.isfile(fpath):
-                continue
-            fname = os.path.basename(fpath)
-            dst_fname = f"{s_prefix}_{fname}"
-            active_doc_filenames.add(dst_fname)
-            base_name, ext = os.path.splitext(fname)
-            ext_lower = ext.lower()
+    # 1. Softcoded Series Credits (from active series)
+    series_credits = ""
+    for s_item in data.get("series", []):
+        s_dir = s_item.get("dir", "")
+        c_path = os.path.join(s_dir, "credits.txt")
+        if os.path.exists(c_path):
+            with open(c_path, "r", encoding="utf-8") as f:
+                series_credits += f.read().strip() + "\n\n"
+    data["series_credits"] = series_credits.strip()
 
-            if fname.lower() in SYSTEM_IGNORE_FILES or fname.startswith(".") or fname.startswith("_") or fname.startswith("~$"):
-                continue
-            if "逐字稿" in fname or "transcript" in fname.lower():
-                continue
-            if ext_lower not in ALLOWED_EXTENSIONS:
-                continue
+    # 2. Softcoded Reference Documents (auto-scanned from all registered Series/References/)
+    ref_docs_list = []
+    series_docs_content = {}
+    active_doc_filenames = set()
 
-            # Clean display title: remove numeric prefixes and any [第二窟]/[第一窟] tags
-            clean_title = re.sub(r"^\d+[\._\-\s]*", "", base_name).strip()
-            clean_title = re.sub(r"^\[.*?\]\s*", "", clean_title).strip()
-            display_title = clean_title
-            doc_id = re.sub(r"[^\w\-]", "_", f"{s_prefix}_{base_name}").lower()
+    for s_item in data.get("series", []):
+        s_dir = s_item.get("dir", "")
+        s_prefix = s_item.get("id", "series")
+        ref_src_dir = os.path.join(s_dir, "References")
 
-            dst_path = os.path.join(DOCS_DIR, dst_fname)
-            shutil.copy2(fpath, dst_path)
+        if os.path.exists(ref_src_dir):
+            raw_files = sorted(glob.glob(os.path.join(ref_src_dir, "*")))
+            for fpath in raw_files:
+                if not os.path.isfile(fpath):
+                    continue
+                fname = os.path.basename(fpath)
+                dst_fname = f"{s_prefix}_{fname}"
+                active_doc_filenames.add(dst_fname)
+                base_name, ext = os.path.splitext(fname)
+                ext_lower = ext.lower()
 
-            doc_info = {
-                "id": doc_id,
-                "title": display_title,
-                "filename": dst_fname,
-                "series_id": s_item.get("id"),
-                "ext": ext_lower,
-                "is_pdf": (ext_lower == ".pdf"),
-                "is_download": (ext_lower in [".docx", ".epub"]),
-                "url": f"docs/{dst_fname}"
-            }
+                if fname.lower() in SYSTEM_IGNORE_FILES or fname.startswith(".") or fname.startswith("_") or fname.startswith("~$"):
+                    continue
+                if "逐字稿" in fname or "transcript" in fname.lower():
+                    continue
+                if ext_lower not in ALLOWED_EXTENSIONS:
+                    continue
 
-            if ext_lower in [".md", ".txt", ".json"]:
+                # Clean display title: remove numeric prefixes and any [第二窟]/[第一窟] tags
+                clean_title = re.sub(r"^\d+[\._\-\s]*", "", base_name).strip()
+                clean_title = re.sub(r"^\[.*?\]\s*", "", clean_title).strip()
+                display_title = clean_title
+                doc_id = re.sub(r"[^\w\-]", "_", f"{s_prefix}_{base_name}").lower()
+
+                dst_path = os.path.join(DOCS_DIR, dst_fname)
+                shutil.copy2(fpath, dst_path)
+
+                doc_info = {
+                    "id": doc_id,
+                    "title": display_title,
+                    "filename": dst_fname,
+                    "series_id": s_item.get("id"),
+                    "ext": ext_lower,
+                    "is_pdf": (ext_lower == ".pdf"),
+                    "is_download": (ext_lower in [".docx", ".epub"]),
+                    "url": f"docs/{dst_fname}"
+                }
+
+                if ext_lower in [".md", ".txt", ".json"]:
+                    try:
+                        with open(fpath, "r", encoding="utf-8") as fp:
+                            series_docs_content[doc_id] = fp.read()
+                    except Exception:
+                        series_docs_content[doc_id] = ""
+
+                ref_docs_list.append(doc_info)
+
+    if os.path.exists(DOCS_DIR):
+        for existing_doc in os.listdir(DOCS_DIR):
+            if existing_doc not in active_doc_filenames:
                 try:
-                    with open(fpath, "r", encoding="utf-8") as fp:
-                        series_docs_content[doc_id] = fp.read()
+                    os.remove(os.path.join(DOCS_DIR, existing_doc))
                 except Exception:
-                    series_docs_content[doc_id] = ""
+                    pass
 
-            ref_docs_list.append(doc_info)
+    data["ref_docs_list"] = ref_docs_list
+    data["series_docs_content"] = series_docs_content
 
-if os.path.exists(DOCS_DIR):
-    for existing_doc in os.listdir(DOCS_DIR):
-        if existing_doc not in active_doc_filenames:
-            try:
-                os.remove(os.path.join(DOCS_DIR, existing_doc))
-            except Exception:
-                pass
+    html_content = render_player_html(data, is_private=False)
+    with open(HTML_PATH, "w", encoding="utf-8") as f:
+        f.write(html_content)
 
-data["ref_docs_list"] = ref_docs_list
-data["series_docs_content"] = series_docs_content
+    print(f"[OK] Successfully built updated {HTML_PATH} ({len(html_content):,} bytes)")
 
-# Clean summaries
-for ep in data["episodes"]:
-    ep["summary"] = ep["summary"].replace("Created with Gemini Antigravity and Google Notebook", "").strip()
-    ep["full_notes"] = ep["full_notes"].replace("Created with Gemini Antigravity and Google Notebook", "").strip()
+def render_player_html(data, is_private=False):
+    # Clean summaries
+    for ep in data.get("episodes", []):
+        ep["summary"] = (ep.get("summary") or "").replace("Created with Gemini Antigravity and Google Notebook", "").strip()
+        ep["full_notes"] = (ep.get("full_notes") or "").replace("Created with Gemini Antigravity and Google Notebook", "").strip()
 
-data_json_str = json.dumps(data, ensure_ascii=False)
+    data_json_str = json.dumps(data, ensure_ascii=False)
+    first_series = (data.get("series") or [{}])[0]
+    page_title = f"{first_series.get('title', '兔子洞筆記')} — 兔子洞筆記" if is_private else "兔子洞筆記 — 隨選隨聽客廳"
+    meta_robots = '<meta name="robots" content="noindex, nofollow">' if is_private else '<meta name="description" content="兔子洞筆記 (Notes from the Rabbit Hole)">'
+    brand_attrs = 'class="brand-group" style="cursor: default;"' if is_private else 'class="brand-group" onclick="selectSeries(\'home\')"'
+    header_actions_style = ' style="display: none;"' if is_private else ''
+    default_player_thumb = "cover.jpg" if is_private else "assets/cover_channel_1400.jpg"
+    is_private_js = "true" if is_private else "false"
 
-html_content = f"""<!DOCTYPE html>
+    html_content = f"""<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>兔子洞筆記 — 隨選隨聽客廳</title>
-  <meta name="description" content="兔子洞筆記 (Notes from the Rabbit Hole)">
+  <title>{page_title}</title>
+  {meta_robots}
   <link rel="icon" type="image/png" href="cover_channel.png">
   <style>
     :root {{
@@ -1241,14 +1257,14 @@ html_content = f"""<!DOCTYPE html>
   <header class="site-header">
     <div class="container">
       <div class="header-content">
-        <div class="brand-group" onclick="selectSeries('home')">
-          <img src="cover_channel.png" alt="兔子洞筆記封面" class="brand-avatar">
+        <div {brand_attrs}>
+          <img src="cover_channel.png" onerror="this.src='cover.jpg'" alt="兔子洞筆記封面" class="brand-avatar">
           <div>
             <div class="brand-title">兔子洞筆記</div>
             <div class="brand-subtitle">Notes from the Rabbit Hole</div>
           </div>
         </div>
-        <div class="header-actions">
+        <div class="header-actions"{header_actions_style}>
           <button class="btn btn-outline" onclick="openSubscribeModal('all')">
             <span>📡 總頻道 RSS</span>
           </button>
@@ -1274,7 +1290,7 @@ html_content = f"""<!DOCTYPE html>
 
     <!-- Series View: Hero Banner -->
     <section class="hero-banner" id="seriesHeroBanner" style="display: none;">
-      <img id="heroCoverImg" src="assets/cover_cave02.jpg" alt="系列封面" class="hero-cover">
+      <img id="heroCoverImg" src="{default_player_thumb}" alt="系列封面" class="hero-cover">
       <div class="hero-info">
         <div class="hero-tag-row">
           <div class="hero-cave-tag" id="heroCaveTag">第二窟</div>
@@ -1305,7 +1321,7 @@ html_content = f"""<!DOCTYPE html>
   <div class="bottom-player" id="bottomPlayer">
     <div class="player-inner">
       <div class="track-info">
-        <img id="playerThumb" src="assets/cover_channel_1400.jpg" class="track-thumb" alt="封面">
+        <img id="playerThumb" src="{default_player_thumb}" class="track-thumb" alt="封面">
         <div class="track-text">
           <div class="track-title" id="playerTitle">點擊任一單集開始收聽</div>
           <div class="track-artist" id="playerArtist">兔子洞筆記</div>
@@ -1380,6 +1396,7 @@ html_content = f"""<!DOCTYPE html>
 
   <script>
     const PODCAST_DATA = {data_json_str};
+    const IS_PRIVATE = {is_private_js};
 
     let activeSeriesId = 'home'; // 'home' or series_id ('cave02', 'cave01')
     let currentPlayingEp = null;
@@ -1404,6 +1421,11 @@ html_content = f"""<!DOCTYPE html>
     const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
 
     function init() {{
+      if (IS_PRIVATE && PODCAST_DATA.series.length > 0) {{
+        activeSeriesId = PODCAST_DATA.series[0].id;
+        renderView();
+        return;
+      }}
       const hash = window.location.hash.replace('#', '').trim();
       if (hash && PODCAST_DATA.series.some(s => s.id === hash)) {{
         activeSeriesId = hash;
@@ -1416,6 +1438,7 @@ html_content = f"""<!DOCTYPE html>
     }}
 
     window.addEventListener('hashchange', () => {{
+      if (IS_PRIVATE) return;
       const hash = window.location.hash.replace('#', '').trim();
       if (hash && PODCAST_DATA.series.some(s => s.id === hash)) {{
         if (activeSeriesId !== hash) {{
@@ -1431,6 +1454,7 @@ html_content = f"""<!DOCTYPE html>
     }});
 
     function selectSeries(seriesId) {{
+      if (IS_PRIVATE) return;
       activeSeriesId = seriesId;
       if (seriesId === 'home') {{
         history.pushState(null, '', window.location.pathname);
@@ -1529,11 +1553,11 @@ html_content = f"""<!DOCTYPE html>
         overviewSec.style.display = 'none';
         heroBanner.style.display = 'flex';
         epList.style.display = 'flex';
-        headerSeriesBtn.style.display = 'inline-flex';
+        headerSeriesBtn.style.display = IS_PRIVATE ? 'none' : 'inline-flex';
 
         const curSeries = PODCAST_DATA.series.find(s => s.id === activeSeriesId);
         if (curSeries) {{
-          document.getElementById('heroCoverImg').src = `assets/${{curSeries.cover_dst_name}}`;
+          document.getElementById('heroCoverImg').src = curSeries.cover_url || `assets/${{curSeries.cover_dst_name}}`;
           document.getElementById('heroCaveTag').textContent = curSeries.cave_number;
           document.getElementById('heroTitle').textContent = curSeries.title;
           const heroDescEl = document.getElementById('heroDesc');
@@ -1844,8 +1868,7 @@ html_content = f"""<!DOCTYPE html>
 </body>
 </html>
 """
+    return html_content
 
-with open(HTML_PATH, "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-print(f"[OK] Successfully built updated {HTML_PATH} ({len(html_content):,} bytes)")
+if __name__ == "__main__":
+    build_public_html()

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-02 12:44",
+  "updated_at": "2026-11-02 12:58",
   "github_user": "tzejen",
   "github_repo": "rabbit-hole",
   "total_series": 2,
@@ -124,60 +124,21 @@
   ],
   "workspace_other_series": [
     {
-      "dir_name": "201610_福岡",
-      "count": 4,
+      "dir_name": "聖雅各朝聖之路_Gemini",
+      "count": 5,
+      "date": "2026-10-18",
+      "mtime": 1792316738.701,
       "sample_episodes": [
-        "福岡為何叫博多",
-        "福岡傳統做給誰看",
-        "博多名物非原創"
-      ]
-    },
-    {
-      "dir_name": "201610_福岡_AGY",
-      "count": 6,
-      "sample_episodes": [
-        "福岡的兩座城",
-        "福岡寺社與深秋祭典",
-        "福岡飲食與屋台"
-      ]
-    },
-    {
-      "dir_name": "Berry Plastics",
-      "count": 1,
-      "sample_episodes": [
-        "Berry项目十周年记忆_20261001"
-      ]
-    },
-    {
-      "dir_name": "中國佛教造像",
-      "count": 11,
-      "sample_episodes": [
-        "佛陀曾是希臘老外",
-        "5 魏晉南北朝的系統重灌",
-        "泥巴捏出的巨佛"
-      ]
-    },
-    {
-      "dir_name": "中國佛教造像_Gemini",
-      "count": 10,
-      "sample_episodes": [
-        "無像時代的破曉與漢代早期佛像_NotebookLM",
-        "絲路綠洲與北涼涼州模式_NotebookLM",
-        "皇帝即如來與雲岡曇曜五窟_NotebookLM"
-      ]
-    },
-    {
-      "dir_name": "斯里蘭卡",
-      "count": 13,
-      "sample_episodes": [
-        "D0_錫蘭紅茶是意外",
-        "D10_加勒古城與蓮花塔",
-        "D11_斯里蘭卡的日常禮物"
+        "走上千年繁星之路_NotebookLM",
+        "翻越庇里牛斯山到高原麥浪_NotebookLM",
+        "行前打包的減法藝術_NotebookLM"
       ]
     },
     {
       "dir_name": "絲襪文化符號學",
       "count": 16,
+      "date": "2026-10-18",
+      "mtime": 1792302224.138,
       "sample_episodes": [
         "權力的第二層皮膚_NotebookLM",
         "裙擺下的視線革命_NotebookLM",
@@ -185,12 +146,67 @@
       ]
     },
     {
-      "dir_name": "聖雅各朝聖之路_Gemini",
-      "count": 5,
+      "dir_name": "中國佛教造像_Gemini",
+      "count": 10,
+      "date": "2026-10-18",
+      "mtime": 1792253256.673,
       "sample_episodes": [
-        "走上千年繁星之路_NotebookLM",
-        "翻越庇里牛斯山到高原麥浪_NotebookLM",
-        "行前打包的減法藝術_NotebookLM"
+        "無像時代的破曉與漢代早期佛像_NotebookLM",
+        "絲路綠洲與北涼涼州模式_NotebookLM",
+        "皇帝即如來與雲岡曇曜五窟_NotebookLM"
+      ]
+    },
+    {
+      "dir_name": "201610_福岡_AGY",
+      "count": 6,
+      "date": "2026-10-16",
+      "mtime": 1792148257.734,
+      "sample_episodes": [
+        "福岡的兩座城",
+        "福岡寺社與深秋祭典",
+        "福岡飲食與屋台"
+      ]
+    },
+    {
+      "dir_name": "201610_福岡",
+      "count": 4,
+      "date": "2026-10-16",
+      "mtime": 1792111079.84,
+      "sample_episodes": [
+        "福岡為何叫博多",
+        "福岡傳統做給誰看",
+        "博多名物非原創"
+      ]
+    },
+    {
+      "dir_name": "中國佛教造像",
+      "count": 11,
+      "date": "2026-10-02",
+      "mtime": 1790933682.638,
+      "sample_episodes": [
+        "佛陀曾是希臘老外",
+        "5 魏晉南北朝的系統重灌",
+        "泥巴捏出的巨佛"
+      ]
+    },
+    {
+      "dir_name": "Berry Plastics",
+      "count": 1,
+      "date": "2026-10-01",
+      "mtime": 1790830861.113,
+      "sample_episodes": [
+        "Berry项目十周年记忆_20261001"
+      ]
+    },
+    {
+      "dir_name": "斯里蘭卡",
+      "count": 13,
+      "date": "2026-10-01",
+      "mtime": 1790812554.503,
+      "sample_episodes": [
+        "D0_錫蘭紅茶是意外",
+        "D10_加勒古城與蓮花塔",
+        "D11_斯里蘭卡的日常禮物"
       ]
     }
   ]

@@ -409,6 +409,7 @@ def main():
 
     # 3. Build Web Player (index.html)
     import build_html
+    build_html.build_public_html()
 
     # 4. Build Unlisted Private Pages
     try:

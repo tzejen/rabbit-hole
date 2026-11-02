@@ -315,12 +315,13 @@ def build_private_series(entry):
     # Series metadata bundle
     series_entry = {
         "id": slug,
-        "cave_number": "未公開專題",
+        "cave_number": status,
         "title": s_title,
         "description": series_desc,
         "dir": s_dir,
         "cover_src": cover_src,
         "cover_dst_name": cover_dst_name,
+        "cover_url": cover_dst_name,
         "season_num": 1,
         "status": status
     }
@@ -364,1150 +365,19 @@ def build_private_series(entry):
     return summary
 
 def generate_private_html(output_dir, series_info, episodes, ref_docs, docs_content):
-    for ep in episodes:
-        ep["summary"] = (ep.get("summary") or "").replace("Created with Gemini Antigravity and Google Notebook", "").strip()
-        ep["full_notes"] = (ep.get("full_notes") or "").replace("Created with Gemini Antigravity and Google Notebook", "").strip()
-
-    total_sec = sum(ep.get("duration_sec", 0.0) for ep in episodes)
-    dur_hours = round(total_sec / 3600 * 10) / 10
-    dur_text = f"{dur_hours} 小時" if dur_hours >= 1 else f"{round(total_sec / 60)} 分鐘"
+    from build_html import render_player_html
 
     data_bundle = {
-        "series_info": series_info,
+        "series": [series_info],
         "episodes": episodes,
         "ref_docs_list": ref_docs,
         "series_docs_content": docs_content
     }
-    data_json_str = json.dumps(data_bundle, ensure_ascii=False)
-
-    html_content = f"""<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{series_info['title']} — 兔子洞筆記</title>
-  <meta name="robots" content="noindex, nofollow">
-  <link rel="icon" type="image/jpeg" href="cover.jpg">
-  <style>
-    :root {{
-      --bg-midnight: #0b1120;
-      --bg-card: #131d35;
-      --bg-card-hover: #192745;
-      --bg-player: #0f172a;
-      --gold-primary: #d4af37;
-      --gold-light: #f3d478;
-      --gold-dim: #997e29;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --border-color: rgba(212, 175, 55, 0.2);
-      --border-focus: rgba(212, 175, 55, 0.5);
-      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-    }}
-
-    * {{
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }}
-
-    body {{
-      font-family: var(--font-stack);
-      background-color: var(--bg-midnight);
-      color: var(--text-main);
-      line-height: 1.6;
-      padding-bottom: 140px;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }}
-
-    a {{
-      color: var(--gold-light);
-      text-decoration: none;
-      transition: color 0.2s;
-    }}
-    a:hover {{
-      color: var(--gold-primary);
-      text-decoration: underline;
-    }}
-
-    .container {{
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }}
-
-    /* Top Sticky/Fixed Header Bar */
-    .site-header {{
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11, 17, 32, 0.94);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-color);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    }}
-    .header-content {{
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 12px 0;
-    }}
-    .brand-group {{
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      cursor: default;
-      user-select: none;
-      min-width: 0;
-    }}
-    .brand-avatar {{
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 1px solid var(--border-color);
-      flex-shrink: 0;
-    }}
-    .brand-title {{
-      font-size: 19px;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }}
-    .brand-subtitle {{
-      font-size: 12px;
-      color: var(--gold-light);
-      font-weight: 400;
-      margin-top: 1px;
-      white-space: nowrap;
-    }}
-
-    .series-toggle-btn {{
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-muted);
-      border-radius: 6px;
-      padding: 5px 10px;
-      font-size: 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }}
-    .series-toggle-btn:hover {{
-      border-color: var(--gold-primary);
-      color: var(--gold-light);
-      background: rgba(212, 175, 55, 0.1);
-    }}
-
-    /* Series Hero Banner (Header Box) */
-    .hero-banner {{
-      background: linear-gradient(145deg, #131d35 0%, #172442 100%);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 28px;
-      margin: 20px 0 24px;
-      display: flex;
-      gap: 28px;
-      align-items: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }}
-    .hero-cover {{
-      width: 170px;
-      height: 170px;
-      border-radius: 16px;
-      object-fit: cover;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-      border: 1px solid var(--border-color);
-      flex-shrink: 0;
-    }}
-    .hero-info {{
-      flex: 1;
-      min-width: 0;
-    }}
-    .hero-tag-row {{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-    }}
-    .hero-cave-tag {{
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--gold-primary);
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      padding: 3px 10px;
-      border-radius: 12px;
-      white-space: nowrap;
-    }}
-    .hero-title {{
-      font-size: 24px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 10px;
-      line-height: 1.3;
-      word-break: break-word;
-    }}
-    .hero-desc {{
-      display: none;
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 14px;
-      padding: 10px 14px;
-      background: rgba(11, 17, 32, 0.4);
-      border-radius: 8px;
-      border-left: 3px solid var(--gold-primary);
-      text-align: left;
-      white-space: pre-line;
-    }}
-    .hero-desc.show {{
-      display: block;
-    }}
-    .hero-stats {{
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      font-size: 13px;
-      color: var(--text-dim);
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }}
-    .stat-item {{
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: baseline;
-      gap: 4px;
-    }}
-    .stat-item b {{
-      color: var(--gold-light);
-      font-weight: 600;
-      white-space: nowrap;
-    }}
-
-    .series-resources {{
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }}
-    .resources-label {{
-      font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 600;
-      white-space: nowrap;
-    }}
-    .resources-pills-wrap {{
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }}
-    .resource-pill {{
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }}
-    .resource-pill:hover {{
-      background: rgba(212, 175, 55, 0.15);
-      border-color: var(--gold-primary);
-      color: var(--gold-light);
-      text-decoration: none;
-    }}
-
-    /* Episodes List */
-    .episodes-list {{
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }}
-    .episode-card {{
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 16px 20px;
-      transition: all 0.2s ease;
-    }}
-    .episode-card:hover {{
-      background: var(--bg-card-hover);
-      border-color: var(--border-focus);
-    }}
-    .episode-card.is-playing {{
-      border-color: var(--gold-primary);
-      background: rgba(212, 175, 55, 0.06);
-    }}
-    .ep-header {{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-    }}
-    .ep-main-info {{
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex: 1;
-      cursor: pointer;
-      min-width: 0;
-    }}
-    .ep-play-col {{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-    }}
-    .ep-play-btn {{
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid var(--border-color);
-      color: var(--gold-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }}
-    .episode-card:hover .ep-play-btn {{
-      background: var(--gold-primary);
-      color: #0b1120;
-      transform: scale(1.05);
-    }}
-    .episode-card.is-playing .ep-play-btn {{
-      background: var(--gold-primary);
-      color: #0b1120;
-    }}
-    .ep-duration-tag {{
-      font-size: 11px;
-      color: var(--text-dim);
-      font-family: monospace;
-      white-space: nowrap;
-    }}
-    .ep-text-block {{
-      flex: 1;
-      min-width: 0;
-    }}
-    .ep-title {{
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.4;
-      word-break: break-word;
-    }}
-    .episode-card.is-playing .ep-title {{
-      color: var(--gold-light);
-    }}
-    .ep-toggle-btn {{
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-muted);
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 12px;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }}
-    .ep-toggle-btn:hover {{
-      border-color: var(--gold-primary);
-      color: var(--gold-light);
-    }}
-    .ep-details {{
-      display: none;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }}
-    .ep-details.show {{
-      display: block;
-    }}
-    .ep-summary-text {{
-      font-size: 13.5px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 12px;
-      white-space: pre-line;
-    }}
-    .chapters-title {{
-      font-size: 12px;
-      color: var(--gold-light);
-      margin-bottom: 8px;
-      font-weight: 600;
-    }}
-    .chapters-grid {{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }}
-    .chapter-pill {{
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }}
-    .chapter-pill:hover {{
-      background: rgba(212, 175, 55, 0.15);
-      border-color: var(--gold-primary);
-      color: var(--gold-light);
-    }}
-    .chapter-time {{
-      font-family: monospace;
-      color: var(--gold-dim);
-      font-size: 11px;
-    }}
-
-    /* Bottom Persistent Audio Player */
-    .bottom-player {{
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(15, 23, 42, 0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-top: 1px solid var(--border-color);
-      padding: 12px 24px;
-      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.6);
-      z-index: 200;
-    }}
-    .player-inner {{
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }}
-    .track-info {{
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 260px;
-      min-width: 0;
-    }}
-    .track-thumb {{
-      width: 48px;
-      height: 48px;
-      border-radius: 8px;
-      object-fit: cover;
-      border: 1px solid var(--border-color);
-      flex-shrink: 0;
-    }}
-    .track-text {{
-      min-width: 0;
-    }}
-    .track-title {{
-      font-size: 14px;
-      font-weight: 600;
-      color: #ffffff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }}
-    .track-artist {{
-      font-size: 12px;
-      color: var(--gold-light);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }}
-    .player-center {{
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }}
-    .controls-row {{
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }}
-    .ctrl-btn {{
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s;
-    }}
-    .ctrl-btn:hover {{
-      color: var(--gold-light);
-    }}
-    .ctrl-btn-play {{
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: var(--gold-primary);
-      color: #0b1120;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.2s, background 0.2s;
-    }}
-    .ctrl-btn-play:hover {{
-      transform: scale(1.08);
-      background: var(--gold-light);
-    }}
-    .progress-row {{
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }}
-    .time-label {{
-      font-size: 11px;
-      font-family: monospace;
-      color: var(--text-dim);
-      width: 42px;
-      text-align: center;
-      white-space: nowrap;
-    }}
-    .progress-bar {{
-      flex: 1;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }}
-    .progress-fill {{
-      height: 100%;
-      background: var(--gold-primary);
-      border-radius: 3px;
-      width: 0%;
-      transition: width 0.1s linear;
-    }}
-    .player-right {{
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100px;
-      justify-content: flex-end;
-    }}
-    .speed-btn {{
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border-color);
-      color: var(--gold-light);
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: monospace;
-      cursor: pointer;
-      white-space: nowrap;
-    }}
-
-    /* Modals */
-    .modal-backdrop {{
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
-      z-index: 300;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }}
-    .modal-backdrop.active {{
-      display: flex;
-    }}
-    .modal-window {{
-      background: #131d35;
-      border: 1px solid var(--border-color);
-      border-radius: 18px;
-      width: 100%;
-      max-width: 720px;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 28px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-      position: relative;
-    }}
-    .modal-close {{
-      position: absolute;
-      top: 18px;
-      right: 20px;
-      background: transparent;
-      border: none;
-      color: var(--text-dim);
-      font-size: 24px;
-      cursor: pointer;
-    }}
-    .modal-close:hover {{
-      color: #ffffff;
-    }}
-    .modal-title {{
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 12px;
-    }}
-    .pre-box {{
-      background: #0b1120;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 16px;
-      font-size: 13px;
-      color: var(--text-main);
-      white-space: pre-wrap;
-      word-break: break-word;
-      line-height: 1.7;
-      max-height: 60vh;
-      overflow-y: auto;
-      font-family: var(--font-stack);
-    }}
-
-    @media (max-width: 768px) {{
-      .container {{
-        padding: 0 14px;
-      }}
-      .header-content {{
-        padding: 10px 0;
-        gap: 8px;
-      }}
-      .brand-group {{
-        gap: 10px;
-      }}
-      .brand-avatar {{
-        width: 38px;
-        height: 38px;
-        border-radius: 8px;
-      }}
-      .brand-title {{
-        font-size: 17px;
-      }}
-      .brand-subtitle {{
-        font-size: 11px;
-      }}
-      .hero-banner {{
-        flex-direction: column;
-        text-align: center;
-        padding: 18px 16px;
-        gap: 14px;
-      }}
-      .hero-cover {{
-        width: 96px;
-        height: 96px;
-        border-radius: 12px;
-      }}
-      .hero-tag-row {{
-        justify-content: center;
-      }}
-      .hero-title {{
-        font-size: 19px;
-      }}
-      .hero-desc {{
-        font-size: 13px;
-        text-align: left;
-      }}
-      .hero-stats {{
-        justify-content: center;
-        gap: 12px;
-        font-size: 12.5px;
-      }}
-      .series-resources {{
-        justify-content: center;
-      }}
-      .resources-pills-wrap {{
-        justify-content: center;
-      }}
-      .episode-card {{
-        padding: 12px 14px;
-      }}
-      .ep-header {{
-        gap: 10px;
-      }}
-      .ep-main-info {{
-        gap: 12px;
-      }}
-      .ep-title {{
-        font-size: 14.5px;
-      }}
-      .ep-toggle-btn {{
-        padding: 5px 8px;
-        font-size: 11.5px;
-      }}
-      .bottom-player {{
-        padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-      }}
-      .player-inner {{
-        display: grid;
-        grid-template-columns: 1fr auto auto;
-        gap: 8px 10px;
-        align-items: center;
-      }}
-      .player-center {{
-        display: contents;
-      }}
-      .track-info {{
-        grid-column: 1;
-        grid-row: 1;
-        width: auto;
-        gap: 8px;
-      }}
-      .track-thumb {{
-        width: 36px;
-        height: 36px;
-        border-radius: 6px;
-      }}
-      .track-title {{
-        font-size: 13px;
-      }}
-      .track-artist {{
-        font-size: 11px;
-      }}
-      .controls-row {{
-        grid-column: 2;
-        grid-row: 1;
-        gap: 8px;
-      }}
-      .ctrl-btn-play {{
-        width: 36px;
-        height: 36px;
-      }}
-      .player-right {{
-        grid-column: 3;
-        grid-row: 1;
-        width: auto;
-        display: flex;
-      }}
-      .speed-btn {{
-        padding: 3px 6px;
-        font-size: 11px;
-      }}
-      .progress-row {{
-        grid-column: 1 / -1;
-        grid-row: 2;
-        gap: 8px;
-      }}
-    }}
-  </style>
-</head>
-<body>
-
-  <header class="site-header">
-    <div class="container">
-      <div class="header-content">
-        <div class="brand-group">
-          <img src="cover_channel.png" onerror="this.src='cover.jpg'" alt="兔子洞筆記封面" class="brand-avatar">
-          <div>
-            <div class="brand-title">兔子洞筆記</div>
-            <div class="brand-subtitle">Notes from the Rabbit Hole</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="container">
-    <!-- Series View: Hero Banner (Header Box) -->
-    <section class="hero-banner" id="seriesHeroBanner">
-      <img id="heroCoverImg" src="cover.jpg" alt="系列封面" class="hero-cover">
-      <div class="hero-info">
-        <div class="hero-tag-row">
-          <div class="hero-cave-tag" id="heroCaveTag">{series_info['status']}</div>
-          <button class="series-toggle-btn" id="heroDescToggleBtn" onclick="toggleHeroDesc()">簡介 ▾</button>
-        </div>
-        <h1 class="hero-title" id="heroTitle">{series_info['title']}</h1>
-        <p class="hero-desc" id="heroDesc">{series_info['description']}</p>
-        <div class="hero-stats" id="heroStats">
-          <div class="stat-item">集數：<b id="heroStatCount">{len(episodes)} 集</b></div>
-          <div class="stat-item">總長：<b id="heroStatDur">{dur_text}</b></div>
-          <div class="stat-item">狀態：<b id="heroStatStatus">{series_info['status']}</b></div>
-        </div>
-
-        <div class="series-resources" id="seriesResourcesBox" style="display: none;">
-          <span class="resources-label">📚 系列資料庫：</span>
-          <div class="resources-pills-wrap" id="resourcesPillsWrap"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Episodes List -->
-    <div class="episodes-list" id="episodesList"></div>
-  </div>
-
-  <!-- Bottom Persistent Audio Player -->
-  <div class="bottom-player" id="bottomPlayer">
-    <div class="player-inner">
-      <div class="track-info">
-        <img id="playerThumb" src="cover.jpg" class="track-thumb" alt="封面">
-        <div class="track-text">
-          <div class="track-title" id="playerTitle">點擊任一單集開始收聽</div>
-          <div class="track-artist" id="playerArtist">{series_info['title']}</div>
-        </div>
-      </div>
-
-      <div class="player-center">
-        <div class="controls-row">
-          <button class="ctrl-btn" onclick="playPrev()" title="上一集">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-          </button>
-          <button class="ctrl-btn" onclick="skipTime(-15)" title="倒退 15 秒">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.2 3.16-1.98 5.12-1.98 3.53 0 6.51 2.37 7.42 5.62l2.38-.79C20.81 11.23 17.03 8 12.5 8z"/></svg>
-          </button>
-          <button class="ctrl-btn-play" id="playBtn" onclick="togglePlay()" title="播放/暫停">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>
-          </button>
-          <button class="ctrl-btn" onclick="skipTime(30)" title="快進 30 秒">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.2-3.16-1.98-5.12-1.98-3.53 0-6.51 2.37-7.42 5.62l-2.38-.79C3.19 11.23 6.97 8 11.5 8z"/></svg>
-          </button>
-          <button class="ctrl-btn" onclick="playNext()" title="下一集">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-          </button>
-        </div>
-
-        <div class="progress-row">
-          <span class="time-label" id="currentTime">00:00</span>
-          <div class="progress-bar" id="progressBar" onclick="seek(event)">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <span class="time-label" id="totalDuration">00:00</span>
-        </div>
-      </div>
-
-      <div class="player-right">
-        <button class="speed-btn" id="speedBtn" onclick="cycleSpeed()">1.0x</button>
-      </div>
-    </div>
-  </div>
-
-  <audio id="audioElement" preload="metadata"></audio>
-
-  <!-- Resource Document Modal -->
-  <div class="modal-backdrop" id="resourceModal" onclick="closeModal('resourceModal')">
-    <div class="modal-window" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeModal('resourceModal')">&times;</button>
-      <div class="modal-title" id="resourceModalTitle">📑 參考資料</div>
-      <pre class="pre-box" id="resourceModalContent"></pre>
-    </div>
-  </div>
-
-  <script>
-    const DATA = {data_json_str};
-    let currentPlayingEp = null;
-    let isPlaying = false;
-
-    const audio = document.getElementById('audioElement');
-    const playBtn = document.getElementById('playBtn');
-    const playerTitle = document.getElementById('playerTitle');
-    const playerArtist = document.getElementById('playerArtist');
-    const playerThumb = document.getElementById('playerThumb');
-    const currentTimeEl = document.getElementById('currentTime');
-    const totalDurationEl = document.getElementById('totalDuration');
-    const progressFill = document.getElementById('progressFill');
-    const speedBtn = document.getElementById('speedBtn');
-
-    const speeds = [1.0, 1.25, 1.5, 2.0];
-    let currentSpeedIdx = 0;
-
-    const SVG_PLAY = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
-    const SVG_PAUSE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
-    const SVG_PLAY_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
-    const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
-
-    function init() {{
-      renderSeriesResources();
-      renderEpisodesList();
-    }}
-
-    function toggleHeroDesc() {{
-      const descEl = document.getElementById('heroDesc');
-      const btn = document.getElementById('heroDescToggleBtn');
-      if (!descEl || !btn) return;
-
-      if (descEl.classList.contains('show')) {{
-        descEl.classList.remove('show');
-        btn.innerHTML = '簡介 ▾';
-      }} else {{
-        descEl.classList.add('show');
-        btn.innerHTML = '收合 ▴';
-      }}
-    }}
-
-    function renderSeriesResources() {{
-      const box = document.getElementById('seriesResourcesBox');
-      const wrap = document.getElementById('resourcesPillsWrap');
-      const docs = DATA.ref_docs_list || [];
-
-      if (docs.length === 0) {{
-        box.style.display = 'none';
-        return;
-      }}
-      box.style.display = 'flex';
-      wrap.innerHTML = docs.map(doc => {{
-        if (doc.is_pdf) {{
-          return `<a href="${{doc.url}}" target="_blank" class="resource-pill" title="查看 PDF 文件">📄 ${{doc.title}}</a>`;
-        }} else if (doc.is_download) {{
-          return `<a href="${{doc.url}}" download class="resource-pill" title="下載文件">📝 ${{doc.title}}</a>`;
-        }} else {{
-          return `<button class="resource-pill" onclick="openDocModal('${{doc.id}}', '${{doc.title}}')">📑 ${{doc.title}}</button>`;
-        }}
-      }}).join('');
-    }}
-
-    function renderEpisodesList() {{
-      const list = document.getElementById('episodesList');
-      list.innerHTML = DATA.episodes.map(ep => {{
-        const isCurrentPlaying = (currentPlayingEp && currentPlayingEp.release_filename === ep.release_filename);
-        return `
-          <div class="episode-card ${{isCurrentPlaying ? 'is-playing' : ''}}" id="card-${{ep.release_filename}}">
-            <div class="ep-header">
-              <div class="ep-main-info" onclick="handleEpisodeClick('${{ep.release_filename}}')">
-                <div class="ep-play-col">
-                  <div class="ep-play-btn" id="play-btn-${{ep.release_filename}}">
-                    ${{(isCurrentPlaying && isPlaying) ? SVG_PAUSE : SVG_PLAY}}
-                  </div>
-                  <div class="ep-duration-tag">${{ep.duration_fmt}}</div>
-                </div>
-                <div class="ep-text-block">
-                  <div class="ep-title">${{ep.title}}</div>
-                </div>
-              </div>
-              <button class="ep-toggle-btn" onclick="toggleDetails('${{ep.release_filename}}', event)">
-                展開 ▾
-              </button>
-            </div>
-
-            <div class="ep-details" id="details-${{ep.release_filename}}">
-              <div class="ep-summary-text">${{ep.summary || ep.full_notes || ''}}</div>
-              ${{ep.chapters && ep.chapters.length > 0 ? `
-                <div class="chapters-title">📑 本集章節時間軸（點擊直接跳轉收聽）</div>
-                <div class="chapters-grid">
-                  ${{ep.chapters.map(ch => `
-                    <div class="chapter-pill" onclick="jumpToChapter('${{ep.release_filename}}', ${{ch.start}})">
-                      <span class="chapter-time">${{ch.start_fmt}}</span>
-                      <span class="chapter-name" title="${{ch.title}}">${{ch.title}}</span>
-                    </div>
-                  `).join('')}}
-                </div>
-              ` : ''}}
-            </div>
-          </div>
-        `;
-      }}).join('');
-    }}
-
-    function toggleDetails(relFname, evt) {{
-      if (evt) evt.stopPropagation();
-      const el = document.getElementById(`details-${{relFname}}`);
-      const btn = evt.currentTarget;
-      if (el.classList.contains('show')) {{
-        el.classList.remove('show');
-        btn.textContent = '展開 ▾';
-      }} else {{
-        el.classList.add('show');
-        btn.textContent = '收合 ▴';
-      }}
-    }}
-
-    function handleEpisodeClick(relFname) {{
-      const ep = DATA.episodes.find(e => e.release_filename === relFname);
-      if (!ep) return;
-
-      if (currentPlayingEp && currentPlayingEp.release_filename === relFname && audio.src) {{
-        togglePlay();
-      }} else {{
-        loadAndPlayEpisode(ep);
-      }}
-    }}
-
-    function loadAndPlayEpisode(ep) {{
-      currentPlayingEp = ep;
-      audio.src = ep.audio_url;
-      audio.playbackRate = speeds[currentSpeedIdx];
-      playerTitle.textContent = ep.title;
-      playerArtist.textContent = ep.series_title;
-      playerThumb.src = ep.cover_image || 'cover.jpg';
-
-      updateAllCardPlayStates(true);
-      audio.play().then(() => {{
-        isPlaying = true;
-        updatePlayIcons(true);
-      }}).catch(e => console.log('Audio playback error: ', e));
-    }}
-
-    function jumpToChapter(relFname, timestamp) {{
-      const ep = DATA.episodes.find(e => e.release_filename === relFname);
-      if (!ep) return;
-
-      if (!currentPlayingEp || currentPlayingEp.release_filename !== relFname) {{
-        loadAndPlayEpisode(ep);
-      }}
-      audio.currentTime = timestamp;
-      audio.play().then(() => {{
-        isPlaying = true;
-        updatePlayIcons(true);
-      }});
-    }}
-
-    function togglePlay() {{
-      if (!audio.src || audio.src.endsWith('.html') || audio.src.endsWith('/')) {{
-        if (DATA.episodes.length > 0) {{
-          loadAndPlayEpisode(DATA.episodes[0]);
-        }}
-        return;
-      }}
-      if (audio.paused) {{
-        audio.play().then(() => {{
-          isPlaying = true;
-          updatePlayIcons(true);
-          updateAllCardPlayStates(true);
-        }});
-      }} else {{
-        audio.pause();
-        isPlaying = false;
-        updatePlayIcons(false);
-        updateAllCardPlayStates(false);
-      }}
-    }}
-
-    function updatePlayIcons(playing) {{
-      playBtn.innerHTML = playing ? SVG_PAUSE_LG : SVG_PLAY_LG;
-    }}
-
-    function updateAllCardPlayStates(playing) {{
-      document.querySelectorAll('.episode-card').forEach(c => {{
-        c.classList.remove('is-playing');
-        const fname = c.id.replace('card-', '');
-        const btn = document.getElementById(`play-btn-${{fname}}`);
-        if (btn) btn.innerHTML = SVG_PLAY;
-      }});
-      if (currentPlayingEp) {{
-        const activeCard = document.getElementById(`card-${{currentPlayingEp.release_filename}}`);
-        if (activeCard) {{
-          activeCard.classList.add('is-playing');
-          const btn = document.getElementById(`play-btn-${{currentPlayingEp.release_filename}}`);
-          if (btn) btn.innerHTML = playing ? SVG_PAUSE : SVG_PLAY;
-        }}
-      }}
-    }}
-
-    function playNext() {{
-      if (!currentPlayingEp) return;
-      const idx = DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
-      if (idx !== -1 && idx < DATA.episodes.length - 1) {{
-        loadAndPlayEpisode(DATA.episodes[idx + 1]);
-      }}
-    }}
-
-    function playPrev() {{
-      if (!currentPlayingEp) return;
-      const idx = DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
-      if (idx > 0) {{
-        loadAndPlayEpisode(DATA.episodes[idx - 1]);
-      }}
-    }}
-
-    function skipTime(delta) {{
-      if (!audio.duration) return;
-      audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + delta));
-    }}
-
-    function seek(e) {{
-      if (!audio.duration) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      audio.currentTime = pos * audio.duration;
-    }}
-
-    function cycleSpeed() {{
-      currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
-      const spd = speeds[currentSpeedIdx];
-      audio.playbackRate = spd;
-      speedBtn.textContent = `${{spd.toFixed(spd % 1 === 0 ? 1 : 2)}}x`;
-    }}
-
-    audio.addEventListener('timeupdate', () => {{
-      if (!isNaN(audio.duration)) {{
-        const percent = (audio.currentTime / audio.duration) * 100;
-        progressFill.style.width = percent + '%';
-        currentTimeEl.textContent = formatSec(audio.currentTime);
-        totalDurationEl.textContent = formatSec(audio.duration);
-      }}
-    }});
-
-    audio.addEventListener('play', () => {{
-      isPlaying = true;
-      updatePlayIcons(true);
-      updateAllCardPlayStates(true);
-    }});
-
-    audio.addEventListener('pause', () => {{
-      isPlaying = false;
-      updatePlayIcons(false);
-      updateAllCardPlayStates(false);
-    }});
-
-    audio.addEventListener('ended', () => {{
-      playNext();
-    }});
-
-    function formatSec(sec) {{
-      if (isNaN(sec)) return '00:00';
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return `${{m.toString().padStart(2, '0')}}:${{s.toString().padStart(2, '0')}}`;
-    }}
-
-    function openDocModal(docId, docTitle) {{
-      const modal = document.getElementById('resourceModal');
-      const title = document.getElementById('resourceModalTitle');
-      const box = document.getElementById('resourceModalContent');
-
-      title.textContent = `📑 ${{docTitle}}`;
-      box.textContent = DATA.series_docs_content[docId] || '尚無文檔內容。';
-      modal.classList.add('active');
-    }}
-
-    function closeModal(id) {{
-      document.getElementById(id).classList.remove('active');
-    }}
-
-    init();
-  </script>
-</body>
-</html>
-"""
+    html_content = render_player_html(data_bundle, is_private=True)
     out_html = os.path.join(output_dir, "index.html")
     with open(out_html, "w", encoding="utf-8") as f:
         f.write(html_content)
-    print(f"   [OK] Generated private companion player -> {out_html} ({len(html_content):,} bytes)")
+    print(f"   [OK] Generated private companion player (shared build_html template) -> {out_html} ({len(html_content):,} bytes)")
 
 def scan_workspace_other_series(configured_dirs):
     public_dirs = set()
@@ -1534,6 +404,15 @@ def scan_workspace_other_series(configured_dirs):
     if os.path.exists(archive_dir):
         known_dirs.add(os.path.abspath(archive_dir))
 
+    ignore_file = os.path.join(DIST_DIR, "wip_ignore.txt")
+    ignored_wips = set()
+    if os.path.exists(ignore_file):
+        with open(ignore_file, "r", encoding="utf-8") as f:
+            for line in f:
+                s = line.strip()
+                if s and not s.startswith("#"):
+                    ignored_wips.add(s)
+
     other_series = []
     try:
         for entry in os.scandir(BASE_DIR):
@@ -1541,6 +420,8 @@ def scan_workspace_other_series(configured_dirs):
                 continue
             abs_p = os.path.abspath(entry.path)
             if abs_p in known_dirs:
+                continue
+            if entry.name in ignored_wips:
                 continue
             if entry.name.startswith(".") or entry.name.startswith("_"):
                 continue
@@ -1567,15 +448,21 @@ def scan_workspace_other_series(configured_dirs):
                     clean = re.sub(r"^(?:Ep\d+|\d+)[\s\-_:：]*", "", base).strip()
                     sample_titles.append(clean or base)
 
+                latest_mtime = max(os.path.getmtime(f) for f in m4as)
+                latest_date_str = datetime.fromtimestamp(latest_mtime).strftime("%Y-%m-%d")
+
                 other_series.append({
                     "dir_name": entry.name,
                     "count": len(m4as),
+                    "date": latest_date_str,
+                    "mtime": latest_mtime,
                     "sample_episodes": sample_titles
                 })
     except Exception as e:
         print(f"[WARN] Error scanning other workspace series: {e}")
 
-    other_series.sort(key=lambda x: x["dir_name"])
+    # Sort by date in descending order (newest first)
+    other_series.sort(key=lambda x: x["mtime"], reverse=True)
     return other_series
 
 def generate_private_index(series_summaries, other_workspace_series):
@@ -2034,12 +921,72 @@ def generate_private_index(series_summaries, other_workspace_series):
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 12px;
+      position: relative;
+      transition: border-color 0.15s ease;
+    }
+    .other-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+    .wip-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
     }
     .other-name {
       font-size: 14px;
       font-weight: 600;
       color: var(--text-light);
-      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .wip-header-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .wip-date {
+      font-size: 11px;
+      color: #8b949e;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .btn-del-wip {
+      background: transparent;
+      border: 1px solid rgba(248, 81, 73, 0.35);
+      color: #f85149;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      line-height: 1.3;
+      transition: all 0.15s ease;
+    }
+    .btn-del-wip:hover {
+      background: rgba(248, 81, 73, 0.18);
+      border-color: #f85149;
+    }
+    .btn-restore {
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: all 0.15s ease;
+    }
+    .btn-restore:hover {
+      color: var(--text-light);
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.05);
     }
     .other-meta {
       font-size: 12px;
@@ -2376,23 +1323,75 @@ def generate_private_index(series_summaries, other_workspace_series):
 
     function renderOtherSeries() {
       const others = appData.workspace_other_series || [];
-      document.getElementById('otherSeriesCount').textContent = `${others.length} 個目錄`;
+      let dismissed = [];
+      try {
+        dismissed = JSON.parse(localStorage.getItem('rabbit_hole_dismissed_wip') || '[]');
+      } catch (e) { dismissed = []; }
+
+      const visibleOthers = others.filter(o => !dismissed.includes(o.dir_name));
+      const countEl = document.getElementById('otherSeriesCount');
+      if (dismissed.length > 0) {
+        countEl.innerHTML = `${visibleOthers.length} 個目錄 <button class="btn-restore" onclick="restoreDismissedWip(event)" title="點擊復原已隱藏的 ${dismissed.length} 個專題">↩️ 復原 ${dismissed.length} 個</button>`;
+      } else {
+        countEl.textContent = `${visibleOthers.length} 個目錄`;
+      }
 
       const grid = document.getElementById('otherGrid');
-      if (others.length === 0) {
-        grid.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">無其他未配置的音檔目錄。</div>';
+      if (visibleOthers.length === 0) {
+        if (dismissed.length > 0) {
+          grid.innerHTML = `<div style="color: var(--text-muted); font-size: 13px; padding: 12px 0;">已移除所有待發布專題。<button class="btn-restore" onclick="restoreDismissedWip(event)">↩️ 復原全部 (${dismissed.length} 個)</button></div>`;
+        } else {
+          grid.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">無其他未配置的音檔目錄。</div>';
+        }
         return;
       }
 
-      grid.innerHTML = others.map(o => `
-        <div class="other-card">
-          <div class="other-name">📁 ${escapeHtml(o.dir_name)}</div>
-          <div class="other-meta">包含 ${o.count} 個音檔</div>
+      grid.innerHTML = visibleOthers.map(o => `
+        <div class="other-card" id="wip_${escapeAttr(o.dir_name)}">
+          <div class="wip-header-row">
+            <div class="other-name" title="${escapeHtml(o.dir_name)}">📁 ${escapeHtml(o.dir_name)}</div>
+            <div class="wip-header-right">
+              <span class="wip-date">📅 ${escapeHtml(o.date || '')}</span>
+              <button class="btn-del-wip" onclick="dismissWipCard('${escapeAttr(o.dir_name)}')" title="從此清單移除（不會刪除本機檔案）">✕ 移除</button>
+            </div>
+          </div>
+          <div class="other-meta">包含 <strong>${o.count}</strong> 個音檔 · 更新時間：${escapeHtml(o.date || '')}</div>
           ${o.sample_episodes && o.sample_episodes.length ? `
             <div class="other-sample">範例：${escapeHtml(o.sample_episodes.join('、'))}</div>
           ` : ''}
         </div>
       `).join('');
+    }
+
+    function dismissWipCard(dirName) {
+      if (!confirm(`確定要從此清單移除「${dirName}」嗎？\\n\\n（注意：這只會從網頁清單中移除，絕不會刪除電腦中的任何檔案）`)) {
+        return;
+      }
+      let dismissed = [];
+      try {
+        dismissed = JSON.parse(localStorage.getItem('rabbit_hole_dismissed_wip') || '[]');
+      } catch (e) { dismissed = []; }
+      if (!dismissed.includes(dirName)) {
+        dismissed.push(dirName);
+        localStorage.setItem('rabbit_hole_dismissed_wip', JSON.stringify(dismissed));
+      }
+      renderOtherSeries();
+      showToast(`✓ 已從清單移除「${dirName}」（本機檔案保留）`);
+    }
+
+    function restoreDismissedWip(event) {
+      if (event) event.stopPropagation();
+      localStorage.removeItem('rabbit_hole_dismissed_wip');
+      renderOtherSeries();
+      showToast('✓ 已復原所有已隱藏的待發布專題！');
+    }
+
+    function escapeAttr(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/\\\\/g, '\\\\\\\\')
+        .replace(/'/g, "\\\\'")
+        .replace(/"/g, '&quot;');
     }
 
     function copySecretLink(url) {

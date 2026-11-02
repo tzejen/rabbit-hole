@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>尾道漫遊：坡道、老屋與島波海道 — 兔子洞筆記</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="icon" type="image/jpeg" href="cover.jpg">
+  <link rel="icon" type="image/png" href="cover_channel.png">
   <style>
     :root {
       --bg-midnight: #0b1120;
@@ -36,7 +36,6 @@
       line-height: 1.6;
       padding-bottom: 140px;
       min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
     }
 
     a {
@@ -68,7 +67,7 @@
     }
     .header-content {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
       padding: 12px 0;
     }
@@ -76,7 +75,7 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      cursor: default;
+      cursor: pointer;
       user-select: none;
       min-width: 0;
     }
@@ -102,6 +101,169 @@
       margin-top: 1px;
       white-space: nowrap;
     }
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      outline: none;
+      white-space: nowrap;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dim) 100%);
+      color: #0b1120;
+      font-weight: 600;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+      text-decoration: none;
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+    .btn-outline:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.05);
+      text-decoration: none;
+    }
+
+    /* Breadcrumbs / Back button in Series View */
+    .series-nav-bar {
+      margin: 20px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .back-btn:hover {
+      background: var(--gold-primary);
+      color: #0b1120;
+      text-decoration: none;
+      border-color: var(--gold-primary);
+    }
+
+    /* Series Cards Overview (Full-width vertical stack, sorted newest to oldest) */
+    .series-overview-section {
+      margin: 24px 0 32px;
+    }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 18px;
+    }
+    .section-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .series-list-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .series-promo-card {
+      background: linear-gradient(145deg, #131d35 0%, #172442 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      position: relative;
+      cursor: pointer;
+    }
+    .series-promo-card:hover {
+      border-color: var(--gold-primary);
+      box-shadow: 0 10px 28px rgba(212, 175, 55, 0.18);
+    }
+    .series-promo-cover {
+      width: 96px;
+      height: 96px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+    .series-promo-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .series-card-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .series-title-group {
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
+    }
+    .series-promo-cave {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      display: inline-block;
+    }
+    .series-promo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .series-promo-title:hover {
+      color: var(--gold-light);
+    }
 
     .series-toggle-btn {
       background: rgba(255, 255, 255, 0.05);
@@ -124,7 +286,77 @@
       background: rgba(212, 175, 55, 0.1);
     }
 
-    /* Series Hero Banner (Header Box) */
+    .series-promo-desc {
+      display: none;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding: 10px 14px;
+      background: rgba(11, 17, 32, 0.4);
+      border-radius: 8px;
+      border-left: 3px solid var(--gold-primary);
+      margin: 4px 0 6px;
+    }
+    .series-promo-desc.show {
+      display: block;
+    }
+
+    .series-promo-footer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-dim);
+      flex-wrap: wrap;
+    }
+    .series-promo-stat {
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .series-promo-stat b {
+      color: var(--gold-light);
+      white-space: nowrap;
+    }
+
+    .series-card-resources {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .series-card-res-label {
+      font-size: 11px;
+      color: var(--text-dim);
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .enter-series-btn {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 4px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .enter-series-btn:hover {
+      background: var(--gold-primary);
+      color: #0b1120;
+      border-color: var(--gold-primary);
+    }
+
+    /* Series Hero Banner (Dedicated Series View) */
     .hero-banner {
       background: linear-gradient(145deg, #131d35 0%, #172442 100%);
       border: 1px solid var(--border-color);
@@ -186,7 +418,6 @@
       border-radius: 8px;
       border-left: 3px solid var(--gold-primary);
       text-align: left;
-      white-space: pre-line;
     }
     .hero-desc.show {
       display: block;
@@ -210,6 +441,15 @@
       color: var(--gold-light);
       font-weight: 600;
       white-space: nowrap;
+    }
+
+    .hero-credits {
+      font-size: 12px;
+      color: var(--gold-light);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .series-resources {
@@ -364,7 +604,6 @@
       color: var(--text-muted);
       line-height: 1.6;
       margin-bottom: 12px;
-      white-space: pre-line;
     }
     .chapters-title {
       font-size: 12px;
@@ -569,7 +808,7 @@
       border: 1px solid var(--border-color);
       border-radius: 18px;
       width: 100%;
-      max-width: 720px;
+      max-width: 580px;
       max-height: 85vh;
       overflow-y: auto;
       padding: 28px;
@@ -595,6 +834,58 @@
       color: #ffffff;
       margin-bottom: 12px;
     }
+    .modal-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .feed-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .feed-input {
+      flex: 1;
+      background: #0b1120;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--gold-light);
+      font-family: monospace;
+      font-size: 13px;
+    }
+    .steps-list {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      padding-left: 20px;
+    }
+    .steps-list b {
+      color: #ffffff;
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold-primary);
+      color: #0b1120;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      z-index: 400;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .toast.show {
+      opacity: 1;
+    }
+
     .pre-box {
       background: #0b1120;
       border: 1px solid var(--border-color);
@@ -614,6 +905,7 @@
       .container {
         padding: 0 14px;
       }
+      /* Header: prevent vertical text wrapping & hide duplicate series button */
       .header-content {
         padding: 10px 0;
         gap: 8px;
@@ -631,6 +923,89 @@
       }
       .brand-subtitle {
         font-size: 11px;
+      }
+      .header-actions .btn {
+        padding: 6px 11px;
+        font-size: 12px;
+      }
+      #headerSeriesFeedBtn {
+        display: none !important;
+      }
+
+      /* Section Heading: stack title and subtitle cleanly */
+      .section-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        margin-bottom: 14px;
+      }
+      .section-title {
+        font-size: 19px;
+      }
+      .section-subtitle {
+        font-size: 12.5px;
+      }
+
+      /* Series Promo Card: small 64x64 square cover beside title, full-width footer below */
+      .series-promo-card {
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 10px 12px;
+        padding: 14px;
+        align-items: center;
+      }
+      .series-promo-body {
+        display: contents;
+      }
+      .series-promo-cover {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .series-card-top-row {
+        grid-column: 2;
+        grid-row: 1;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .series-promo-title {
+        font-size: 15.5px;
+        line-height: 1.3;
+      }
+      .series-toggle-btn {
+        padding: 4px 8px;
+        font-size: 11.5px;
+      }
+      .series-promo-desc,
+      .series-promo-footer,
+      .series-card-resources {
+        grid-column: 1 / -1;
+      }
+      .series-promo-footer {
+        gap: 10px;
+        font-size: 12.5px;
+        padding-top: 4px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .series-card-resources {
+        gap: 6px;
+      }
+      .series-card-res-label {
+        flex-basis: 100%;
+        margin-bottom: 1px;
+      }
+
+      /* Series View Hero Banner: smaller 96x96 square cover & cleaner spacing */
+      .series-nav-bar {
+        margin: 14px 0 12px;
+        gap: 8px;
+      }
+      .back-btn,
+      .series-nav-bar .btn {
+        padding: 6px 12px;
+        font-size: 12.5px;
       }
       .hero-banner {
         flex-direction: column;
@@ -664,6 +1039,8 @@
       .resources-pills-wrap {
         justify-content: center;
       }
+
+      /* Episode Card on Mobile */
       .episode-card {
         padding: 12px 14px;
       }
@@ -680,6 +1057,8 @@
         padding: 5px 8px;
         font-size: 11.5px;
       }
+
+      /* Bottom Persistent Audio Player: 2-row full-width mobile layout */
       .bottom-player {
         padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
       }
@@ -738,46 +1117,69 @@
 </head>
 <body>
 
+  <div id="toast" class="toast">已複製到剪貼簿！</div>
+
   <header class="site-header">
     <div class="container">
       <div class="header-content">
-        <div class="brand-group">
+        <div class="brand-group" style="cursor: default;">
           <img src="cover_channel.png" onerror="this.src='cover.jpg'" alt="兔子洞筆記封面" class="brand-avatar">
           <div>
             <div class="brand-title">兔子洞筆記</div>
             <div class="brand-subtitle">Notes from the Rabbit Hole</div>
           </div>
         </div>
+        <div class="header-actions" style="display: none;">
+          <button class="btn btn-outline" onclick="openSubscribeModal('all')">
+            <span>📡 總頻道 RSS</span>
+          </button>
+          <button class="btn btn-gold" id="headerSeriesFeedBtn" style="display: none;" onclick="openCurrentSeriesFeed()">
+            <span>🎙️ 訂閱本專題</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
   <div class="container">
-    <!-- Series View: Hero Banner (Header Box) -->
-    <section class="hero-banner" id="seriesHeroBanner">
+    <!-- Home View: Full-width Series Cards (sorted newest to oldest) -->
+    <section class="series-overview-section" id="seriesOverviewSection">
+      <div class="section-heading">
+        <div class="section-title">
+          <span>🏛️</span> <span>探索洞窟</span>
+        </div>
+        <div class="section-subtitle">點擊系列卡片進入專題導覽與單集收聽</div>
+      </div>
+      <div class="series-list-stack" id="seriesCardsGrid"></div>
+    </section>
+
+    <!-- Series View: Hero Banner -->
+    <section class="hero-banner" id="seriesHeroBanner" style="display: none;">
       <img id="heroCoverImg" src="cover.jpg" alt="系列封面" class="hero-cover">
       <div class="hero-info">
         <div class="hero-tag-row">
-          <div class="hero-cave-tag" id="heroCaveTag">內部搶先版</div>
+          <div class="hero-cave-tag" id="heroCaveTag">第二窟</div>
           <button class="series-toggle-btn" id="heroDescToggleBtn" onclick="toggleHeroDesc()">簡介 ▾</button>
         </div>
-        <h1 class="hero-title" id="heroTitle">尾道漫遊：坡道、老屋與島波海道</h1>
-        <p class="hero-desc" id="heroDesc">本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。</p>
+        <h1 class="hero-title" id="heroTitle">系列標題</h1>
+        <p class="hero-desc" id="heroDesc">系列簡介說明</p>
         <div class="hero-stats" id="heroStats">
-          <div class="stat-item">集數：<b id="heroStatCount">5 集</b></div>
-          <div class="stat-item">總長：<b id="heroStatDur">1.5 小時</b></div>
-          <div class="stat-item">狀態：<b id="heroStatStatus">內部搶先版</b></div>
+          <div class="stat-item">集數：<b id="heroStatCount">0 集</b></div>
+          <div class="stat-item">總長：<b id="heroStatDur">0 分鐘</b></div>
+          <div class="stat-item">狀態：<b id="heroStatStatus">已上線</b></div>
         </div>
 
-        <div class="series-resources" id="seriesResourcesBox" style="display: none;">
+        <div class="hero-credits" id="heroCreditsContainer"></div>
+
+        <div class="series-resources" id="seriesResourcesBox">
           <span class="resources-label">📚 系列資料庫：</span>
           <div class="resources-pills-wrap" id="resourcesPillsWrap"></div>
         </div>
       </div>
     </section>
 
-    <!-- Episodes List -->
-    <div class="episodes-list" id="episodesList"></div>
+    <!-- Series View: Episodes List -->
+    <div class="episodes-list" id="episodesList" style="display: none;"></div>
   </div>
 
   <!-- Bottom Persistent Audio Player -->
@@ -787,7 +1189,7 @@
         <img id="playerThumb" src="cover.jpg" class="track-thumb" alt="封面">
         <div class="track-text">
           <div class="track-title" id="playerTitle">點擊任一單集開始收聽</div>
-          <div class="track-artist" id="playerArtist">尾道漫遊：坡道、老屋與島波海道</div>
+          <div class="track-artist" id="playerArtist">兔子洞筆記</div>
         </div>
       </div>
 
@@ -827,9 +1229,30 @@
 
   <audio id="audioElement" preload="metadata"></audio>
 
+  <!-- Combined Subscribe Modal -->
+  <div class="modal-backdrop" id="subscribeModal" onclick="closeModal('subscribeModal')">
+    <div class="modal-window" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('subscribeModal')">&times;</button>
+      <div class="modal-title" id="subscribeModalTitle">訂閱《兔子洞筆記》</div>
+      <p class="modal-desc" id="subscribeModalDesc">
+        複製下方的私人 Podcast RSS 訂閱連結，在任何你常用的播客 App 內貼上即可完成訂閱。
+      </p>
+      <div class="feed-box">
+        <input type="text" id="modalFeedInput" class="feed-input" readonly value="">
+        <button class="btn btn-gold" style="padding: 6px 14px; font-size: 13px;" onclick="copyModalFeed()">複製連結</button>
+      </div>
+      <h4 style="font-size: 14px; color: var(--gold-light); margin-bottom: 8px;">如何在 App 中貼上網址？</h4>
+      <ol class="steps-list">
+        <li><b>Apple Podcasts</b>：打開 App → 點擊下方「資料庫」 → 點右上角「...」 → 選擇「透過 URL 追蹤節目」並貼上。</li>
+        <li><b>Pocket Casts / Overcast</b>：直接在頂部搜尋欄貼上這段網址並按搜尋。</li>
+        <li>未來更新的所有新集數，都會自動在你的手機背景同步下載！</li>
+      </ol>
+    </div>
+  </div>
+
   <!-- Resource Document Modal -->
   <div class="modal-backdrop" id="resourceModal" onclick="closeModal('resourceModal')">
-    <div class="modal-window" onclick="event.stopPropagation()">
+    <div class="modal-window" style="max-width: 720px;" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="closeModal('resourceModal')">&times;</button>
       <div class="modal-title" id="resourceModalTitle">📑 參考資料</div>
       <pre class="pre-box" id="resourceModalContent"></pre>
@@ -837,7 +1260,10 @@
   </div>
 
   <script>
-    const DATA = {"series_info": {"id": "onomichi-wip-8f2a1d", "cave_number": "未公開專題", "title": "尾道漫遊：坡道、老屋與島波海道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "dir": "G:\\My Drive\\NotebookLM\\202610_尾道", "cover_src": "G:\\My Drive\\NotebookLM\\202610_尾道\\cover.jpg", "cover_dst_name": "cover.jpg", "season_num": 1, "status": "內部搶先版"}, "episodes": [{"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 1, "title": "Ep01 尾道山城老屋再生", "filename": "01_尾道山城老屋再生.m4a", "release_filename": "01_尾道山城老屋再生.m4a", "audio_url": "audio/01_尾道山城老屋再生.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\01_尾道山城老屋再生.m4a", "file_size": 34086358, "duration_sec": 1059.085351, "duration_fmt": "17:39", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:18 +0000", "pub_date_iso": "2026-11-02T04:44:18.487785+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "filename": "02_大師鏡頭與筆下的尾道.m4a", "release_filename": "02_大師鏡頭與筆下的尾道.m4a", "audio_url": "audio/02_大師鏡頭與筆下的尾道.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\02_大師鏡頭與筆下的尾道.m4a", "file_size": 33624456, "duration_sec": 1044.73542, "duration_fmt": "17:24", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:18 +0000", "pub_date_iso": "2026-11-02T04:44:18.631694+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 3, "title": "Ep03 尾道立體散步地圖", "filename": "03_尾道立體散步地圖.m4a", "release_filename": "03_尾道立體散步地圖.m4a", "audio_url": "audio/03_尾道立體散步地圖.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\03_尾道立體散步地圖.m4a", "file_size": 36979188, "duration_sec": 1148.969796, "duration_fmt": "19:08", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:18 +0000", "pub_date_iso": "2026-11-02T04:44:18.770022+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 4, "title": "Ep04 島波海道電輔車跳島", "filename": "04_島波海道電輔車跳島.m4a", "release_filename": "04_島波海道電輔車跳島.m4a", "audio_url": "audio/04_島波海道電輔車跳島.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\04_島波海道電輔車跳島.m4a", "file_size": 30878161, "duration_sec": 959.402086, "duration_fmt": "15:59", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:18 +0000", "pub_date_iso": "2026-11-02T04:44:18.912569+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 5, "title": "Ep05 尾道拉麵與行前清單", "filename": "05_尾道拉麵與行前清單.m4a", "release_filename": "05_尾道拉麵與行前清單.m4a", "audio_url": "audio/05_尾道拉麵與行前清單.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\05_尾道拉麵與行前清單.m4a", "file_size": 33430973, "duration_sec": 1038.721451, "duration_fmt": "17:18", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:19 +0000", "pub_date_iso": "2026-11-02T04:44:19.048425+00:00"}], "ref_docs_list": [{"id": "onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良", "title": "Ep1 港口與寺廟_尾道怎麼變成西之奈良", "filename": "Ep1 港口與寺廟_尾道怎麼變成西之奈良.md", "series_id": "onomichi-wip-8f2a1d", "ext": ".md", "is_pdf": false, "is_download": false, "url": "docs/Ep1 港口與寺廟_尾道怎麼變成西之奈良.md"}], "series_docs_content": {"onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良": "\n        \n          \n            \n              \n      \n        \n        \n      \n     \n      \n        \n              \n            \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n      \n    \n            \n            \n              \n      \n        \n              Search results\n              \n            \n        \n        \n        No emoji found\n      \n     \n      \n        \n              Recently used\n              \n            \n        \n        \n      \n    \n             \n            \n              \n            \n            Loading\n          \n          \n        \n      "}};
+    const PODCAST_DATA = {"series": [{"id": "onomichi-wip-8f2a1d", "cave_number": "內部搶先版", "title": "尾道漫遊：坡道、老屋與島波海道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "dir": "G:\\My Drive\\NotebookLM\\202610_尾道", "cover_src": "G:\\My Drive\\NotebookLM\\202610_尾道\\cover.jpg", "cover_dst_name": "cover.jpg", "cover_url": "cover.jpg", "season_num": 1, "status": "內部搶先版"}], "episodes": [{"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 1, "title": "Ep01 尾道山城老屋再生", "filename": "01_尾道山城老屋再生.m4a", "release_filename": "01_尾道山城老屋再生.m4a", "audio_url": "audio/01_尾道山城老屋再生.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\01_尾道山城老屋再生.m4a", "file_size": 34086358, "duration_sec": 1059.085351, "duration_fmt": "17:39", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:58:41 +0000", "pub_date_iso": "2026-11-02T04:58:41.933512+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "filename": "02_大師鏡頭與筆下的尾道.m4a", "release_filename": "02_大師鏡頭與筆下的尾道.m4a", "audio_url": "audio/02_大師鏡頭與筆下的尾道.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\02_大師鏡頭與筆下的尾道.m4a", "file_size": 33624456, "duration_sec": 1044.73542, "duration_fmt": "17:24", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:58:42 +0000", "pub_date_iso": "2026-11-02T04:58:42.061901+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 3, "title": "Ep03 尾道立體散步地圖", "filename": "03_尾道立體散步地圖.m4a", "release_filename": "03_尾道立體散步地圖.m4a", "audio_url": "audio/03_尾道立體散步地圖.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\03_尾道立體散步地圖.m4a", "file_size": 36979188, "duration_sec": 1148.969796, "duration_fmt": "19:08", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:58:42 +0000", "pub_date_iso": "2026-11-02T04:58:42.193375+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 4, "title": "Ep04 島波海道電輔車跳島", "filename": "04_島波海道電輔車跳島.m4a", "release_filename": "04_島波海道電輔車跳島.m4a", "audio_url": "audio/04_島波海道電輔車跳島.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\04_島波海道電輔車跳島.m4a", "file_size": 30878161, "duration_sec": 959.402086, "duration_fmt": "15:59", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:58:42 +0000", "pub_date_iso": "2026-11-02T04:58:42.329256+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 5, "title": "Ep05 尾道拉麵與行前清單", "filename": "05_尾道拉麵與行前清單.m4a", "release_filename": "05_尾道拉麵與行前清單.m4a", "audio_url": "audio/05_尾道拉麵與行前清單.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\05_尾道拉麵與行前清單.m4a", "file_size": 33430973, "duration_sec": 1038.721451, "duration_fmt": "17:18", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:58:42 +0000", "pub_date_iso": "2026-11-02T04:58:42.454513+00:00"}], "ref_docs_list": [{"id": "onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良", "title": "Ep1 港口與寺廟_尾道怎麼變成西之奈良", "filename": "Ep1 港口與寺廟_尾道怎麼變成西之奈良.md", "series_id": "onomichi-wip-8f2a1d", "ext": ".md", "is_pdf": false, "is_download": false, "url": "docs/Ep1 港口與寺廟_尾道怎麼變成西之奈良.md"}], "series_docs_content": {"onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良": "\n        \n          \n            \n              \n      \n        \n        \n      \n     \n      \n        \n              \n            \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n      \n    \n            \n            \n              \n      \n        \n              Search results\n              \n            \n        \n        \n        No emoji found\n      \n     \n      \n        \n              Recently used\n              \n            \n        \n        \n      \n    \n             \n            \n              \n            \n            Loading\n          \n          \n        \n      "}};
+    const IS_PRIVATE = true;
+
+    let activeSeriesId = 'home'; // 'home' or series_id ('cave02', 'cave01')
     let currentPlayingEp = null;
     let isPlaying = false;
 
@@ -860,8 +1286,63 @@
     const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
 
     function init() {
-      renderSeriesResources();
-      renderEpisodesList();
+      if (IS_PRIVATE && PODCAST_DATA.series.length > 0) {
+        activeSeriesId = PODCAST_DATA.series[0].id;
+        renderView();
+        return;
+      }
+      const hash = window.location.hash.replace('#', '').trim();
+      if (hash && PODCAST_DATA.series.some(s => s.id === hash)) {
+        activeSeriesId = hash;
+      } else {
+        activeSeriesId = 'home';
+      }
+
+      renderSeriesCards();
+      renderView();
+    }
+
+    window.addEventListener('hashchange', () => {
+      if (IS_PRIVATE) return;
+      const hash = window.location.hash.replace('#', '').trim();
+      if (hash && PODCAST_DATA.series.some(s => s.id === hash)) {
+        if (activeSeriesId !== hash) {
+          activeSeriesId = hash;
+          renderView();
+        }
+      } else if (!hash || hash === 'home') {
+        if (activeSeriesId !== 'home') {
+          activeSeriesId = 'home';
+          renderView();
+        }
+      }
+    });
+
+    function selectSeries(seriesId) {
+      if (IS_PRIVATE) return;
+      activeSeriesId = seriesId;
+      if (seriesId === 'home') {
+        history.pushState(null, '', window.location.pathname);
+      } else {
+        window.location.hash = seriesId;
+      }
+      renderView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleSeriesDesc(sId, evt) {
+      if (evt) evt.stopPropagation();
+      const descEl = document.getElementById(`series-desc-${sId}`);
+      const btn = document.getElementById(`series-toggle-btn-${sId}`);
+      if (!descEl || !btn) return;
+
+      if (descEl.classList.contains('show')) {
+        descEl.classList.remove('show');
+        btn.innerHTML = '簡介 ▾';
+      } else {
+        descEl.classList.add('show');
+        btn.innerHTML = '收合 ▴';
+      }
     }
 
     function toggleHeroDesc() {
@@ -878,10 +1359,100 @@
       }
     }
 
-    function renderSeriesResources() {
+    // Render Full-width Series Cards (sorted newest to oldest by season_num descending)
+    function renderSeriesCards() {
+      const grid = document.getElementById('seriesCardsGrid');
+      const sortedSeries = [...PODCAST_DATA.series].sort((a, b) => (b.season_num || 0) - (a.season_num || 0));
+
+      grid.innerHTML = sortedSeries.map(s => {
+        const sEps = PODCAST_DATA.episodes.filter(e => e.series_id === s.id);
+        const totalSec = sEps.reduce((acc, cur) => acc + (cur.duration_sec || 0), 0);
+        const durHours = Math.round(totalSec / 3600 * 10) / 10;
+        const durText = durHours >= 1 ? `${durHours} 小時` : `${Math.round(totalSec/60)} 分鐘`;
+
+        return `
+          <div class="series-promo-card" id="series-card-${s.id}" onclick="selectSeries('${s.id}')">
+            <img src="assets/${s.cover_dst_name}" alt="${s.title}" class="series-promo-cover">
+            <div class="series-promo-body">
+              <div class="series-card-top-row">
+                <div class="series-title-group">
+                  <span class="series-promo-cave">${s.cave_number}</span>
+                  <div class="series-promo-title">${s.title}</div>
+                </div>
+                <button class="series-toggle-btn" id="series-toggle-btn-${s.id}" onclick="toggleSeriesDesc('${s.id}', event)">
+                  簡介 ▾
+                </button>
+              </div>
+
+              <!-- Collapsible description (closed by default) -->
+              <div class="series-promo-desc" id="series-desc-${s.id}" onclick="event.stopPropagation()">
+                ${s.description || '探索深度人文歷史與文化專題。'}
+              </div>
+
+              <!-- Stats -->
+              <div class="series-promo-footer">
+                <span class="series-promo-stat">集數：<b>${sEps.length} 集</b></span>
+                <span class="series-promo-stat">時長：<b>${durText}</b></span>
+                <span class="series-promo-stat">狀態：<b>${s.status}</b></span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderView() {
+      const overviewSec = document.getElementById('seriesOverviewSection');
+      const heroBanner = document.getElementById('seriesHeroBanner');
+      const epList = document.getElementById('episodesList');
+      const headerSeriesBtn = document.getElementById('headerSeriesFeedBtn');
+
+      if (activeSeriesId === 'home') {
+        // Landing Mode: Only show Series Cards Stack
+        overviewSec.style.display = 'block';
+        heroBanner.style.display = 'none';
+        epList.style.display = 'none';
+        headerSeriesBtn.style.display = 'none';
+      } else {
+        // Series Mode: Show Hero, Resources, and Episodes of that specific series
+        overviewSec.style.display = 'none';
+        heroBanner.style.display = 'flex';
+        epList.style.display = 'flex';
+        headerSeriesBtn.style.display = IS_PRIVATE ? 'none' : 'inline-flex';
+
+        const curSeries = PODCAST_DATA.series.find(s => s.id === activeSeriesId);
+        if (curSeries) {
+          document.getElementById('heroCoverImg').src = curSeries.cover_url || `assets/${curSeries.cover_dst_name}`;
+          document.getElementById('heroCaveTag').textContent = curSeries.cave_number;
+          document.getElementById('heroTitle').textContent = curSeries.title;
+          const heroDescEl = document.getElementById('heroDesc');
+          const heroToggleBtn = document.getElementById('heroDescToggleBtn');
+          heroDescEl.textContent = curSeries.description || '';
+          heroDescEl.classList.remove('show');
+          if (heroToggleBtn) heroToggleBtn.innerHTML = '簡介 ▾';
+
+          const sEps = PODCAST_DATA.episodes.filter(e => e.series_id === curSeries.id);
+          const totalSec = sEps.reduce((acc, cur) => acc + (cur.duration_sec || 0), 0);
+          const durHours = Math.round(totalSec / 3600 * 10) / 10;
+          const durText = durHours >= 1 ? `${durHours} 小時` : `${Math.round(totalSec/60)} 分鐘`;
+
+          document.getElementById('heroStatCount').textContent = `${sEps.length} 集`;
+          document.getElementById('heroStatDur').textContent = durText;
+          document.getElementById('heroStatStatus').textContent = curSeries.status;
+
+          renderSeriesResources(curSeries.id);
+
+          // In dedicated series view, order sequentially 1..N
+          const seriesEps = [...sEps].sort((a, b) => a.episode - b.episode);
+          renderEpisodesList(seriesEps);
+        }
+      }
+    }
+
+    function renderSeriesResources(seriesId) {
       const box = document.getElementById('seriesResourcesBox');
       const wrap = document.getElementById('resourcesPillsWrap');
-      const docs = DATA.ref_docs_list || [];
+      const docs = (PODCAST_DATA.ref_docs_list || []).filter(d => d.series_id === seriesId);
 
       if (docs.length === 0) {
         box.style.display = 'none';
@@ -899,9 +1470,9 @@
       }).join('');
     }
 
-    function renderEpisodesList() {
+    function renderEpisodesList(episodes) {
       const list = document.getElementById('episodesList');
-      list.innerHTML = DATA.episodes.map(ep => {
+      list.innerHTML = episodes.map(ep => {
         const isCurrentPlaying = (currentPlayingEp && currentPlayingEp.release_filename === ep.release_filename);
         return `
           <div class="episode-card ${isCurrentPlaying ? 'is-playing' : ''}" id="card-${ep.release_filename}">
@@ -923,7 +1494,7 @@
             </div>
 
             <div class="ep-details" id="details-${ep.release_filename}">
-              <div class="ep-summary-text">${ep.summary || ep.full_notes || ''}</div>
+              <div class="ep-summary-text">${ep.summary}</div>
               ${ep.chapters && ep.chapters.length > 0 ? `
                 <div class="chapters-title">📑 本集章節時間軸（點擊直接跳轉收聽）</div>
                 <div class="chapters-grid">
@@ -955,7 +1526,7 @@
     }
 
     function handleEpisodeClick(relFname) {
-      const ep = DATA.episodes.find(e => e.release_filename === relFname);
+      const ep = PODCAST_DATA.episodes.find(e => e.release_filename === relFname);
       if (!ep) return;
 
       if (currentPlayingEp && currentPlayingEp.release_filename === relFname && audio.src) {
@@ -967,11 +1538,10 @@
 
     function loadAndPlayEpisode(ep) {
       currentPlayingEp = ep;
-      audio.src = ep.audio_url;
-      audio.playbackRate = speeds[currentSpeedIdx];
+      audio.src = ep.audio_src || ep.audio_url;
       playerTitle.textContent = ep.title;
-      playerArtist.textContent = ep.series_title;
-      playerThumb.src = ep.cover_image || 'cover.jpg';
+      playerArtist.textContent = `${ep.cave_number}・${ep.series_title}`;
+      playerThumb.src = ep.cover_image;
 
       updateAllCardPlayStates(true);
       audio.play().then(() => {
@@ -981,7 +1551,7 @@
     }
 
     function jumpToChapter(relFname, timestamp) {
-      const ep = DATA.episodes.find(e => e.release_filename === relFname);
+      const ep = PODCAST_DATA.episodes.find(e => e.release_filename === relFname);
       if (!ep) return;
 
       if (!currentPlayingEp || currentPlayingEp.release_filename !== relFname) {
@@ -996,8 +1566,8 @@
 
     function togglePlay() {
       if (!audio.src || audio.src.endsWith('.html') || audio.src.endsWith('/')) {
-        if (DATA.episodes.length > 0) {
-          loadAndPlayEpisode(DATA.episodes[0]);
+        if (PODCAST_DATA.episodes.length > 0) {
+          loadAndPlayEpisode(PODCAST_DATA.episodes[0]);
         }
         return;
       }
@@ -1022,9 +1592,6 @@
     function updateAllCardPlayStates(playing) {
       document.querySelectorAll('.episode-card').forEach(c => {
         c.classList.remove('is-playing');
-        const fname = c.id.replace('card-', '');
-        const btn = document.getElementById(`play-btn-${fname}`);
-        if (btn) btn.innerHTML = SVG_PLAY;
       });
       if (currentPlayingEp) {
         const activeCard = document.getElementById(`card-${currentPlayingEp.release_filename}`);
@@ -1038,29 +1605,27 @@
 
     function playNext() {
       if (!currentPlayingEp) return;
-      const idx = DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
-      if (idx !== -1 && idx < DATA.episodes.length - 1) {
-        loadAndPlayEpisode(DATA.episodes[idx + 1]);
+      const idx = PODCAST_DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
+      if (idx !== -1 && idx < PODCAST_DATA.episodes.length - 1) {
+        loadAndPlayEpisode(PODCAST_DATA.episodes[idx + 1]);
       }
     }
 
     function playPrev() {
       if (!currentPlayingEp) return;
-      const idx = DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
+      const idx = PODCAST_DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
       if (idx > 0) {
-        loadAndPlayEpisode(DATA.episodes[idx - 1]);
+        loadAndPlayEpisode(PODCAST_DATA.episodes[idx - 1]);
       }
     }
 
     function skipTime(delta) {
-      if (!audio.duration) return;
       audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + delta));
     }
 
     function seek(e) {
-      if (!audio.duration) return;
       const rect = e.currentTarget.getBoundingClientRect();
-      const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const pos = (e.clientX - rect.left) / rect.width;
       audio.currentTime = pos * audio.duration;
     }
 
@@ -1068,9 +1633,10 @@
       currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
       const spd = speeds[currentSpeedIdx];
       audio.playbackRate = spd;
-      speedBtn.textContent = `${spd.toFixed(spd % 1 === 0 ? 1 : 2)}x`;
+      speedBtn.textContent = `${spd.toFixed(1)}x`;
     }
 
+    // Audio Event Listeners
     audio.addEventListener('timeupdate', () => {
       if (!isNaN(audio.duration)) {
         const percent = (audio.currentTime / audio.duration) * 100;
@@ -1103,13 +1669,44 @@
       return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
+    function openSubscribeModal(type) {
+      const modal = document.getElementById('subscribeModal');
+      const input = document.getElementById('modalFeedInput');
+      const title = document.getElementById('subscribeModalTitle');
+      const desc = document.getElementById('subscribeModalDesc');
+
+      let feedName = 'feed.xml';
+      if (type === 'all' || type === 'home') {
+        title.textContent = '訂閱《兔子洞筆記》全頻道';
+        desc.textContent = '包含所有洞窟系列更新的 Master RSS 訂閱源。';
+        feedName = 'feed.xml';
+      } else {
+        const curSeries = PODCAST_DATA.series.find(s => s.id === type);
+        title.textContent = `訂閱專題：${curSeries ? curSeries.title : ''}`;
+        desc.textContent = `僅訂閱${curSeries ? curSeries.cave_number : ''}獨立專題 RSS。`;
+        feedName = `feed_${type}.xml`;
+      }
+
+      const fullUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) + feedName;
+      input.value = fullUrl;
+      modal.classList.add('active');
+    }
+
+    function openCurrentSeriesFeed() {
+      if (activeSeriesId && activeSeriesId !== 'home') {
+        openSubscribeModal(activeSeriesId);
+      } else {
+        openSubscribeModal('all');
+      }
+    }
+
     function openDocModal(docId, docTitle) {
       const modal = document.getElementById('resourceModal');
       const title = document.getElementById('resourceModalTitle');
       const box = document.getElementById('resourceModalContent');
 
       title.textContent = `📑 ${docTitle}`;
-      box.textContent = DATA.series_docs_content[docId] || '尚無文檔內容。';
+      box.textContent = PODCAST_DATA.series_docs_content[docId] || '尚無文檔內容。';
       modal.classList.add('active');
     }
 
@@ -1117,6 +1714,20 @@
       document.getElementById(id).classList.remove('active');
     }
 
+    function copyModalFeed() {
+      const input = document.getElementById('modalFeedInput');
+      input.select();
+      navigator.clipboard.writeText(input.value).then(() => showToast('已複製！請至 Apple Podcasts 貼上'));
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // Init App
     init();
   </script>
 </body>

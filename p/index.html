@@ -423,12 +423,72 @@
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 12px;
+      position: relative;
+      transition: border-color 0.15s ease;
+    }
+    .other-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+    .wip-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
     }
     .other-name {
       font-size: 14px;
       font-weight: 600;
       color: var(--text-light);
-      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .wip-header-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .wip-date {
+      font-size: 11px;
+      color: #8b949e;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .btn-del-wip {
+      background: transparent;
+      border: 1px solid rgba(248, 81, 73, 0.35);
+      color: #f85149;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      line-height: 1.3;
+      transition: all 0.15s ease;
+    }
+    .btn-del-wip:hover {
+      background: rgba(248, 81, 73, 0.18);
+      border-color: #f85149;
+    }
+    .btn-restore {
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: all 0.15s ease;
+    }
+    .btn-restore:hover {
+      color: var(--text-light);
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.05);
     }
     .other-meta {
       font-size: 12px;
@@ -581,7 +641,7 @@
   <div id="toast">已複製私密連結！</div>
 
   <script>
-    const INITIAL_DATA = {"updated_at": "2026-11-02 12:44", "github_user": "tzejen", "github_repo": "rabbit-hole", "total_series": 2, "total_episodes": 11, "total_duration_sec": 9928.338866, "total_duration_fmt": "02:45:28", "series": [{"slug": "onomichi-wip-8f2a1d", "title": "尾道漫遊：坡道、老屋與島波海道", "status": "內部搶先版", "dir": "202610_尾道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "cover_url": "onomichi-wip-8f2a1d/cover.jpg", "episode_count": 5, "total_duration_sec": 5250.9141039999995, "total_duration_fmt": "01:27:30", "web_path": "onomichi-wip-8f2a1d/", "full_url": "https://tzejen.github.io/rabbit-hole/p/onomichi-wip-8f2a1d/", "episodes": [{"episode": 1, "title": "Ep01 尾道山城老屋再生", "duration_fmt": "17:39", "filename": "01_尾道山城老屋再生.m4a"}, {"episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "duration_fmt": "17:24", "filename": "02_大師鏡頭與筆下的尾道.m4a"}, {"episode": 3, "title": "Ep03 尾道立體散步地圖", "duration_fmt": "19:08", "filename": "03_尾道立體散步地圖.m4a"}, {"episode": 4, "title": "Ep04 島波海道電輔車跳島", "duration_fmt": "15:59", "filename": "04_島波海道電輔車跳島.m4a"}, {"episode": 5, "title": "Ep05 尾道拉麵與行前清單", "duration_fmt": "17:18", "filename": "05_尾道拉麵與行前清單.m4a"}], "ref_docs_count": 1, "ref_docs": [{"title": "Ep1 港口與寺廟_尾道怎麼變成西之奈良", "filename": "Ep1 港口與寺廟_尾道怎麼變成西之奈良.md", "ext": ".md", "url": "onomichi-wip-8f2a1d/docs/Ep1 港口與寺廟_尾道怎麼變成西之奈良.md"}]}, {"slug": "lacrima-202611-9c4e7b", "title": "《LACRIMA》：當代淚水與高級訂製", "status": "劇場專題導聆", "dir": "202611_Lacrima", "description": "本系列深度剖析法國當代劇場名導、史特拉斯堡國家劇院（TNS）總監卡洛琳・吉耶拉・阮（Caroline Guiela Nguyen）震撼國際劇壇的跨國史詩鉅作《LACRIMA》（拉丁文「眼淚」）。全劇以 2025 年倫敦皇室公主大婚禮服的機密委託案為引線，串聯巴黎高級訂製工坊（Maison Beliana）、法國諾曼第阿朗松蕾絲工坊（Alençon）與印度孟買刺繡工作室（Mumbai）長達八個月的高壓趕工。從長達一年的跨國田野調查、百年保密條款與後殖民勞動剝削、蕾絲女工「工作性呼吸中止症（apnée）」與刺繡大師失明的職災代價、兩代女性守護的家庭暴力沉默，一路聊到巴黎共享菜園與工廠饒舌的街頭素人選角、四國語言（法語、英語、坦米爾語、法國手語 LSF）與《24小時反恐任務》式分割畫面舞台技術，並於番外篇完整揭開全劇 12 位演員分飾多角的戲劇圖譜與跨界人生。", "cover_url": "lacrima-202611-9c4e7b/cover.jpg", "episode_count": 6, "total_duration_sec": 4677.424762000001, "total_duration_fmt": "01:17:57", "web_path": "lacrima-202611-9c4e7b/", "full_url": "https://tzejen.github.io/rabbit-hole/p/lacrima-202611-9c4e7b/", "episodes": [{"episode": 1, "title": "Ep01 創作起點與田野調查：從童年皺紋紙禮服到孟買工坊的震撼轉折", "duration_fmt": "09:41", "filename": "01_創作起點與田野調查.m4a"}, {"episode": 2, "title": "Ep02 皇室訂單與後殖民勞動：百年保密條款、隱藏服務梯與道德憲章的偽善", "duration_fmt": "11:55", "filename": "02_皇室訂單與後殖民勞動.m4a"}, {"episode": 3, "title": "Ep03 職災傷痕與沉默遺產：「注意，呼吸」、刺繡背面的線頭與家暴創傷", "duration_fmt": "15:51", "filename": "03_職災傷痕與沉默遺產.m4a"}, {"episode": 4, "title": "Ep04 非職業演員與多語排練場：巴黎菜園街頭選角、真實母子同台與四語交織", "duration_fmt": "09:12", "filename": "04_非職業演員與多語排練場.m4a"}, {"episode": 5, "title": "Ep05 高訂戲劇學與全球巡演迴響：30 秒磁鐵變裝、分割畫面與衍生影集計畫", "duration_fmt": "14:59", "filename": "05_高訂戲劇學與全球巡演迴響.m4a"}, {"episode": 6, "title": "Ep06 番外篇——全劇演員角色圖譜與跨界人生：從海運上班族、軟體工程師到唯一不換角的承重牆", "duration_fmt": "16:16", "filename": "06_番外篇_全劇演員角色與跨界人生.m4a"}], "ref_docs_count": 1, "ref_docs": [{"title": "LACRIMA全劇角色與演員對照指南", "filename": "00_LACRIMA全劇角色與演員對照指南.md", "ext": ".md", "url": "lacrima-202611-9c4e7b/docs/00_LACRIMA全劇角色與演員對照指南.md"}]}], "workspace_other_series": [{"dir_name": "201610_福岡", "count": 4, "sample_episodes": ["福岡為何叫博多", "福岡傳統做給誰看", "博多名物非原創"]}, {"dir_name": "201610_福岡_AGY", "count": 6, "sample_episodes": ["福岡的兩座城", "福岡寺社與深秋祭典", "福岡飲食與屋台"]}, {"dir_name": "Berry Plastics", "count": 1, "sample_episodes": ["Berry项目十周年记忆_20261001"]}, {"dir_name": "中國佛教造像", "count": 11, "sample_episodes": ["佛陀曾是希臘老外", "5 魏晉南北朝的系統重灌", "泥巴捏出的巨佛"]}, {"dir_name": "中國佛教造像_Gemini", "count": 10, "sample_episodes": ["無像時代的破曉與漢代早期佛像_NotebookLM", "絲路綠洲與北涼涼州模式_NotebookLM", "皇帝即如來與雲岡曇曜五窟_NotebookLM"]}, {"dir_name": "斯里蘭卡", "count": 13, "sample_episodes": ["D0_錫蘭紅茶是意外", "D10_加勒古城與蓮花塔", "D11_斯里蘭卡的日常禮物"]}, {"dir_name": "絲襪文化符號學", "count": 16, "sample_episodes": ["權力的第二層皮膚_NotebookLM", "裙擺下的視線革命_NotebookLM", "剪斷束縛的超短裙風暴_NotebookLM"]}, {"dir_name": "聖雅各朝聖之路_Gemini", "count": 5, "sample_episodes": ["走上千年繁星之路_NotebookLM", "翻越庇里牛斯山到高原麥浪_NotebookLM", "行前打包的減法藝術_NotebookLM"]}]};
+    const INITIAL_DATA = {"updated_at": "2026-11-02 12:58", "github_user": "tzejen", "github_repo": "rabbit-hole", "total_series": 2, "total_episodes": 11, "total_duration_sec": 9928.338866, "total_duration_fmt": "02:45:28", "series": [{"slug": "onomichi-wip-8f2a1d", "title": "尾道漫遊：坡道、老屋與島波海道", "status": "內部搶先版", "dir": "202610_尾道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "cover_url": "onomichi-wip-8f2a1d/cover.jpg", "episode_count": 5, "total_duration_sec": 5250.9141039999995, "total_duration_fmt": "01:27:30", "web_path": "onomichi-wip-8f2a1d/", "full_url": "https://tzejen.github.io/rabbit-hole/p/onomichi-wip-8f2a1d/", "episodes": [{"episode": 1, "title": "Ep01 尾道山城老屋再生", "duration_fmt": "17:39", "filename": "01_尾道山城老屋再生.m4a"}, {"episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "duration_fmt": "17:24", "filename": "02_大師鏡頭與筆下的尾道.m4a"}, {"episode": 3, "title": "Ep03 尾道立體散步地圖", "duration_fmt": "19:08", "filename": "03_尾道立體散步地圖.m4a"}, {"episode": 4, "title": "Ep04 島波海道電輔車跳島", "duration_fmt": "15:59", "filename": "04_島波海道電輔車跳島.m4a"}, {"episode": 5, "title": "Ep05 尾道拉麵與行前清單", "duration_fmt": "17:18", "filename": "05_尾道拉麵與行前清單.m4a"}], "ref_docs_count": 1, "ref_docs": [{"title": "Ep1 港口與寺廟_尾道怎麼變成西之奈良", "filename": "Ep1 港口與寺廟_尾道怎麼變成西之奈良.md", "ext": ".md", "url": "onomichi-wip-8f2a1d/docs/Ep1 港口與寺廟_尾道怎麼變成西之奈良.md"}]}, {"slug": "lacrima-202611-9c4e7b", "title": "《LACRIMA》：當代淚水與高級訂製", "status": "劇場專題導聆", "dir": "202611_Lacrima", "description": "本系列深度剖析法國當代劇場名導、史特拉斯堡國家劇院（TNS）總監卡洛琳・吉耶拉・阮（Caroline Guiela Nguyen）震撼國際劇壇的跨國史詩鉅作《LACRIMA》（拉丁文「眼淚」）。全劇以 2025 年倫敦皇室公主大婚禮服的機密委託案為引線，串聯巴黎高級訂製工坊（Maison Beliana）、法國諾曼第阿朗松蕾絲工坊（Alençon）與印度孟買刺繡工作室（Mumbai）長達八個月的高壓趕工。從長達一年的跨國田野調查、百年保密條款與後殖民勞動剝削、蕾絲女工「工作性呼吸中止症（apnée）」與刺繡大師失明的職災代價、兩代女性守護的家庭暴力沉默，一路聊到巴黎共享菜園與工廠饒舌的街頭素人選角、四國語言（法語、英語、坦米爾語、法國手語 LSF）與《24小時反恐任務》式分割畫面舞台技術，並於番外篇完整揭開全劇 12 位演員分飾多角的戲劇圖譜與跨界人生。", "cover_url": "lacrima-202611-9c4e7b/cover.jpg", "episode_count": 6, "total_duration_sec": 4677.424762000001, "total_duration_fmt": "01:17:57", "web_path": "lacrima-202611-9c4e7b/", "full_url": "https://tzejen.github.io/rabbit-hole/p/lacrima-202611-9c4e7b/", "episodes": [{"episode": 1, "title": "Ep01 創作起點與田野調查：從童年皺紋紙禮服到孟買工坊的震撼轉折", "duration_fmt": "09:41", "filename": "01_創作起點與田野調查.m4a"}, {"episode": 2, "title": "Ep02 皇室訂單與後殖民勞動：百年保密條款、隱藏服務梯與道德憲章的偽善", "duration_fmt": "11:55", "filename": "02_皇室訂單與後殖民勞動.m4a"}, {"episode": 3, "title": "Ep03 職災傷痕與沉默遺產：「注意，呼吸」、刺繡背面的線頭與家暴創傷", "duration_fmt": "15:51", "filename": "03_職災傷痕與沉默遺產.m4a"}, {"episode": 4, "title": "Ep04 非職業演員與多語排練場：巴黎菜園街頭選角、真實母子同台與四語交織", "duration_fmt": "09:12", "filename": "04_非職業演員與多語排練場.m4a"}, {"episode": 5, "title": "Ep05 高訂戲劇學與全球巡演迴響：30 秒磁鐵變裝、分割畫面與衍生影集計畫", "duration_fmt": "14:59", "filename": "05_高訂戲劇學與全球巡演迴響.m4a"}, {"episode": 6, "title": "Ep06 番外篇——全劇演員角色圖譜與跨界人生：從海運上班族、軟體工程師到唯一不換角的承重牆", "duration_fmt": "16:16", "filename": "06_番外篇_全劇演員角色與跨界人生.m4a"}], "ref_docs_count": 1, "ref_docs": [{"title": "LACRIMA全劇角色與演員對照指南", "filename": "00_LACRIMA全劇角色與演員對照指南.md", "ext": ".md", "url": "lacrima-202611-9c4e7b/docs/00_LACRIMA全劇角色與演員對照指南.md"}]}], "workspace_other_series": [{"dir_name": "聖雅各朝聖之路_Gemini", "count": 5, "date": "2026-10-18", "mtime": 1792316738.701, "sample_episodes": ["走上千年繁星之路_NotebookLM", "翻越庇里牛斯山到高原麥浪_NotebookLM", "行前打包的減法藝術_NotebookLM"]}, {"dir_name": "絲襪文化符號學", "count": 16, "date": "2026-10-18", "mtime": 1792302224.138, "sample_episodes": ["權力的第二層皮膚_NotebookLM", "裙擺下的視線革命_NotebookLM", "剪斷束縛的超短裙風暴_NotebookLM"]}, {"dir_name": "中國佛教造像_Gemini", "count": 10, "date": "2026-10-18", "mtime": 1792253256.673, "sample_episodes": ["無像時代的破曉與漢代早期佛像_NotebookLM", "絲路綠洲與北涼涼州模式_NotebookLM", "皇帝即如來與雲岡曇曜五窟_NotebookLM"]}, {"dir_name": "201610_福岡_AGY", "count": 6, "date": "2026-10-16", "mtime": 1792148257.734, "sample_episodes": ["福岡的兩座城", "福岡寺社與深秋祭典", "福岡飲食與屋台"]}, {"dir_name": "201610_福岡", "count": 4, "date": "2026-10-16", "mtime": 1792111079.84, "sample_episodes": ["福岡為何叫博多", "福岡傳統做給誰看", "博多名物非原創"]}, {"dir_name": "中國佛教造像", "count": 11, "date": "2026-10-02", "mtime": 1790933682.638, "sample_episodes": ["佛陀曾是希臘老外", "5 魏晉南北朝的系統重灌", "泥巴捏出的巨佛"]}, {"dir_name": "Berry Plastics", "count": 1, "date": "2026-10-01", "mtime": 1790830861.113, "sample_episodes": ["Berry项目十周年记忆_20261001"]}, {"dir_name": "斯里蘭卡", "count": 13, "date": "2026-10-01", "mtime": 1790812554.503, "sample_episodes": ["D0_錫蘭紅茶是意外", "D10_加勒古城與蓮花塔", "D11_斯里蘭卡的日常禮物"]}]};
     let appData = INITIAL_DATA;
     let activeFilter = 'all';
 
@@ -765,23 +825,75 @@
 
     function renderOtherSeries() {
       const others = appData.workspace_other_series || [];
-      document.getElementById('otherSeriesCount').textContent = `${others.length} 個目錄`;
+      let dismissed = [];
+      try {
+        dismissed = JSON.parse(localStorage.getItem('rabbit_hole_dismissed_wip') || '[]');
+      } catch (e) { dismissed = []; }
+
+      const visibleOthers = others.filter(o => !dismissed.includes(o.dir_name));
+      const countEl = document.getElementById('otherSeriesCount');
+      if (dismissed.length > 0) {
+        countEl.innerHTML = `${visibleOthers.length} 個目錄 <button class="btn-restore" onclick="restoreDismissedWip(event)" title="點擊復原已隱藏的 ${dismissed.length} 個專題">↩️ 復原 ${dismissed.length} 個</button>`;
+      } else {
+        countEl.textContent = `${visibleOthers.length} 個目錄`;
+      }
 
       const grid = document.getElementById('otherGrid');
-      if (others.length === 0) {
-        grid.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">無其他未配置的音檔目錄。</div>';
+      if (visibleOthers.length === 0) {
+        if (dismissed.length > 0) {
+          grid.innerHTML = `<div style="color: var(--text-muted); font-size: 13px; padding: 12px 0;">已移除所有待發布專題。<button class="btn-restore" onclick="restoreDismissedWip(event)">↩️ 復原全部 (${dismissed.length} 個)</button></div>`;
+        } else {
+          grid.innerHTML = '<div style="color: var(--text-muted); font-size: 13px;">無其他未配置的音檔目錄。</div>';
+        }
         return;
       }
 
-      grid.innerHTML = others.map(o => `
-        <div class="other-card">
-          <div class="other-name">📁 ${escapeHtml(o.dir_name)}</div>
-          <div class="other-meta">包含 ${o.count} 個音檔</div>
+      grid.innerHTML = visibleOthers.map(o => `
+        <div class="other-card" id="wip_${escapeAttr(o.dir_name)}">
+          <div class="wip-header-row">
+            <div class="other-name" title="${escapeHtml(o.dir_name)}">📁 ${escapeHtml(o.dir_name)}</div>
+            <div class="wip-header-right">
+              <span class="wip-date">📅 ${escapeHtml(o.date || '')}</span>
+              <button class="btn-del-wip" onclick="dismissWipCard('${escapeAttr(o.dir_name)}')" title="從此清單移除（不會刪除本機檔案）">✕ 移除</button>
+            </div>
+          </div>
+          <div class="other-meta">包含 <strong>${o.count}</strong> 個音檔 · 更新時間：${escapeHtml(o.date || '')}</div>
           ${o.sample_episodes && o.sample_episodes.length ? `
             <div class="other-sample">範例：${escapeHtml(o.sample_episodes.join('、'))}</div>
           ` : ''}
         </div>
       `).join('');
+    }
+
+    function dismissWipCard(dirName) {
+      if (!confirm(`確定要從此清單移除「${dirName}」嗎？\n\n（注意：這只會從網頁清單中移除，絕不會刪除電腦中的任何檔案）`)) {
+        return;
+      }
+      let dismissed = [];
+      try {
+        dismissed = JSON.parse(localStorage.getItem('rabbit_hole_dismissed_wip') || '[]');
+      } catch (e) { dismissed = []; }
+      if (!dismissed.includes(dirName)) {
+        dismissed.push(dirName);
+        localStorage.setItem('rabbit_hole_dismissed_wip', JSON.stringify(dismissed));
+      }
+      renderOtherSeries();
+      showToast(`✓ 已從清單移除「${dirName}」（本機檔案保留）`);
+    }
+
+    function restoreDismissedWip(event) {
+      if (event) event.stopPropagation();
+      localStorage.removeItem('rabbit_hole_dismissed_wip');
+      renderOtherSeries();
+      showToast('✓ 已復原所有已隱藏的待發布專題！');
+    }
+
+    function escapeAttr(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '&quot;');
     }
 
     function copySecretLink(url) {
