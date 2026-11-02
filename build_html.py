@@ -1360,7 +1360,7 @@ html_content = f"""<!DOCTYPE html>
       </div>
       <h4 style="font-size: 14px; color: var(--gold-light); margin-bottom: 8px;">如何在 App 中貼上網址？</h4>
       <ol class="steps-list">
-        <li><b>Apple Podcasts</b>：打開 App $\rightarrow$ 點擊下方「資料庫」 $\rightarrow$ 點右上角「...」 $\rightarrow$ 選擇「透過 URL 追蹤節目」並貼上。</li>
+        <li><b>Apple Podcasts</b>：打開 App → 點擊下方「資料庫」 → 點右上角「...」 → 選擇「透過 URL 追蹤節目」並貼上。</li>
         <li><b>Pocket Casts / Overcast</b>：直接在頂部搜尋欄貼上這段網址並按搜尋。</li>
         <li>未來更新的所有新集數，都會自動在你的手機背景同步下載！</li>
       </ol>
