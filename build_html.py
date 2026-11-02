@@ -65,6 +65,8 @@ for s_item in data.get("series", []):
 
             if fname.lower() in SYSTEM_IGNORE_FILES or fname.startswith(".") or fname.startswith("_") or fname.startswith("~$"):
                 continue
+            if "逐字稿" in fname or "transcript" in fname.lower():
+                continue
             if ext_lower not in ALLOWED_EXTENSIONS:
                 continue
 
