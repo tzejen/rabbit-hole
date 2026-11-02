@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>尾道漫遊：坡道、老屋與島波海道 — 專屬聆聽客廳</title>
+  <title>尾道漫遊：坡道、老屋與島波海道 — 兔子洞筆記</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/jpeg" href="cover.jpg">
   <style>
@@ -23,681 +23,1099 @@
       --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
+      font-family: var(--font-stack);
       background-color: var(--bg-midnight);
       color: var(--text-main);
-      font-family: var(--font-stack);
       line-height: 1.6;
-      padding-bottom: 150px;
+      padding-bottom: 140px;
+      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
 
-    header {
-      background: linear-gradient(180deg, rgba(19, 29, 53, 0.95) 0%, rgba(11, 17, 32, 0.8) 100%);
-      border-bottom: 1px solid var(--border-color);
-      padding: 24px 20px;
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    a {
+      color: var(--gold-light);
       text-decoration: none;
-      color: inherit;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: var(--gold-primary);
+      text-decoration: underline;
     }
 
-    .brand-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 1px solid var(--gold-primary);
-    }
-
-    .brand h1 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--gold-light);
-      letter-spacing: 0.05em;
-    }
-
-    .badge-private {
-      background: rgba(212, 175, 55, 0.15);
-      color: var(--gold-light);
-      border: 1px solid var(--border-color);
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 6px;
-      letter-spacing: 0.05em;
-    }
-
-    main {
-      max-width: 960px;
-      margin: 32px auto;
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
       padding: 0 20px;
     }
 
-    .hero-banner {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 32px;
-      display: flex;
-      gap: 24px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    /* Top Sticky/Fixed Header Bar */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 17, 32, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
-
-    .hero-cover {
-      width: 140px;
-      height: 140px;
-      border-radius: 12px;
+    .header-content {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 12px 0;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: default;
+      user-select: none;
+      min-width: 0;
+    }
+    .brand-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       object-fit: cover;
-      border: 1px solid var(--gold-primary);
+      border: 1px solid var(--border-color);
       flex-shrink: 0;
     }
-
-    .hero-content h2 {
-      font-size: 1.5rem;
+    .brand-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .brand-subtitle {
+      font-size: 12px;
       color: var(--gold-light);
+      font-weight: 400;
+      margin-top: 1px;
+      white-space: nowrap;
+    }
+
+    .series-toggle-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .series-toggle-btn:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    /* Series Hero Banner (Header Box) */
+    .hero-banner {
+      background: linear-gradient(145deg, #131d35 0%, #172442 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 28px;
+      margin: 20px 0 24px;
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .hero-cover {
+      width: 170px;
+      height: 170px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+    .hero-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .hero-tag-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
       margin-bottom: 8px;
     }
-
-    .hero-meta {
-      font-size: 0.85rem;
-      color: var(--gold-dim);
-      margin-bottom: 12px;
-      display: flex;
-      gap: 16px;
+    .hero-cave-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 3px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
     }
-
+    .hero-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.3;
+      word-break: break-word;
+    }
     .hero-desc {
-      font-size: 0.95rem;
+      display: none;
+      font-size: 14px;
       color: var(--text-muted);
-      line-height: 1.7;
+      line-height: 1.6;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      background: rgba(11, 17, 32, 0.4);
+      border-radius: 8px;
+      border-left: 3px solid var(--gold-primary);
+      text-align: left;
+      white-space: pre-line;
+    }
+    .hero-desc.show {
+      display: block;
+    }
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .stat-item b {
+      color: var(--gold-light);
+      font-weight: 600;
+      white-space: nowrap;
     }
 
-    .section-title {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--gold-light);
-      margin-bottom: 16px;
+    .series-resources {
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
+    }
+    .resources-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .resources-pills-wrap {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .resource-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .resource-pill:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      text-decoration: none;
     }
 
-    .episode-list {
+    /* Episodes List */
+    .episodes-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 36px;
     }
-
     .episode-card {
       background: var(--bg-card);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 12px;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px 20px;
       transition: all 0.2s ease;
-      cursor: pointer;
     }
-
     .episode-card:hover {
       background: var(--bg-card-hover);
       border-color: var(--border-focus);
-      transform: translateY(-2px);
     }
-
-    .episode-card.active {
+    .episode-card.is-playing {
       border-color: var(--gold-primary);
-      background: rgba(212, 175, 55, 0.08);
+      background: rgba(212, 175, 55, 0.06);
     }
-
-    .ep-left {
+    .ep-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .ep-main-info {
       display: flex;
       align-items: center;
       gap: 16px;
-      flex-grow: 1;
+      flex: 1;
+      cursor: pointer;
+      min-width: 0;
     }
-
-    .play-btn {
-      width: 44px;
-      height: 44px;
+    .ep-play-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .ep-play-btn {
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--border-color);
+      color: var(--gold-primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
-      cursor: pointer;
-      flex-shrink: 0;
       transition: all 0.2s;
     }
-
-    .play-btn:hover {
+    .episode-card:hover .ep-play-btn {
       background: var(--gold-primary);
-      color: #000;
+      color: #0b1120;
       transform: scale(1.05);
     }
-
-    .ep-info h3 {
-      font-size: 1.05rem;
+    .episode-card.is-playing .ep-play-btn {
+      background: var(--gold-primary);
+      color: #0b1120;
+    }
+    .ep-duration-tag {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: monospace;
+      white-space: nowrap;
+    }
+    .ep-text-block {
+      flex: 1;
+      min-width: 0;
+    }
+    .ep-title {
+      font-size: 16px;
+      font-weight: 600;
       color: var(--text-main);
-      margin-bottom: 4px;
+      line-height: 1.4;
+      word-break: break-word;
     }
-
-    .ep-info p {
-      font-size: 0.85rem;
+    .episode-card.is-playing .ep-title {
+      color: var(--gold-light);
+    }
+    .ep-toggle-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
       color: var(--text-muted);
-    }
-
-    .ep-duration {
-      font-size: 0.85rem;
-      color: var(--gold-dim);
-      font-variant-numeric: tabular-nums;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
       flex-shrink: 0;
+      transition: all 0.2s;
+      white-space: nowrap;
     }
-
-    /* References Section */
-    .docs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 12px;
-      margin-bottom: 40px;
+    .ep-toggle-btn:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
     }
-
-    .doc-pill {
-      background: var(--bg-card);
+    .ep-details {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .ep-details.show {
+      display: block;
+    }
+    .ep-summary-text {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+      white-space: pre-line;
+    }
+    .chapters-title {
+      font-size: 12px;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .chapters-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chapter-pill {
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 12px 16px;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      color: var(--text-main);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.2s;
+      gap: 6px;
       cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
     }
-
-    .doc-pill:hover {
+    .chapter-pill:hover {
+      background: rgba(212, 175, 55, 0.15);
       border-color: var(--gold-primary);
-      background: var(--bg-card-hover);
+      color: var(--gold-light);
+    }
+    .chapter-time {
+      font-family: monospace;
+      color: var(--gold-dim);
+      font-size: 11px;
     }
 
-    /* Bottom Player Bar */
-    .player-bar {
+    /* Bottom Persistent Audio Player */
+    .bottom-player {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       background: rgba(15, 23, 42, 0.96);
-      border-top: 1px solid var(--border-color);
       backdrop-filter: blur(16px);
-      padding: 14px 20px;
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border-color);
+      padding: 12px 24px;
+      box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.6);
       z-index: 200;
-      box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
     }
-
     .player-inner {
-      max-width: 960px;
+      max-width: 1000px;
       margin: 0 auto;
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .player-top {
-      display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      gap: 20px;
     }
-
-    .now-playing {
+    .track-info {
       display: flex;
       align-items: center;
       gap: 12px;
-      overflow: hidden;
-      flex-grow: 1;
+      width: 260px;
+      min-width: 0;
     }
-
-    .now-title {
-      font-size: 0.95rem;
+    .track-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+    .track-text {
+      min-width: 0;
+    }
+    .track-title {
+      font-size: 14px;
       font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .track-artist {
+      font-size: 12px;
       color: var(--gold-light);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
-    .player-controls {
+    .player-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .controls-row {
       display: flex;
       align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
+      gap: 16px;
     }
-
     .ctrl-btn {
-      background: none;
+      background: transparent;
       border: none;
-      color: var(--text-main);
-      font-size: 1.1rem;
+      color: var(--text-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: color 0.2s;
     }
-
     .ctrl-btn:hover {
-      color: var(--gold-primary);
+      color: var(--gold-light);
     }
-
     .ctrl-btn-play {
       width: 42px;
       height: 42px;
       border-radius: 50%;
       background: var(--gold-primary);
-      color: #000;
-      font-size: 1.2rem;
-    }
-
-    .ctrl-btn-play:hover {
-      background: var(--gold-light);
-      color: #000;
-    }
-
-    .rate-btn {
-      font-size: 0.8rem;
-      font-weight: bold;
-      color: var(--gold-dim);
-      padding: 4px 8px;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 6px;
+      color: #0b1120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
+      border: none;
+      transition: transform 0.2s, background 0.2s;
     }
-
-    .rate-btn:hover {
-      color: var(--gold-light);
-      border-color: var(--gold-primary);
+    .ctrl-btn-play:hover {
+      transform: scale(1.08);
+      background: var(--gold-light);
     }
-
-    /* Progress bar */
-    .progress-wrap {
+    .progress-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .time-label {
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--text-dim);
+      width: 42px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold-primary);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+    .player-right {
       display: flex;
       align-items: center;
       gap: 12px;
+      width: 100px;
+      justify-content: flex-end;
     }
-
-    .time-lbl {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      font-variant-numeric: tabular-nums;
-      width: 42px;
-    }
-
-    .time-right { text-align: right; }
-
-    .progress-bar {
-      flex-grow: 1;
-      height: 6px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 3px;
-      position: relative;
+    .speed-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-color);
+      color: var(--gold-light);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-family: monospace;
       cursor: pointer;
+      white-space: nowrap;
     }
 
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--gold-dim), var(--gold-primary));
-      border-radius: 3px;
-      width: 0%;
-      pointer-events: none;
-    }
-
-    /* Modal for Docs */
+    /* Modals */
     .modal-backdrop {
-      display: none;
       position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      z-index: 500;
-      backdrop-filter: blur(4px);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
-
     .modal-backdrop.active {
       display: flex;
     }
-
-    .modal-card {
-      background: var(--bg-card);
+    .modal-window {
+      background: #131d35;
       border: 1px solid var(--border-color);
-      border-radius: 16px;
-      max-width: 760px;
+      border-radius: 18px;
       width: 100%;
-      max-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-    }
-
-    .modal-header {
-      padding: 18px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .modal-header h3 {
-      color: var(--gold-light);
-      font-size: 1.15rem;
-    }
-
-    .modal-body {
-      padding: 24px;
+      max-width: 720px;
+      max-height: 85vh;
       overflow-y: auto;
-      font-size: 0.95rem;
-      color: var(--text-main);
-      white-space: pre-wrap;
-      line-height: 1.8;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      position: relative;
     }
-
-    .close-btn {
-      background: none;
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      background: transparent;
       border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
+      color: var(--text-dim);
+      font-size: 24px;
       cursor: pointer;
     }
-
-    .close-btn:hover {
-      color: #fff;
+    .modal-close:hover {
+      color: #ffffff;
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+    .pre-box {
+      background: #0b1120;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 13px;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.7;
+      max-height: 60vh;
+      overflow-y: auto;
+      font-family: var(--font-stack);
     }
 
-    @media (max-width: 640px) {
-      .hero-banner { flex-direction: column; align-items: center; text-align: center; padding: 18px 16px; gap: 14px; }
-      .hero-cover { width: 96px; height: 96px; }
-      .hero-meta { justify-content: center; }
-      .hero-desc { text-align: left; font-size: 0.9rem; }
-      .badge-private { white-space: nowrap; flex-shrink: 0; }
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 14px;
+      }
+      .header-content {
+        padding: 10px 0;
+        gap: 8px;
+      }
+      .brand-group {
+        gap: 10px;
+      }
+      .brand-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+      }
+      .brand-title {
+        font-size: 17px;
+      }
+      .brand-subtitle {
+        font-size: 11px;
+      }
+      .hero-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 18px 16px;
+        gap: 14px;
+      }
+      .hero-cover {
+        width: 96px;
+        height: 96px;
+        border-radius: 12px;
+      }
+      .hero-tag-row {
+        justify-content: center;
+      }
+      .hero-title {
+        font-size: 19px;
+      }
+      .hero-desc {
+        font-size: 13px;
+        text-align: left;
+      }
+      .hero-stats {
+        justify-content: center;
+        gap: 12px;
+        font-size: 12.5px;
+      }
+      .series-resources {
+        justify-content: center;
+      }
+      .resources-pills-wrap {
+        justify-content: center;
+      }
+      .episode-card {
+        padding: 12px 14px;
+      }
+      .ep-header {
+        gap: 10px;
+      }
+      .ep-main-info {
+        gap: 12px;
+      }
+      .ep-title {
+        font-size: 14.5px;
+      }
+      .ep-toggle-btn {
+        padding: 5px 8px;
+        font-size: 11.5px;
+      }
+      .bottom-player {
+        padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      }
+      .player-inner {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 8px 10px;
+        align-items: center;
+      }
+      .player-center {
+        display: contents;
+      }
+      .track-info {
+        grid-column: 1;
+        grid-row: 1;
+        width: auto;
+        gap: 8px;
+      }
+      .track-thumb {
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+      }
+      .track-title {
+        font-size: 13px;
+      }
+      .track-artist {
+        font-size: 11px;
+      }
+      .controls-row {
+        grid-column: 2;
+        grid-row: 1;
+        gap: 8px;
+      }
+      .ctrl-btn-play {
+        width: 36px;
+        height: 36px;
+      }
+      .player-right {
+        grid-column: 3;
+        grid-row: 1;
+        width: auto;
+        display: flex;
+      }
+      .speed-btn {
+        padding: 3px 6px;
+        font-size: 11px;
+      }
+      .progress-row {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        gap: 8px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-inner">
-      <div class="brand">
-        <img src="cover.jpg" alt="Cover" class="brand-icon">
-        <div>
-          <h1>尾道漫遊：坡道、老屋與島波海道</h1>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="brand-group">
+          <img src="cover_channel.png" onerror="this.src='cover.jpg'" alt="兔子洞筆記封面" class="brand-avatar">
+          <div>
+            <div class="brand-title">兔子洞筆記</div>
+            <div class="brand-subtitle">Notes from the Rabbit Hole</div>
+          </div>
         </div>
       </div>
-      <span class="badge-private">🔒 專屬不公開預覽</span>
     </div>
   </header>
 
-  <main>
-    <section class="hero-banner">
-      <img src="cover.jpg" alt="Series Cover" class="hero-cover">
-      <div class="hero-content">
-        <h2>尾道漫遊：坡道、老屋與島波海道</h2>
-        <div class="hero-meta">
-          <span>5 集全</span>
-          <span>•</span>
-          <span>內部搶先版</span>
+  <div class="container">
+    <!-- Series View: Hero Banner (Header Box) -->
+    <section class="hero-banner" id="seriesHeroBanner">
+      <img id="heroCoverImg" src="cover.jpg" alt="系列封面" class="hero-cover">
+      <div class="hero-info">
+        <div class="hero-tag-row">
+          <div class="hero-cave-tag" id="heroCaveTag">內部搶先版</div>
+          <button class="series-toggle-btn" id="heroDescToggleBtn" onclick="toggleHeroDesc()">簡介 ▾</button>
         </div>
-        <p class="hero-desc">本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。</p>
+        <h1 class="hero-title" id="heroTitle">尾道漫遊：坡道、老屋與島波海道</h1>
+        <p class="hero-desc" id="heroDesc">本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。</p>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat-item">集數：<b id="heroStatCount">5 集</b></div>
+          <div class="stat-item">總長：<b id="heroStatDur">1.5 小時</b></div>
+          <div class="stat-item">狀態：<b id="heroStatStatus">內部搶先版</b></div>
+        </div>
+
+        <div class="series-resources" id="seriesResourcesBox" style="display: none;">
+          <span class="resources-label">📚 系列資料庫：</span>
+          <div class="resources-pills-wrap" id="resourcesPillsWrap"></div>
+        </div>
       </div>
     </section>
 
-    <div class="section-title">
-      <span>🎙️ 各集選播</span>
-    </div>
+    <!-- Episodes List -->
+    <div class="episodes-list" id="episodesList"></div>
+  </div>
 
-    <div class="episode-list" id="episodesContainer">
-      <!-- Injected by JS -->
-    </div>
-
-    <div class="section-title" id="docsTitle" style="display: none;">
-      <span>📑 隨選文獻與行前指南</span>
-    </div>
-    <div class="docs-grid" id="docsContainer">
-      <!-- Injected by JS -->
-    </div>
-  </main>
-
-  <!-- Player Bar -->
-  <div class="player-bar">
+  <!-- Bottom Persistent Audio Player -->
+  <div class="bottom-player" id="bottomPlayer">
     <div class="player-inner">
-      <div class="player-top">
-        <div class="now-playing">
-          <span id="nowPlayingTitle" class="now-title">點選上方任一集開始播放</span>
-        </div>
-        <div class="player-controls">
-          <button class="ctrl-btn" onclick="seekBy(-15)" title="倒退 15 秒">↺ 15s</button>
-          <button class="ctrl-btn ctrl-btn-play" id="playBtn" onclick="togglePlay()">▶</button>
-          <button class="ctrl-btn" onclick="seekBy(30)" title="快進 30 秒">30s ↻</button>
-          <button class="rate-btn" id="rateBtn" onclick="togglePlaybackRate()">1.0x</button>
+      <div class="track-info">
+        <img id="playerThumb" src="cover.jpg" class="track-thumb" alt="封面">
+        <div class="track-text">
+          <div class="track-title" id="playerTitle">點擊任一單集開始收聽</div>
+          <div class="track-artist" id="playerArtist">尾道漫遊：坡道、老屋與島波海道</div>
         </div>
       </div>
-      <div class="progress-wrap">
-        <span class="time-lbl" id="currTime">00:00</span>
-        <div class="progress-bar" id="progressBar" onclick="seekClick(event)">
-          <div class="progress-fill" id="progressFill"></div>
+
+      <div class="player-center">
+        <div class="controls-row">
+          <button class="ctrl-btn" onclick="playPrev()" title="上一集">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+          </button>
+          <button class="ctrl-btn" onclick="skipTime(-15)" title="倒退 15 秒">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.2 3.16-1.98 5.12-1.98 3.53 0 6.51 2.37 7.42 5.62l2.38-.79C20.81 11.23 17.03 8 12.5 8z"/></svg>
+          </button>
+          <button class="ctrl-btn-play" id="playBtn" onclick="togglePlay()" title="播放/暫停">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>
+          </button>
+          <button class="ctrl-btn" onclick="skipTime(30)" title="快進 30 秒">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.2-3.16-1.98-5.12-1.98-3.53 0-6.51 2.37-7.42 5.62l-2.38-.79C3.19 11.23 6.97 8 11.5 8z"/></svg>
+          </button>
+          <button class="ctrl-btn" onclick="playNext()" title="下一集">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+          </button>
         </div>
-        <span class="time-lbl time-right" id="totalTime">00:00</span>
+
+        <div class="progress-row">
+          <span class="time-label" id="currentTime">00:00</span>
+          <div class="progress-bar" id="progressBar" onclick="seek(event)">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="time-label" id="totalDuration">00:00</span>
+        </div>
+      </div>
+
+      <div class="player-right">
+        <button class="speed-btn" id="speedBtn" onclick="cycleSpeed()">1.0x</button>
       </div>
     </div>
   </div>
 
   <audio id="audioElement" preload="metadata"></audio>
 
-  <!-- Modal -->
-  <div class="modal-backdrop" id="docModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="modalTitle">文獻閱讀</h3>
-        <button class="close-btn" onclick="closeDocModal()">&times;</button>
-      </div>
-      <div class="modal-body" id="modalBody"></div>
+  <!-- Resource Document Modal -->
+  <div class="modal-backdrop" id="resourceModal" onclick="closeModal('resourceModal')">
+    <div class="modal-window" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('resourceModal')">&times;</button>
+      <div class="modal-title" id="resourceModalTitle">📑 參考資料</div>
+      <pre class="pre-box" id="resourceModalContent"></pre>
     </div>
   </div>
 
   <script>
-    const DATA = {"series_info": {"id": "onomichi-wip-8f2a1d", "cave_number": "未公開專題", "title": "尾道漫遊：坡道、老屋與島波海道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "dir": "G:\\My Drive\\NotebookLM\\202610_尾道", "cover_src": "G:\\My Drive\\NotebookLM\\202610_尾道\\cover.jpg", "cover_dst_name": "cover.jpg", "season_num": 1, "status": "內部搶先版"}, "episodes": [{"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 1, "title": "Ep01 尾道山城老屋再生", "filename": "01_尾道山城老屋再生.m4a", "release_filename": "01_尾道山城老屋再生.m4a", "audio_url": "audio/01_尾道山城老屋再生.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\01_尾道山城老屋再生.m4a", "file_size": 34086358, "duration_sec": 1059.085351, "duration_fmt": "17:39", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 13:32:34 +0000", "pub_date_iso": "2026-11-01T13:32:34.664721+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "filename": "02_大師鏡頭與筆下的尾道.m4a", "release_filename": "02_大師鏡頭與筆下的尾道.m4a", "audio_url": "audio/02_大師鏡頭與筆下的尾道.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\02_大師鏡頭與筆下的尾道.m4a", "file_size": 33624456, "duration_sec": 1044.73542, "duration_fmt": "17:24", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 13:32:34 +0000", "pub_date_iso": "2026-11-01T13:32:34.863180+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 3, "title": "Ep03 尾道立體散步地圖", "filename": "03_尾道立體散步地圖.m4a", "release_filename": "03_尾道立體散步地圖.m4a", "audio_url": "audio/03_尾道立體散步地圖.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\03_尾道立體散步地圖.m4a", "file_size": 36979188, "duration_sec": 1148.969796, "duration_fmt": "19:08", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 13:32:35 +0000", "pub_date_iso": "2026-11-01T13:32:35.074364+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 4, "title": "Ep04 島波海道電輔車跳島", "filename": "04_島波海道電輔車跳島.m4a", "release_filename": "04_島波海道電輔車跳島.m4a", "audio_url": "audio/04_島波海道電輔車跳島.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\04_島波海道電輔車跳島.m4a", "file_size": 30878161, "duration_sec": 959.402086, "duration_fmt": "15:59", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 13:32:35 +0000", "pub_date_iso": "2026-11-01T13:32:35.267198+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 5, "title": "Ep05 尾道拉麵與行前清單", "filename": "05_尾道拉麵與行前清單.m4a", "release_filename": "05_尾道拉麵與行前清單.m4a", "audio_url": "audio/05_尾道拉麵與行前清單.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\05_尾道拉麵與行前清單.m4a", "file_size": 33430973, "duration_sec": 1038.721451, "duration_fmt": "17:18", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Sun, 01 Nov 2026 13:32:35 +0000", "pub_date_iso": "2026-11-01T13:32:35.465316+00:00"}], "ref_docs_list": [{"id": "onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良", "title": "Ep1 港口與寺廟_尾道怎麼變成西之奈良", "filename": "Ep1 港口與寺廟_尾道怎麼變成西之奈良.md", "series_id": "onomichi-wip-8f2a1d", "ext": ".md", "is_pdf": false, "is_download": false, "url": "docs/Ep1 港口與寺廟_尾道怎麼變成西之奈良.md"}], "series_docs_content": {"onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良": "\n        \n          \n            \n              \n      \n        \n        \n      \n     \n      \n        \n              \n            \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n      \n    \n            \n            \n              \n      \n        \n              Search results\n              \n            \n        \n        \n        No emoji found\n      \n     \n      \n        \n              Recently used\n              \n            \n        \n        \n      \n    \n             \n            \n              \n            \n            Loading\n          \n          \n        \n      "}};
+    const DATA = {"series_info": {"id": "onomichi-wip-8f2a1d", "cave_number": "未公開專題", "title": "尾道漫遊：坡道、老屋與島波海道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "dir": "G:\\My Drive\\NotebookLM\\202610_尾道", "cover_src": "G:\\My Drive\\NotebookLM\\202610_尾道\\cover.jpg", "cover_dst_name": "cover.jpg", "season_num": 1, "status": "內部搶先版"}, "episodes": [{"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 1, "title": "Ep01 尾道山城老屋再生", "filename": "01_尾道山城老屋再生.m4a", "release_filename": "01_尾道山城老屋再生.m4a", "audio_url": "audio/01_尾道山城老屋再生.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\01_尾道山城老屋再生.m4a", "file_size": 34086358, "duration_sec": 1059.085351, "duration_fmt": "17:39", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:18 +0000", "pub_date_iso": "2026-11-02T04:44:18.487785+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "filename": "02_大師鏡頭與筆下的尾道.m4a", "release_filename": "02_大師鏡頭與筆下的尾道.m4a", "audio_url": "audio/02_大師鏡頭與筆下的尾道.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\02_大師鏡頭與筆下的尾道.m4a", "file_size": 33624456, "duration_sec": 1044.73542, "duration_fmt": "17:24", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:18 +0000", "pub_date_iso": "2026-11-02T04:44:18.631694+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 3, "title": "Ep03 尾道立體散步地圖", "filename": "03_尾道立體散步地圖.m4a", "release_filename": "03_尾道立體散步地圖.m4a", "audio_url": "audio/03_尾道立體散步地圖.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\03_尾道立體散步地圖.m4a", "file_size": 36979188, "duration_sec": 1148.969796, "duration_fmt": "19:08", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:18 +0000", "pub_date_iso": "2026-11-02T04:44:18.770022+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 4, "title": "Ep04 島波海道電輔車跳島", "filename": "04_島波海道電輔車跳島.m4a", "release_filename": "04_島波海道電輔車跳島.m4a", "audio_url": "audio/04_島波海道電輔車跳島.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\04_島波海道電輔車跳島.m4a", "file_size": 30878161, "duration_sec": 959.402086, "duration_fmt": "15:59", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:18 +0000", "pub_date_iso": "2026-11-02T04:44:18.912569+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 5, "title": "Ep05 尾道拉麵與行前清單", "filename": "05_尾道拉麵與行前清單.m4a", "release_filename": "05_尾道拉麵與行前清單.m4a", "audio_url": "audio/05_尾道拉麵與行前清單.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\05_尾道拉麵與行前清單.m4a", "file_size": 33430973, "duration_sec": 1038.721451, "duration_fmt": "17:18", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 02 Nov 2026 04:44:19 +0000", "pub_date_iso": "2026-11-02T04:44:19.048425+00:00"}], "ref_docs_list": [{"id": "onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良", "title": "Ep1 港口與寺廟_尾道怎麼變成西之奈良", "filename": "Ep1 港口與寺廟_尾道怎麼變成西之奈良.md", "series_id": "onomichi-wip-8f2a1d", "ext": ".md", "is_pdf": false, "is_download": false, "url": "docs/Ep1 港口與寺廟_尾道怎麼變成西之奈良.md"}], "series_docs_content": {"onomichi-wip-8f2a1d_ep1_港口與寺廟_尾道怎麼變成西之奈良": "\n        \n          \n            \n              \n      \n        \n        \n      \n     \n      \n        \n              \n            \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n        \n      \n    \n            \n            \n              \n      \n        \n              Search results\n              \n            \n        \n        \n        No emoji found\n      \n     \n      \n        \n              Recently used\n              \n            \n        \n        \n      \n    \n             \n            \n              \n            \n            Loading\n          \n          \n        \n      "}};
+    let currentPlayingEp = null;
+    let isPlaying = false;
+
     const audio = document.getElementById('audioElement');
-    let currentIndex = -1;
-    const rates = [1.0, 1.2, 1.5, 1.8, 2.0];
-    let rateIdx = 0;
+    const playBtn = document.getElementById('playBtn');
+    const playerTitle = document.getElementById('playerTitle');
+    const playerArtist = document.getElementById('playerArtist');
+    const playerThumb = document.getElementById('playerThumb');
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalDurationEl = document.getElementById('totalDuration');
+    const progressFill = document.getElementById('progressFill');
+    const speedBtn = document.getElementById('speedBtn');
+
+    const speeds = [1.0, 1.25, 1.5, 2.0];
+    let currentSpeedIdx = 0;
+
+    const SVG_PLAY = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
+    const SVG_PAUSE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
+    const SVG_PLAY_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
+    const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
 
     function init() {
-      renderEpisodes();
-      renderDocs();
-      setupAudioListeners();
+      renderSeriesResources();
+      renderEpisodesList();
     }
 
-    function renderEpisodes() {
-      const container = document.getElementById('episodesContainer');
-      container.innerHTML = '';
-      DATA.episodes.forEach((ep, idx) => {
-        const card = document.createElement('div');
-        card.className = 'episode-card';
-        card.id = `ep-card-${idx}`;
-        card.onclick = (e) => {
-          if (e.target.tagName !== 'BUTTON') playEpisode(idx);
-        };
+    function toggleHeroDesc() {
+      const descEl = document.getElementById('heroDesc');
+      const btn = document.getElementById('heroDescToggleBtn');
+      if (!descEl || !btn) return;
 
-        card.innerHTML = `
-          <div class="ep-left">
-            <button class="play-btn" onclick="event.stopPropagation(); playEpisode(${idx})" id="card-btn-${idx}">▶</button>
-            <div class="ep-info">
-              <h3>${ep.title}</h3>
-              <p>${ep.summary || ep.full_notes || '點擊即可即時收聽完整節目'}</p>
-            </div>
-          </div>
-          <span class="ep-duration">${ep.duration_fmt}</span>
-        `;
-        container.appendChild(card);
-      });
+      if (descEl.classList.contains('show')) {
+        descEl.classList.remove('show');
+        btn.innerHTML = '簡介 ▾';
+      } else {
+        descEl.classList.add('show');
+        btn.innerHTML = '收合 ▴';
+      }
     }
 
-    function renderDocs() {
-      if (!DATA.ref_docs_list || DATA.ref_docs_list.length === 0) return;
-      document.getElementById('docsTitle').style.display = 'flex';
-      const container = document.getElementById('docsContainer');
-      container.innerHTML = '';
-      DATA.ref_docs_list.forEach(doc => {
-        const pill = document.createElement('div');
-        pill.className = 'doc-pill';
-        pill.onclick = () => openDoc(doc.id, doc.title, doc.url, doc.is_pdf);
-        pill.innerHTML = `
-          <span>📄 ${doc.title}</span>
-          <span style="font-size:0.8rem; color:var(--gold-dim);">${doc.ext.toUpperCase()}</span>
-        `;
-        container.appendChild(pill);
-      });
-    }
+    function renderSeriesResources() {
+      const box = document.getElementById('seriesResourcesBox');
+      const wrap = document.getElementById('resourcesPillsWrap');
+      const docs = DATA.ref_docs_list || [];
 
-    function playEpisode(index) {
-      if (currentIndex === index && !audio.paused) {
-        audio.pause();
-        updatePlayState(false);
+      if (docs.length === 0) {
+        box.style.display = 'none';
         return;
       }
+      box.style.display = 'flex';
+      wrap.innerHTML = docs.map(doc => {
+        if (doc.is_pdf) {
+          return `<a href="${doc.url}" target="_blank" class="resource-pill" title="查看 PDF 文件">📄 ${doc.title}</a>`;
+        } else if (doc.is_download) {
+          return `<a href="${doc.url}" download class="resource-pill" title="下載文件">📝 ${doc.title}</a>`;
+        } else {
+          return `<button class="resource-pill" onclick="openDocModal('${doc.id}', '${doc.title}')">📑 ${doc.title}</button>`;
+        }
+      }).join('');
+    }
 
-      currentIndex = index;
-      const ep = DATA.episodes[index];
+    function renderEpisodesList() {
+      const list = document.getElementById('episodesList');
+      list.innerHTML = DATA.episodes.map(ep => {
+        const isCurrentPlaying = (currentPlayingEp && currentPlayingEp.release_filename === ep.release_filename);
+        return `
+          <div class="episode-card ${isCurrentPlaying ? 'is-playing' : ''}" id="card-${ep.release_filename}">
+            <div class="ep-header">
+              <div class="ep-main-info" onclick="handleEpisodeClick('${ep.release_filename}')">
+                <div class="ep-play-col">
+                  <div class="ep-play-btn" id="play-btn-${ep.release_filename}">
+                    ${(isCurrentPlaying && isPlaying) ? SVG_PAUSE : SVG_PLAY}
+                  </div>
+                  <div class="ep-duration-tag">${ep.duration_fmt}</div>
+                </div>
+                <div class="ep-text-block">
+                  <div class="ep-title">${ep.title}</div>
+                </div>
+              </div>
+              <button class="ep-toggle-btn" onclick="toggleDetails('${ep.release_filename}', event)">
+                展開 ▾
+              </button>
+            </div>
+
+            <div class="ep-details" id="details-${ep.release_filename}">
+              <div class="ep-summary-text">${ep.summary || ep.full_notes || ''}</div>
+              ${ep.chapters && ep.chapters.length > 0 ? `
+                <div class="chapters-title">📑 本集章節時間軸（點擊直接跳轉收聽）</div>
+                <div class="chapters-grid">
+                  ${ep.chapters.map(ch => `
+                    <div class="chapter-pill" onclick="jumpToChapter('${ep.release_filename}', ${ch.start})">
+                      <span class="chapter-time">${ch.start_fmt}</span>
+                      <span class="chapter-name" title="${ch.title}">${ch.title}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleDetails(relFname, evt) {
+      if (evt) evt.stopPropagation();
+      const el = document.getElementById(`details-${relFname}`);
+      const btn = evt.currentTarget;
+      if (el.classList.contains('show')) {
+        el.classList.remove('show');
+        btn.textContent = '展開 ▾';
+      } else {
+        el.classList.add('show');
+        btn.textContent = '收合 ▴';
+      }
+    }
+
+    function handleEpisodeClick(relFname) {
+      const ep = DATA.episodes.find(e => e.release_filename === relFname);
+      if (!ep) return;
+
+      if (currentPlayingEp && currentPlayingEp.release_filename === relFname && audio.src) {
+        togglePlay();
+      } else {
+        loadAndPlayEpisode(ep);
+      }
+    }
+
+    function loadAndPlayEpisode(ep) {
+      currentPlayingEp = ep;
       audio.src = ep.audio_url;
-      audio.playbackRate = rates[rateIdx];
-      audio.play();
+      audio.playbackRate = speeds[currentSpeedIdx];
+      playerTitle.textContent = ep.title;
+      playerArtist.textContent = ep.series_title;
+      playerThumb.src = ep.cover_image || 'cover.jpg';
 
-      document.getElementById('nowPlayingTitle').textContent = ep.title;
-      document.querySelectorAll('.episode-card').forEach(c => c.classList.remove('active'));
-      const activeCard = document.getElementById(`ep-card-${index}`);
-      if (activeCard) activeCard.classList.add('active');
+      updateAllCardPlayStates(true);
+      audio.play().then(() => {
+        isPlaying = true;
+        updatePlayIcons(true);
+      }).catch(e => console.log('Audio playback error: ', e));
+    }
 
-      updatePlayState(true);
+    function jumpToChapter(relFname, timestamp) {
+      const ep = DATA.episodes.find(e => e.release_filename === relFname);
+      if (!ep) return;
+
+      if (!currentPlayingEp || currentPlayingEp.release_filename !== relFname) {
+        loadAndPlayEpisode(ep);
+      }
+      audio.currentTime = timestamp;
+      audio.play().then(() => {
+        isPlaying = true;
+        updatePlayIcons(true);
+      });
     }
 
     function togglePlay() {
-      if (currentIndex === -1) {
-        playEpisode(0);
+      if (!audio.src || audio.src.endsWith('.html') || audio.src.endsWith('/')) {
+        if (DATA.episodes.length > 0) {
+          loadAndPlayEpisode(DATA.episodes[0]);
+        }
         return;
       }
       if (audio.paused) {
-        audio.play();
-        updatePlayState(true);
+        audio.play().then(() => {
+          isPlaying = true;
+          updatePlayIcons(true);
+          updateAllCardPlayStates(true);
+        });
       } else {
         audio.pause();
-        updatePlayState(false);
+        isPlaying = false;
+        updatePlayIcons(false);
+        updateAllCardPlayStates(false);
       }
     }
 
-    function updatePlayState(isPlaying) {
-      const mainBtn = document.getElementById('playBtn');
-      mainBtn.textContent = isPlaying ? '⏸' : '▶';
-      DATA.episodes.forEach((_, idx) => {
-        const btn = document.getElementById(`card-btn-${idx}`);
-        if (btn) {
-          btn.textContent = (idx === currentIndex && isPlaying) ? '⏸' : '▶';
-        }
+    function updatePlayIcons(playing) {
+      playBtn.innerHTML = playing ? SVG_PAUSE_LG : SVG_PLAY_LG;
+    }
+
+    function updateAllCardPlayStates(playing) {
+      document.querySelectorAll('.episode-card').forEach(c => {
+        c.classList.remove('is-playing');
+        const fname = c.id.replace('card-', '');
+        const btn = document.getElementById(`play-btn-${fname}`);
+        if (btn) btn.innerHTML = SVG_PLAY;
       });
-    }
-
-    function seekBy(seconds) {
-      if (!audio.duration) return;
-      audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + seconds));
-    }
-
-    function togglePlaybackRate() {
-      rateIdx = (rateIdx + 1) % rates.length;
-      const r = rates[rateIdx];
-      audio.playbackRate = r;
-      document.getElementById('rateBtn').textContent = r.toFixed(1) + 'x';
-    }
-
-    function seekClick(e) {
-      if (!audio.duration) return;
-      const bar = document.getElementById('progressBar');
-      const rect = bar.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const ratio = Math.max(0, Math.min(1, clickX / rect.width));
-      audio.currentTime = ratio * audio.duration;
-    }
-
-    function setupAudioListeners() {
-      audio.ontimeupdate = () => {
-        if (!audio.duration) return;
-        const ratio = (audio.currentTime / audio.duration) * 100;
-        document.getElementById('progressFill').style.width = ratio + '%';
-        document.getElementById('currTime').textContent = fmtTime(audio.currentTime);
-      };
-
-      audio.onloadedmetadata = () => {
-        document.getElementById('totalTime').textContent = fmtTime(audio.duration);
-      };
-
-      audio.onended = () => {
-        if (currentIndex < DATA.episodes.length - 1) {
-          playEpisode(currentIndex + 1);
-        } else {
-          updatePlayState(false);
+      if (currentPlayingEp) {
+        const activeCard = document.getElementById(`card-${currentPlayingEp.release_filename}`);
+        if (activeCard) {
+          activeCard.classList.add('is-playing');
+          const btn = document.getElementById(`play-btn-${currentPlayingEp.release_filename}`);
+          if (btn) btn.innerHTML = playing ? SVG_PAUSE : SVG_PLAY;
         }
-      };
+      }
     }
 
-    function fmtTime(sec) {
+    function playNext() {
+      if (!currentPlayingEp) return;
+      const idx = DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
+      if (idx !== -1 && idx < DATA.episodes.length - 1) {
+        loadAndPlayEpisode(DATA.episodes[idx + 1]);
+      }
+    }
+
+    function playPrev() {
+      if (!currentPlayingEp) return;
+      const idx = DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
+      if (idx > 0) {
+        loadAndPlayEpisode(DATA.episodes[idx - 1]);
+      }
+    }
+
+    function skipTime(delta) {
+      if (!audio.duration) return;
+      audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + delta));
+    }
+
+    function seek(e) {
+      if (!audio.duration) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      audio.currentTime = pos * audio.duration;
+    }
+
+    function cycleSpeed() {
+      currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
+      const spd = speeds[currentSpeedIdx];
+      audio.playbackRate = spd;
+      speedBtn.textContent = `${spd.toFixed(spd % 1 === 0 ? 1 : 2)}x`;
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (!isNaN(audio.duration)) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = percent + '%';
+        currentTimeEl.textContent = formatSec(audio.currentTime);
+        totalDurationEl.textContent = formatSec(audio.duration);
+      }
+    });
+
+    audio.addEventListener('play', () => {
+      isPlaying = true;
+      updatePlayIcons(true);
+      updateAllCardPlayStates(true);
+    });
+
+    audio.addEventListener('pause', () => {
+      isPlaying = false;
+      updatePlayIcons(false);
+      updateAllCardPlayStates(false);
+    });
+
+    audio.addEventListener('ended', () => {
+      playNext();
+    });
+
+    function formatSec(sec) {
+      if (isNaN(sec)) return '00:00';
       const m = Math.floor(sec / 60);
       const s = Math.floor(sec % 60);
       return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
-    function openDoc(docId, title, url, isPdf) {
-      if (isPdf) {
-        window.open(url, '_blank');
-        return;
-      }
-      const content = DATA.series_docs_content[docId] || '尚無內容';
-      document.getElementById('modalTitle').textContent = `📑 ${title}`;
-      document.getElementById('modalBody').textContent = content;
-      document.getElementById('docModal').classList.add('active');
+    function openDocModal(docId, docTitle) {
+      const modal = document.getElementById('resourceModal');
+      const title = document.getElementById('resourceModalTitle');
+      const box = document.getElementById('resourceModalContent');
+
+      title.textContent = `📑 ${docTitle}`;
+      box.textContent = DATA.series_docs_content[docId] || '尚無文檔內容。';
+      modal.classList.add('active');
     }
 
-    function closeDocModal() {
-      document.getElementById('docModal').classList.remove('active');
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
     }
-
-    window.onclick = (e) => {
-      const modal = document.getElementById('docModal');
-      if (e.target === modal) closeDocModal();
-    };
 
     init();
   </script>
