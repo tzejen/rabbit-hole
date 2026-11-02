@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-02 12:58",
+  "updated_at": "2026-11-02 18:17",
   "github_user": "tzejen",
   "github_repo": "rabbit-hole",
   "total_series": 2,
-  "total_episodes": 11,
-  "total_duration_sec": 9928.338866,
-  "total_duration_fmt": "02:45:28",
+  "total_episodes": 14,
+  "total_duration_sec": 12161.260248999999,
+  "total_duration_fmt": "03:22:41",
   "series": [
     {
       "slug": "onomichi-wip-8f2a1d",
@@ -66,11 +66,11 @@
       "title": "《LACRIMA》：當代淚水與高級訂製",
       "status": "劇場專題導聆",
       "dir": "202611_Lacrima",
-      "description": "本系列深度剖析法國當代劇場名導、史特拉斯堡國家劇院（TNS）總監卡洛琳・吉耶拉・阮（Caroline Guiela Nguyen）震撼國際劇壇的跨國史詩鉅作《LACRIMA》（拉丁文「眼淚」）。全劇以 2025 年倫敦皇室公主大婚禮服的機密委託案為引線，串聯巴黎高級訂製工坊（Maison Beliana）、法國諾曼第阿朗松蕾絲工坊（Alençon）與印度孟買刺繡工作室（Mumbai）長達八個月的高壓趕工。從長達一年的跨國田野調查、百年保密條款與後殖民勞動剝削、蕾絲女工「工作性呼吸中止症（apnée）」與刺繡大師失明的職災代價、兩代女性守護的家庭暴力沉默，一路聊到巴黎共享菜園與工廠饒舌的街頭素人選角、四國語言（法語、英語、坦米爾語、法國手語 LSF）與《24小時反恐任務》式分割畫面舞台技術，並於番外篇完整揭開全劇 12 位演員分飾多角的戲劇圖譜與跨界人生。",
+      "description": "本系列深度剖析法國當代劇場名導、史特拉斯堡國家劇院（TNS）總監卡洛琳・吉耶拉・阮（Caroline Guiela Nguyen）震撼國際劇壇的跨國史詩鉅作《LACRIMA》（拉丁文「眼淚」）。全劇以 2025 年倫敦皇室公主大婚禮服的機密委託案為引線，串聯巴黎高級訂製工坊（Maison Beliana）、法國諾曼第阿朗松蕾絲工坊（Alençon）與印度孟買刺繡工作室（Mumbai）長達八個月的高壓趕工。從長達一年的跨國田野調查、百年保密條款與後殖民勞動、蕾絲女工「工作性呼吸中止症（apnée）」與刺繡大師失明的職災代價、兩代女性守護的家庭暴力沉默，一路聊到巴黎共享菜園與工廠饒舌的街頭素人選角、四國語言（法語、英語、坦米爾語、法國手語 LSF）與《24小時反恐任務》式分割畫面舞台技術，並於番外篇完整揭開全劇 12 位演員分飾多角的戲劇圖譜與跨界人生；進而在第二篇章「名門匠人篇」（Arc 2: The Couture Reality）走出舞台鏡框，深潛巴黎與孟買真實名門歷史——從聖羅蘭雙工坊的白袍權威、路易十四與柯爾貝的蕾絲經濟戰、阿朗松針編蕾絲與馬尾毛極限工藝、蒙兀兒帝國跨越五百年的金銀線立體重刺繡，到麥昆的薩維爾街盔甲剪裁與英王室黛妃、凱特世紀婚紗的極限防諜戰。",
       "cover_url": "lacrima-202611-9c4e7b/cover.jpg",
-      "episode_count": 6,
-      "total_duration_sec": 4677.424762000001,
-      "total_duration_fmt": "01:17:57",
+      "episode_count": 9,
+      "total_duration_sec": 6910.346145,
+      "total_duration_fmt": "01:55:10",
       "web_path": "lacrima-202611-9c4e7b/",
       "full_url": "https://tzejen.github.io/rabbit-hole/p/lacrima-202611-9c4e7b/",
       "episodes": [
@@ -109,6 +109,24 @@
           "title": "Ep06 番外篇——全劇演員角色圖譜與跨界人生：從海運上班族、軟體工程師到唯一不換角的承重牆",
           "duration_fmt": "16:16",
           "filename": "06_番外篇_全劇演員角色與跨界人生.m4a"
+        },
+        {
+          "episode": 7,
+          "title": "Ep07 孟買的刺繡隱士與時尚雙城",
+          "duration_fmt": "10:28",
+          "filename": "07_孟買的刺繡隱士與時尚雙城.m4a"
+        },
+        {
+          "episode": 8,
+          "title": "Ep08 巴黎工坊的無聲守護者",
+          "duration_fmt": "15:35",
+          "filename": "08_巴黎工坊的無聲守護者.m4a"
+        },
+        {
+          "episode": 9,
+          "title": "Ep09 婚紗即盔甲：麥昆的密碼與皇室機密",
+          "duration_fmt": "11:07",
+          "filename": "09_婚紗即盔甲_麥昆的密碼與皇室機密.m4a"
         }
       ],
       "ref_docs_count": 1,
