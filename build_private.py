@@ -159,7 +159,12 @@ def build_private_series(entry):
         cover_src = os.path.join(s_dir, "cover.png")
     if not os.path.exists(cover_src):
         cover_src = os.path.join(DIST_DIR, "cover_channel.png")
-    shutil.copy2(cover_src, os.path.join(target_dir, cover_dst_name))
+    dst_cover_path = os.path.join(target_dir, cover_dst_name)
+    if not os.path.exists(dst_cover_path) or os.path.getsize(dst_cover_path) != os.path.getsize(cover_src):
+        try:
+            shutil.copy2(cover_src, dst_cover_path)
+        except Exception as e:
+            print(f"   [WARN] Could not copy cover: {e}")
 
     # Copy channel avatar for upper-right 兔子洞筆記 brand display
     channel_avatar_dst = os.path.join(target_dir, "cover_channel.png")
@@ -213,7 +218,7 @@ def build_private_series(entry):
 
         artist_tag = mp4.tags.get("©ART", [CHANNEL_META["author"]])[0] if mp4.tags else CHANNEL_META["author"]
         desc_tag = mp4.tags.get("desc", mp4.tags.get("©cmt", [""]))[0] if mp4.tags else ""
-        notes_tag = mp4.tags.get("©lyr", [desc_tag])[0] if mp4.tags else desc_tag
+        notes_tag = ""  # Clean show notes: do not embed full outlines in private episodes
 
         dur_sec, chapters = get_audio_duration_and_chapters(fpath)
         if dur_sec <= 0:
@@ -250,7 +255,7 @@ def build_private_series(entry):
             "duration_fmt": format_duration(dur_sec),
             "artist": artist_tag,
             "summary": desc_tag,
-            "full_notes": notes_tag,
+            "full_notes": "",
             "chapters": chapters,
             "cover_image": cover_dst_name,
             "pub_date_rfc822": datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000"),
@@ -273,7 +278,7 @@ def build_private_series(entry):
             ext_lower = ext.lower()
             if fname.lower() in SYSTEM_IGNORE_FILES or fname.startswith(".") or fname.startswith("_") or fname.startswith("~$"):
                 continue
-            if "逐字稿" in fname or "transcript" in fname.lower():
+            if "逐字稿" in fname or "transcript" in fname.lower() or "大綱" in fname or "outline" in fname.lower() or "prompt" in fname.lower():
                 continue
             if ext_lower not in ALLOWED_EXTENSIONS:
                 continue
