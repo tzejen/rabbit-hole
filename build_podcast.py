@@ -353,8 +353,7 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
             ch_rows = "".join([f"<li><b>{ch['start_fmt']}</b> {xml_escape(ch['title'])}</li>" for ch in ep["chapters"]])
             ch_html = f"<h4>【本集章節時間軸】</h4><ul>{ch_rows}</ul>"
 
-        notes_html = ep["full_notes"].replace("\n", "<br/>")
-        content_encoded = f"<p>{xml_escape(ep['summary'])}</p>{ch_html}<hr/><h4>【考證手冊與大綱】</h4><p>{notes_html}</p>"
+        content_encoded = f"<p>{xml_escape(ep['summary'])}</p>{ch_html}"
 
         xml_lines.extend([
             '    <item>',
