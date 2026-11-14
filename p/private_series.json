@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-07 11:57",
+  "updated_at": "2026-11-14 10:42",
   "github_user": "tzejen",
   "github_repo": "rabbit-hole",
   "total_series": 2,
@@ -157,17 +157,6 @@
       ]
     },
     {
-      "dir_name": "中國佛教造像_Gemini",
-      "count": 10,
-      "date": "2026-10-18",
-      "mtime": 1792253256.673,
-      "sample_episodes": [
-        "無像時代的破曉與漢代早期佛像_NotebookLM",
-        "絲路綠洲與北涼涼州模式_NotebookLM",
-        "皇帝即如來與雲岡曇曜五窟_NotebookLM"
-      ]
-    },
-    {
       "dir_name": "201610_福岡_AGY",
       "count": 6,
       "date": "2026-10-16",
@@ -190,7 +179,7 @@
       ]
     },
     {
-      "dir_name": "中國佛教造像",
+      "dir_name": "中國佛教造像_Claude",
       "count": 11,
       "date": "2026-10-02",
       "mtime": 1790933682.638,

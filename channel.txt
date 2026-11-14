@@ -6,6 +6,9 @@
 GitHub_User: tzejen
 GitHub_Repo: rabbit-hole
 
+# 音訊伺服器網址（Cloudflare R2 直連，提供 iOS 完整相容的 audio/mp4 與 Range 串流）
+Audio_Base_Url: https://pub-a6ff172b569e4ff0b2359afe89300c57.r2.dev
+
 # 頻道基本資料
 Title: 兔子洞筆記
 Subtitle: Notes from the Rabbit Hole

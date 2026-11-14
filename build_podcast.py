@@ -85,6 +85,8 @@ def load_channel_meta():
                         meta["github_user"] = v_clean
                     elif k_lower == "github_repo":
                         meta["github_repo"] = v_clean
+                    elif k_lower == "audio_base_url":
+                        meta["audio_base_url"] = v_clean.rstrip("/")
 
     meta["description"] = "\n".join(desc_lines).strip() if desc_lines else ""
     return meta
@@ -249,9 +251,10 @@ def scan_and_collect_episodes():
             else:
                 pub_date = datetime(2026, 10, 25 + s_info["season_num"], 12, idx, 0, tzinfo=timezone.utc)
 
-            # Standard ASCII release filename for GitHub Releases & CDN (streamed directly without local duplicates)
+            # Standard ASCII release filename for CDN / R2 (streamed directly without local duplicates)
             release_fname = f"{s_info['id']}_ep{idx:02d}.m4a"
-            audio_url = f"https://github.com/{user}/{repo}/releases/download/v1.0.0/{release_fname}"
+            audio_base_url = CHANNEL_META.get("audio_base_url") or f"https://github.com/{user}/{repo}/releases/download/v1.0.0"
+            audio_url = f"{audio_base_url}/{release_fname}"
 
             ep_data = {
                 "series_id": s_info["id"],
@@ -300,7 +303,7 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
     user = CHANNEL_META.get("github_user", "username")
     repo = CHANNEL_META.get("github_repo", "rabbit-hole")
     base_url = f"https://{user}.github.io/{repo}"
-    audio_base_url = f"https://github.com/{user}/{repo}/releases/download/v1.0.0"
+    audio_base_url = CHANNEL_META.get("audio_base_url") or f"https://github.com/{user}/{repo}/releases/download/v1.0.0"
 
     author = CHANNEL_META.get("author", "").strip()
     subtitle = CHANNEL_META.get("subtitle", "").strip()
