@@ -769,8 +769,10 @@
     .player-right {
       display: flex;
       align-items: center;
-      gap: 12px;
-      width: 100px;
+      gap: 8px;
+      width: auto;
+      min-width: 100px;
+      flex-shrink: 0;
       justify-content: flex-end;
     }
     .speed-btn {
@@ -783,6 +785,188 @@
       font-family: monospace;
       cursor: pointer;
       white-space: nowrap;
+    }
+    .mode-switch-btn {
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid var(--border-color);
+      color: var(--gold-light);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .mode-switch-btn:hover {
+      background: var(--gold-primary);
+      color: #0b1120;
+      border-color: var(--gold-primary);
+    }
+
+    /* Video Theater Stage */
+    .video-theater {
+      background: linear-gradient(145deg, #131d35 0%, #172442 100%);
+      border: 1px solid var(--border-focus);
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+    .video-theater-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .video-theater-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+    .video-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0b1120;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+      padding: 3px 9px;
+      border-radius: 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .video-theater-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .video-theater-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .video-ctrl-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .video-ctrl-pill:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.12);
+    }
+    .video-ctrl-pill.active {
+      background: rgba(212, 175, 55, 0.18);
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+    .video-stage-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000000;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    #videoElement {
+      width: 100%;
+      height: 100%;
+      display: block;
+      outline: none;
+    }
+    .video-theater-chapters {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .chapter-pill.active-chapter {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+    .chapter-pill.active-chapter .chapter-time {
+      color: var(--gold-light);
+    }
+    .media-badge-video {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 6px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .ep-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .ep-video-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 2px 8px;
+      border-radius: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .ep-actions-col {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .ep-audio-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .ep-audio-btn:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.1);
     }
 
     /* Modals */
@@ -1101,11 +1285,33 @@
         grid-column: 3;
         grid-row: 1;
         width: auto;
+        min-width: 0;
+        gap: 6px;
         display: flex;
       }
       .speed-btn {
         padding: 3px 6px;
         font-size: 11px;
+      }
+      .mode-switch-btn {
+        padding: 3px 6px;
+        font-size: 11px;
+      }
+      .video-theater {
+        padding: 14px 12px;
+        border-radius: 14px;
+        margin-bottom: 16px;
+      }
+      .video-theater-title {
+        font-size: 14.5px;
+      }
+      .video-ctrl-pill {
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+      .ep-audio-btn {
+        padding: 5px 8px;
+        font-size: 11.5px;
       }
       .progress-row {
         grid-column: 1 / -1;
@@ -1178,6 +1384,26 @@
       </div>
     </section>
 
+    <!-- Video Theater Stage (primary player for video episodes) -->
+    <section class="video-theater" id="videoTheater" style="display: none;">
+      <div class="video-theater-header">
+        <div class="video-theater-title-wrap">
+          <span class="video-badge">🎬 影音導覽</span>
+          <div class="video-theater-title" id="videoTheaterTitle">影片標題</div>
+        </div>
+        <div class="video-theater-controls">
+          <button class="video-ctrl-pill" id="videoSubtitleToggleBtn" onclick="toggleVideoSubtitles()" style="display: none;">CC 字幕：關</button>
+          <button class="video-ctrl-pill" id="videoSpeedBtn" onclick="cycleSpeed()">1.0x</button>
+          <button class="video-ctrl-pill" id="switchToAudioBtn" onclick="switchToAudioMode()">🎧 切換純音訊</button>
+          <button class="video-ctrl-pill" onclick="closeVideoTheater()" title="收合影片播放器">✕</button>
+        </div>
+      </div>
+      <div class="video-stage-wrap">
+        <video id="videoElement" controls playsinline preload="metadata"></video>
+      </div>
+      <div class="video-theater-chapters" id="videoTheaterChapters" style="display: none;"></div>
+    </section>
+
     <!-- Series View: Episodes List -->
     <div class="episodes-list" id="episodesList" style="display: none;"></div>
   </div>
@@ -1222,6 +1448,7 @@
       </div>
 
       <div class="player-right">
+        <button class="mode-switch-btn" id="modeSwitchBarBtn" onclick="toggleMediaMode()" style="display: none;"></button>
         <button class="speed-btn" id="speedBtn" onclick="cycleSpeed()">1.0x</button>
       </div>
     </div>
@@ -1260,14 +1487,25 @@
   </div>
 
   <script>
-    const PODCAST_DATA = {"series": [{"id": "onomichi-wip-8f2a1d", "cave_number": "內部搶先版", "title": "尾道漫遊：坡道、老屋與島波海道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "dir": "G:\\My Drive\\NotebookLM\\202610_尾道", "cover_src": "G:\\My Drive\\NotebookLM\\202610_尾道\\cover.jpg", "cover_dst_name": "cover.jpg", "cover_url": "cover.jpg", "season_num": 1, "status": "內部搶先版"}], "episodes": [{"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 1, "title": "Ep01 尾道山城老屋再生", "filename": "01_尾道山城老屋再生.m4a", "release_filename": "01_尾道山城老屋再生.m4a", "audio_url": "audio/01_尾道山城老屋再生.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\01_尾道山城老屋再生.m4a", "file_size": 17063436, "duration_sec": 1059.085351, "duration_fmt": "17:39", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Thu, 19 Nov 2026 22:35:55 +0000", "pub_date_iso": "2026-11-19T22:35:55.146334+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "filename": "02_大師鏡頭與筆下的尾道.m4a", "release_filename": "02_大師鏡頭與筆下的尾道.m4a", "audio_url": "audio/02_大師鏡頭與筆下的尾道.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\02_大師鏡頭與筆下的尾道.m4a", "file_size": 16835735, "duration_sec": 1044.73542, "duration_fmt": "17:24", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Thu, 19 Nov 2026 22:35:55 +0000", "pub_date_iso": "2026-11-19T22:35:55.289316+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 3, "title": "Ep03 尾道立體散步地圖", "filename": "03_尾道立體散步地圖.m4a", "release_filename": "03_尾道立體散步地圖.m4a", "audio_url": "audio/03_尾道立體散步地圖.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\03_尾道立體散步地圖.m4a", "file_size": 18514460, "duration_sec": 1148.969796, "duration_fmt": "19:08", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Thu, 19 Nov 2026 22:35:55 +0000", "pub_date_iso": "2026-11-19T22:35:55.416262+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 4, "title": "Ep04 島波海道電輔車跳島", "filename": "04_島波海道電輔車跳島.m4a", "release_filename": "04_島波海道電輔車跳島.m4a", "audio_url": "audio/04_島波海道電輔車跳島.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\04_島波海道電輔車跳島.m4a", "file_size": 15458852, "duration_sec": 959.402086, "duration_fmt": "15:59", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Thu, 19 Nov 2026 22:35:55 +0000", "pub_date_iso": "2026-11-19T22:35:55.544993+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 5, "title": "Ep05 尾道拉麵與行前清單", "filename": "05_尾道拉麵與行前清單.m4a", "release_filename": "05_尾道拉麵與行前清單.m4a", "audio_url": "audio/05_尾道拉麵與行前清單.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\05_尾道拉麵與行前清單.m4a", "file_size": 16730862, "duration_sec": 1038.721451, "duration_fmt": "17:18", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Thu, 19 Nov 2026 22:35:55 +0000", "pub_date_iso": "2026-11-19T22:35:55.679122+00:00"}], "ref_docs_list": [], "series_docs_content": {}};
+    const PODCAST_DATA = {"series": [{"id": "onomichi-wip-8f2a1d", "cave_number": "內部搶先版", "title": "尾道漫遊：坡道、老屋與島波海道", "description": "本系列專為計畫前往廣島尾道、瀨戶內海與島波海道跳島的旅人量身打造。從尾道千光寺山、坡道小徑與貓之細道，到尾道空屋再生計畫（尾道空き家再生プロジェクト）的歷史建築活化；走入小津安二郎《東京物語》、大林宣彥「尾道三部曲」與林芙美子文學碑的藝文光影；跨上渡輪與電輔自行車，穿梭島波海道（向島、因島、生口島）橘子果香與海潮微風；最後品嚐背脂醬油的尾道拉麵與在地布丁。這是一趟結合山城散步、單車行旅與在地風土的沉浸式聲音漫遊。", "dir": "G:\\My Drive\\NotebookLM\\202610_尾道", "cover_src": "G:\\My Drive\\NotebookLM\\202610_尾道\\cover.jpg", "cover_dst_name": "cover.jpg", "cover_url": "cover.jpg", "season_num": 1, "status": "內部搶先版"}], "episodes": [{"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 1, "title": "Ep01 尾道山城老屋再生", "filename": "01_尾道山城老屋再生.m4a", "release_filename": "01_尾道山城老屋再生.m4a", "audio_url": "audio/01_尾道山城老屋再生.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\01_尾道山城老屋再生.m4a", "file_size": 17063436, "duration_sec": 1059.085351, "duration_fmt": "17:39", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 23 Nov 2026 04:18:17 +0000", "pub_date_iso": "2026-11-23T04:18:17.322895+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 2, "title": "Ep02 大師鏡頭與筆下的尾道", "filename": "02_大師鏡頭與筆下的尾道.m4a", "release_filename": "02_大師鏡頭與筆下的尾道.m4a", "audio_url": "audio/02_大師鏡頭與筆下的尾道.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\02_大師鏡頭與筆下的尾道.m4a", "file_size": 16835735, "duration_sec": 1044.73542, "duration_fmt": "17:24", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 23 Nov 2026 04:18:17 +0000", "pub_date_iso": "2026-11-23T04:18:17.521916+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 3, "title": "Ep03 尾道立體散步地圖", "filename": "03_尾道立體散步地圖.m4a", "release_filename": "03_尾道立體散步地圖.m4a", "audio_url": "audio/03_尾道立體散步地圖.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\03_尾道立體散步地圖.m4a", "file_size": 18514460, "duration_sec": 1148.969796, "duration_fmt": "19:08", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 23 Nov 2026 04:18:17 +0000", "pub_date_iso": "2026-11-23T04:18:17.657813+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 4, "title": "Ep04 島波海道電輔車跳島", "filename": "04_島波海道電輔車跳島.m4a", "release_filename": "04_島波海道電輔車跳島.m4a", "audio_url": "audio/04_島波海道電輔車跳島.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\04_島波海道電輔車跳島.m4a", "file_size": 15458852, "duration_sec": 959.402086, "duration_fmt": "15:59", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 23 Nov 2026 04:18:17 +0000", "pub_date_iso": "2026-11-23T04:18:17.804924+00:00"}, {"series_id": "onomichi-wip-8f2a1d", "cave_number": "專屬", "series_title": "尾道漫遊：坡道、老屋與島波海道", "season": 1, "episode": 5, "title": "Ep05 尾道拉麵與行前清單", "filename": "05_尾道拉麵與行前清單.m4a", "release_filename": "05_尾道拉麵與行前清單.m4a", "audio_url": "audio/05_尾道拉麵與行前清單.m4a", "local_path": "G:\\My Drive\\NotebookLM\\202610_尾道\\05_尾道拉麵與行前清單.m4a", "file_size": 16730862, "duration_sec": 1038.721451, "duration_fmt": "17:18", "artist": "兔子洞筆記", "summary": "", "full_notes": "", "chapters": [], "cover_image": "cover.jpg", "pub_date_rfc822": "Mon, 23 Nov 2026 04:18:17 +0000", "pub_date_iso": "2026-11-23T04:18:17.940712+00:00"}], "ref_docs_list": [], "series_docs_content": {}};
     const IS_PRIVATE = true;
 
     let activeSeriesId = 'home'; // 'home' or series_id ('cave02', 'cave01')
     let currentPlayingEp = null;
     let isPlaying = false;
+    let activeMediaMode = 'audio'; // 'audio' or 'video'
+    let userTouchedSubs = false;
+    let currentVideoUrl = '';
+    let currentAudioUrl = '';
 
     const audio = document.getElementById('audioElement');
+    const video = document.getElementById('videoElement');
+    const videoTheater = document.getElementById('videoTheater');
+    const videoTheaterTitle = document.getElementById('videoTheaterTitle');
+    const videoTheaterChapters = document.getElementById('videoTheaterChapters');
+    const videoSubtitleToggleBtn = document.getElementById('videoSubtitleToggleBtn');
+    const videoSpeedBtn = document.getElementById('videoSpeedBtn');
+    const modeSwitchBarBtn = document.getElementById('modeSwitchBarBtn');
     const playBtn = document.getElementById('playBtn');
     const playerTitle = document.getElementById('playerTitle');
     const playerArtist = document.getElementById('playerArtist');
@@ -1285,41 +1523,86 @@
     const SVG_PLAY_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;margin-left:2px;"><polygon points="6,4 20,12 6,20"/></svg>';
     const SVG_PAUSE_LG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:block;"><rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/></svg>';
 
+    function parseLocationHash() {
+      const raw = window.location.hash.replace(/^#/, '').trim();
+      if (!raw || raw === 'home') return { seriesId: 'home', epNum: null };
+      let seriesId = raw;
+      let epNum = null;
+      const slashMatch = raw.match(/^([^/&?]+)\/ep0*([0-9]+)$/i);
+      const paramMatch = raw.match(/^([^/&?]+)[&?]ep=0*([0-9]+)$/i);
+      if (slashMatch) {
+        seriesId = slashMatch[1];
+        epNum = parseInt(slashMatch[2], 10);
+      } else if (paramMatch) {
+        seriesId = paramMatch[1];
+        epNum = parseInt(paramMatch[2], 10);
+      }
+      return { seriesId, epNum };
+    }
+
+    function openDeepLinkedEpisode(seriesId, epNum) {
+      if (!epNum) return;
+      const ep = PODCAST_DATA.episodes.find(e => e.series_id === seriesId && e.episode === epNum);
+      if (!ep) return;
+      if (ep.has_video) {
+        loadAndPlayVideo(ep, 0, false);
+        if (videoTheater) {
+          setTimeout(() => videoTheater.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+        }
+      } else {
+        const detailsEl = document.getElementById(`details-${ep.release_filename}`);
+        const cardEl = document.getElementById(`card-${ep.release_filename}`);
+        if (detailsEl && !detailsEl.classList.contains('show')) {
+          detailsEl.classList.add('show');
+          const btn = cardEl ? cardEl.querySelector('.ep-toggle-btn') : null;
+          if (btn) btn.textContent = '收合 ▴';
+        }
+        if (cardEl) {
+          setTimeout(() => cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+        }
+        loadAudioEpisode(ep, 0, false);
+      }
+    }
+
     function init() {
       if (IS_PRIVATE && PODCAST_DATA.series.length > 0) {
         activeSeriesId = PODCAST_DATA.series[0].id;
         renderView();
         return;
       }
-      const hash = window.location.hash.replace('#', '').trim();
-      if (hash && PODCAST_DATA.series.some(s => s.id === hash)) {
-        activeSeriesId = hash;
+      const { seriesId, epNum } = parseLocationHash();
+      if (seriesId && PODCAST_DATA.series.some(s => s.id === seriesId)) {
+        activeSeriesId = seriesId;
       } else {
         activeSeriesId = 'home';
       }
 
       renderSeriesCards();
       renderView();
+      if (activeSeriesId !== 'home' && epNum) {
+        openDeepLinkedEpisode(activeSeriesId, epNum);
+      }
     }
 
     window.addEventListener('hashchange', () => {
       if (IS_PRIVATE) return;
-      const hash = window.location.hash.replace('#', '').trim();
-      if (hash && PODCAST_DATA.series.some(s => s.id === hash)) {
-        if (activeSeriesId !== hash) {
-          activeSeriesId = hash;
-          renderView();
-        }
-      } else if (!hash || hash === 'home') {
-        if (activeSeriesId !== 'home') {
-          activeSeriesId = 'home';
-          renderView();
-        }
+      const { seriesId, epNum } = parseLocationHash();
+      const targetSeries = (seriesId && PODCAST_DATA.series.some(s => s.id === seriesId)) ? seriesId : 'home';
+      if (activeSeriesId !== targetSeries) {
+        if (activeMediaMode === 'video') closeVideoTheater();
+        activeSeriesId = targetSeries;
+        renderView();
+      }
+      if (activeSeriesId !== 'home' && epNum) {
+        openDeepLinkedEpisode(activeSeriesId, epNum);
       }
     });
 
     function selectSeries(seriesId) {
       if (IS_PRIVATE) return;
+      if (activeSeriesId !== seriesId && activeMediaMode === 'video') {
+        closeVideoTheater();
+      }
       activeSeriesId = seriesId;
       if (seriesId === 'home') {
         history.pushState(null, '', window.location.pathname);
@@ -1369,6 +1652,7 @@
         const totalSec = sEps.reduce((acc, cur) => acc + (cur.duration_sec || 0), 0);
         const durHours = Math.round(totalSec / 3600 * 10) / 10;
         const durText = durHours >= 1 ? `${durHours} 小時` : `${Math.round(totalSec/60)} 分鐘`;
+        const hasVideo = sEps.some(e => e.has_video);
 
         return `
           <div class="series-promo-card" id="series-card-${s.id}" onclick="selectSeries('${s.id}')">
@@ -1376,7 +1660,7 @@
             <div class="series-promo-body">
               <div class="series-card-top-row">
                 <div class="series-title-group">
-                  <span class="series-promo-cave">${s.cave_number}</span>
+                  <span class="series-promo-cave">${s.cave_number}</span>${hasVideo ? '<span class="media-badge-video">🎬 影音導覽</span>' : ''}
                   <div class="series-promo-title">${s.title}</div>
                 </div>
                 <button class="series-toggle-btn" id="series-toggle-btn-${s.id}" onclick="toggleSeriesDesc('${s.id}', event)">
@@ -1411,6 +1695,7 @@
         // Landing Mode: Only show Series Cards Stack
         overviewSec.style.display = 'block';
         heroBanner.style.display = 'none';
+        if (videoTheater) videoTheater.style.display = 'none';
         epList.style.display = 'none';
         headerSeriesBtn.style.display = 'none';
       } else {
@@ -1419,6 +1704,10 @@
         heroBanner.style.display = 'flex';
         epList.style.display = 'flex';
         headerSeriesBtn.style.display = IS_PRIVATE ? 'none' : 'inline-flex';
+        if (videoTheater) {
+          const showTheater = (activeMediaMode === 'video' && currentPlayingEp && currentPlayingEp.series_id === activeSeriesId);
+          videoTheater.style.display = showTheater ? 'block' : 'none';
+        }
 
         const curSeries = PODCAST_DATA.series.find(s => s.id === activeSeriesId);
         if (curSeries) {
@@ -1474,6 +1763,7 @@
       const list = document.getElementById('episodesList');
       list.innerHTML = episodes.map(ep => {
         const isCurrentPlaying = (currentPlayingEp && currentPlayingEp.release_filename === ep.release_filename);
+        const chTitle = ep.has_video ? '📑 本集章節時間軸（點擊直接跳轉觀看）' : '📑 本集章節時間軸（點擊直接跳轉收聽）';
         return `
           <div class="episode-card ${isCurrentPlaying ? 'is-playing' : ''}" id="card-${ep.release_filename}">
             <div class="ep-header">
@@ -1485,18 +1775,24 @@
                   <div class="ep-duration-tag">${ep.duration_fmt}</div>
                 </div>
                 <div class="ep-text-block">
-                  <div class="ep-title">${ep.title}</div>
+                  <div class="ep-title-row">
+                    <div class="ep-title">${ep.title}</div>
+                    ${ep.has_video ? '<span class="ep-video-badge">🎬 影片</span>' : ''}
+                  </div>
                 </div>
               </div>
-              <button class="ep-toggle-btn" onclick="toggleDetails('${ep.release_filename}', event)">
-                展開 ▾
-              </button>
+              <div class="ep-actions-col">
+                ${ep.has_video ? `<button class="ep-audio-btn" onclick="playEpisodeAudioOnly('${ep.release_filename}', event)" title="純音訊收聽">🎧 純音訊</button>` : ''}
+                <button class="ep-toggle-btn" onclick="toggleDetails('${ep.release_filename}', event)">
+                  展開 ▾
+                </button>
+              </div>
             </div>
 
             <div class="ep-details" id="details-${ep.release_filename}">
               <div class="ep-summary-text">${ep.summary}</div>
               ${ep.chapters && ep.chapters.length > 0 ? `
-                <div class="chapters-title">📑 本集章節時間軸（點擊直接跳轉收聽）</div>
+                <div class="chapters-title">${chTitle}</div>
                 <div class="chapters-grid">
                   ${ep.chapters.map(ch => `
                     <div class="chapter-pill" onclick="jumpToChapter('${ep.release_filename}', ${ch.start})">
@@ -1525,60 +1821,359 @@
       }
     }
 
+    function getActiveMedia() {
+      return activeMediaMode === 'video' ? video : audio;
+    }
+
+    function seekMedia(mediaEl, targetSec) {
+      const t = Math.max(0, Number(targetSec) || 0);
+      if (mediaEl.readyState >= 1) {
+        mediaEl.currentTime = t;
+      } else if (t > 0) {
+        mediaEl.addEventListener('loadedmetadata', () => {
+          mediaEl.currentTime = t;
+        }, { once: true });
+      }
+    }
+
+    function updateModeSwitchBar() {
+      if (!modeSwitchBarBtn) return;
+      if (currentPlayingEp && currentPlayingEp.has_video) {
+        modeSwitchBarBtn.style.display = 'inline-block';
+        if (activeMediaMode === 'video') {
+          modeSwitchBarBtn.textContent = '🎧 純音訊';
+          modeSwitchBarBtn.title = '切換為純音訊背景播放';
+        } else {
+          modeSwitchBarBtn.textContent = '🎬 看影片';
+          modeSwitchBarBtn.title = '切換為影片模式';
+        }
+      } else {
+        modeSwitchBarBtn.style.display = 'none';
+      }
+    }
+
+    function syncSubtitleToggleUI() {
+      if (!videoSubtitleToggleBtn) return;
+      if (!currentPlayingEp || !currentPlayingEp.subtitle_url) {
+        videoSubtitleToggleBtn.style.display = 'none';
+        return;
+      }
+      videoSubtitleToggleBtn.style.display = 'inline-flex';
+      let anyShowing = false;
+      if (video && video.textTracks) {
+        for (let i = 0; i < video.textTracks.length; i++) {
+          if (video.textTracks[i].mode === 'showing') {
+            anyShowing = true;
+            break;
+          }
+        }
+      }
+      videoSubtitleToggleBtn.textContent = anyShowing ? 'CC 字幕：開' : 'CC 字幕：關';
+      videoSubtitleToggleBtn.classList.toggle('active', anyShowing);
+    }
+
+    function disableAllVideoSubtitles() {
+      if (!video || !video.textTracks) return;
+      for (let i = 0; i < video.textTracks.length; i++) {
+        video.textTracks[i].mode = 'disabled';
+      }
+      syncSubtitleToggleUI();
+    }
+
+    function toggleVideoSubtitles() {
+      if (!video || !video.textTracks) return;
+      userTouchedSubs = true;
+      let anyShowing = false;
+      for (let i = 0; i < video.textTracks.length; i++) {
+        if (video.textTracks[i].mode === 'showing') {
+          anyShowing = true;
+          break;
+        }
+      }
+      for (let i = 0; i < video.textTracks.length; i++) {
+        video.textTracks[i].mode = 'disabled';
+      }
+      if (!anyShowing) {
+        let preferredIdx = -1;
+        for (let i = 0; i < video.textTracks.length; i++) {
+          const t = video.textTracks[i];
+          if (t.label === '繁體中文' || t.language === 'zh-TW') {
+            preferredIdx = i;
+            break;
+          }
+        }
+        if (preferredIdx === -1 && video.textTracks.length > 0) preferredIdx = 0;
+        if (preferredIdx !== -1) {
+          video.textTracks[preferredIdx].mode = 'showing';
+        }
+      }
+      syncSubtitleToggleUI();
+    }
+
+    function updateActiveTheaterChapter(timeSec) {
+      if (!videoTheaterChapters || !currentPlayingEp || !currentPlayingEp.chapters) return;
+      const pills = videoTheaterChapters.querySelectorAll('.chapter-pill');
+      let activeIdx = -1;
+      for (let i = 0; i < currentPlayingEp.chapters.length; i++) {
+        if (timeSec >= currentPlayingEp.chapters[i].start) activeIdx = i;
+      }
+      pills.forEach((p, idx) => p.classList.toggle('active-chapter', idx === activeIdx));
+    }
+
     function handleEpisodeClick(relFname) {
       const ep = PODCAST_DATA.episodes.find(e => e.release_filename === relFname);
       if (!ep) return;
 
-      if (currentPlayingEp && currentPlayingEp.release_filename === relFname && audio.src) {
+      if (ep.has_video) {
+        if (currentPlayingEp && currentPlayingEp.release_filename === relFname && activeMediaMode === 'video' && currentVideoUrl === ep.video_url) {
+          if (videoTheater && videoTheater.style.display === 'none') {
+            videoTheater.style.display = 'block';
+          }
+          togglePlay();
+        } else {
+          loadAndPlayVideo(ep, 0, true);
+        }
+      } else {
+        if (currentPlayingEp && currentPlayingEp.release_filename === relFname && activeMediaMode === 'audio' && currentAudioUrl) {
+          togglePlay();
+        } else {
+          loadAudioEpisode(ep, 0, true);
+        }
+      }
+    }
+
+    function playEpisodeAudioOnly(relFname, evt) {
+      if (evt) evt.stopPropagation();
+      const ep = PODCAST_DATA.episodes.find(e => e.release_filename === relFname);
+      if (!ep) return;
+      if (currentPlayingEp && currentPlayingEp.release_filename === relFname && activeMediaMode === 'audio' && currentAudioUrl) {
         togglePlay();
       } else {
-        loadAndPlayEpisode(ep);
+        loadAudioEpisode(ep, 0, true);
+      }
+    }
+
+    function loadAndPlayVideo(ep, startTime = 0, autoPlay = true) {
+      if (!ep || !ep.has_video || !ep.video_url) {
+        loadAudioEpisode(ep, startTime, autoPlay);
+        return;
+      }
+      if (!audio.paused) audio.pause();
+
+      activeMediaMode = 'video';
+      currentPlayingEp = ep;
+
+      if (videoTheaterTitle) videoTheaterTitle.textContent = ep.title;
+      if (videoTheater && activeSeriesId === ep.series_id) {
+        videoTheater.style.display = 'block';
+      }
+
+      if (videoTheaterChapters) {
+        if (ep.chapters && ep.chapters.length > 0) {
+          videoTheaterChapters.style.display = 'block';
+          videoTheaterChapters.innerHTML = `
+            <div class="chapters-title">📑 本集章節時間軸（點擊跳轉影片片段）</div>
+            <div class="chapters-grid">
+              ${ep.chapters.map((ch, i) => `
+                <div class="chapter-pill" data-ch-idx="${i}" onclick="jumpToChapter('${ep.release_filename}', ${ch.start})">
+                  <span class="chapter-time">${ch.start_fmt}</span>
+                  <span class="chapter-name" title="${ch.title}">${ch.title}</span>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        } else {
+          videoTheaterChapters.style.display = 'none';
+          videoTheaterChapters.innerHTML = '';
+        }
+      }
+
+      playerTitle.textContent = ep.title;
+      playerArtist.textContent = `${ep.cave_number}・${ep.series_title}`;
+      playerThumb.src = ep.cover_image;
+      updateModeSwitchBar();
+
+      if (currentVideoUrl !== ep.video_url) {
+        userTouchedSubs = false;
+        video.querySelectorAll('track').forEach(t => t.remove());
+        currentVideoUrl = ep.video_url;
+        video.poster = ep.cover_image || '';
+        video.src = ep.video_url;
+
+        if (ep.subtitle_url) {
+          const tr = document.createElement('track');
+          tr.kind = 'subtitles';
+          tr.label = '繁體中文';
+          tr.srclang = 'zh-TW';
+          tr.src = ep.subtitle_url;
+          tr.default = false;
+          video.appendChild(tr);
+        }
+        disableAllVideoSubtitles();
+        progressFill.style.width = '0%';
+        currentTimeEl.textContent = formatSec(startTime || 0);
+        totalDurationEl.textContent = ep.duration_fmt || '00:00';
+      } else {
+        if (!userTouchedSubs) disableAllVideoSubtitles();
+        else syncSubtitleToggleUI();
+      }
+
+      video.playbackRate = speeds[currentSpeedIdx];
+      if (startTime > 0 || video.readyState >= 1) {
+        seekMedia(video, startTime);
+      }
+      updateActiveTheaterChapter(startTime || 0);
+
+      if (autoPlay) {
+        updateAllCardPlayStates(true);
+        updatePlayIcons(true);
+        video.play().then(() => {
+          isPlaying = true;
+          updatePlayIcons(true);
+          updateAllCardPlayStates(true);
+        }).catch(e => {
+          isPlaying = false;
+          updatePlayIcons(false);
+          updateAllCardPlayStates(false);
+          console.log('Video playback error: ', e);
+        });
+      } else {
+        isPlaying = false;
+        updatePlayIcons(false);
+        updateAllCardPlayStates(false);
+      }
+    }
+
+    function loadAudioEpisode(ep, startTime = 0, autoPlay = true) {
+      if (!ep) return;
+      if (video && !video.paused) video.pause();
+      if (videoTheater) videoTheater.style.display = 'none';
+
+      activeMediaMode = 'audio';
+      currentPlayingEp = ep;
+
+      const targetAudioSrc = ep.audio_src || ep.audio_url;
+      playerTitle.textContent = ep.title;
+      playerArtist.textContent = `${ep.cave_number}・${ep.series_title}`;
+      playerThumb.src = ep.cover_image;
+      updateModeSwitchBar();
+
+      if (currentAudioUrl !== targetAudioSrc) {
+        currentAudioUrl = targetAudioSrc;
+        audio.src = targetAudioSrc;
+        progressFill.style.width = '0%';
+        currentTimeEl.textContent = formatSec(startTime || 0);
+        totalDurationEl.textContent = ep.duration_fmt || '00:00';
+      }
+
+      audio.playbackRate = speeds[currentSpeedIdx];
+      if (startTime > 0 || audio.readyState >= 1) {
+        seekMedia(audio, startTime);
+      }
+
+      if (autoPlay) {
+        updateAllCardPlayStates(true);
+        updatePlayIcons(true);
+        audio.play().then(() => {
+          isPlaying = true;
+          updatePlayIcons(true);
+          updateAllCardPlayStates(true);
+        }).catch(e => {
+          isPlaying = false;
+          updatePlayIcons(false);
+          updateAllCardPlayStates(false);
+          console.log('Audio playback error: ', e);
+        });
+      } else {
+        isPlaying = false;
+        updatePlayIcons(false);
+        updateAllCardPlayStates(false);
       }
     }
 
     function loadAndPlayEpisode(ep) {
-      currentPlayingEp = ep;
-      audio.src = ep.audio_src || ep.audio_url;
-      playerTitle.textContent = ep.title;
-      playerArtist.textContent = `${ep.cave_number}・${ep.series_title}`;
-      playerThumb.src = ep.cover_image;
+      loadAudioEpisode(ep, 0, true);
+    }
 
-      updateAllCardPlayStates(true);
-      audio.play().then(() => {
-        isPlaying = true;
-        updatePlayIcons(true);
-      }).catch(e => console.log('Audio playback error: ', e));
+    function switchToAudioMode() {
+      if (!currentPlayingEp) return;
+      const resumeTime = (activeMediaMode === 'video' && !isNaN(video.currentTime)) ? video.currentTime : 0;
+      const shouldPlay = activeMediaMode === 'video' ? !video.paused : isPlaying;
+      loadAudioEpisode(currentPlayingEp, resumeTime, shouldPlay);
+    }
+
+    function switchToVideoMode() {
+      if (!currentPlayingEp || !currentPlayingEp.has_video) return;
+      const resumeTime = (activeMediaMode === 'audio' && !isNaN(audio.currentTime)) ? audio.currentTime : 0;
+      const shouldPlay = activeMediaMode === 'audio' ? !audio.paused : isPlaying;
+      if (activeSeriesId !== currentPlayingEp.series_id && !IS_PRIVATE) {
+        activeSeriesId = currentPlayingEp.series_id;
+        window.location.hash = currentPlayingEp.series_id;
+        renderView();
+      }
+      loadAndPlayVideo(currentPlayingEp, resumeTime, shouldPlay);
+    }
+
+    function toggleMediaMode() {
+      if (activeMediaMode === 'video') {
+        switchToAudioMode();
+      } else {
+        switchToVideoMode();
+      }
+    }
+
+    function closeVideoTheater() {
+      if (video && !video.paused) video.pause();
+      if (videoTheater) videoTheater.style.display = 'none';
+      if (activeMediaMode === 'video' && currentPlayingEp) {
+        const resumeTime = !isNaN(video.currentTime) ? video.currentTime : 0;
+        loadAudioEpisode(currentPlayingEp, resumeTime, false);
+      } else {
+        isPlaying = false;
+        updatePlayIcons(false);
+        updateAllCardPlayStates(false);
+        updateModeSwitchBar();
+      }
     }
 
     function jumpToChapter(relFname, timestamp) {
       const ep = PODCAST_DATA.episodes.find(e => e.release_filename === relFname);
       if (!ep) return;
 
-      if (!currentPlayingEp || currentPlayingEp.release_filename !== relFname) {
-        loadAndPlayEpisode(ep);
+      if (ep.has_video) {
+        if (currentPlayingEp && currentPlayingEp.release_filename === relFname && activeMediaMode === 'audio') {
+          loadAudioEpisode(ep, timestamp, true);
+        } else {
+          loadAndPlayVideo(ep, timestamp, true);
+        }
+      } else {
+        loadAudioEpisode(ep, timestamp, true);
       }
-      audio.currentTime = timestamp;
-      audio.play().then(() => {
-        isPlaying = true;
-        updatePlayIcons(true);
-      });
     }
 
     function togglePlay() {
-      if (!audio.src || audio.src.endsWith('.html') || audio.src.endsWith('/')) {
-        if (PODCAST_DATA.episodes.length > 0) {
-          loadAndPlayEpisode(PODCAST_DATA.episodes[0]);
+      if (!currentPlayingEp) {
+        const pool = (activeSeriesId !== 'home')
+          ? PODCAST_DATA.episodes.filter(e => e.series_id === activeSeriesId).sort((a, b) => a.episode - b.episode)
+          : PODCAST_DATA.episodes;
+        if (pool.length > 0) {
+          if (pool[0].has_video) loadAndPlayVideo(pool[0], 0, true);
+          else loadAudioEpisode(pool[0], 0, true);
         }
         return;
       }
-      if (audio.paused) {
-        audio.play().then(() => {
+      const media = getActiveMedia();
+      if (media.paused) {
+        if (activeMediaMode === 'video' && videoTheater && activeSeriesId === currentPlayingEp.series_id) {
+          videoTheater.style.display = 'block';
+        }
+        media.play().then(() => {
           isPlaying = true;
           updatePlayIcons(true);
           updateAllCardPlayStates(true);
-        });
+        }).catch(e => console.log('Playback error: ', e));
       } else {
-        audio.pause();
+        media.pause();
         isPlaying = false;
         updatePlayIcons(false);
         updateAllCardPlayStates(false);
@@ -1603,42 +2198,62 @@
       }
     }
 
-    function playNext() {
+    function playAdjacent(delta) {
       if (!currentPlayingEp) return;
-      const idx = PODCAST_DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
-      if (idx !== -1 && idx < PODCAST_DATA.episodes.length - 1) {
-        loadAndPlayEpisode(PODCAST_DATA.episodes[idx + 1]);
+      const seriesEps = PODCAST_DATA.episodes
+        .filter(e => e.series_id === currentPlayingEp.series_id)
+        .sort((a, b) => a.episode - b.episode);
+      const idx = seriesEps.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
+      const target = seriesEps[idx + delta];
+      if (!target) return;
+      if (activeMediaMode === 'video' && target.has_video) {
+        loadAndPlayVideo(target, 0, true);
+      } else if (activeMediaMode === 'audio') {
+        loadAudioEpisode(target, 0, true);
+      } else if (target.has_video) {
+        loadAndPlayVideo(target, 0, true);
+      } else {
+        loadAudioEpisode(target, 0, true);
       }
+    }
+
+    function playNext() {
+      playAdjacent(1);
     }
 
     function playPrev() {
-      if (!currentPlayingEp) return;
-      const idx = PODCAST_DATA.episodes.findIndex(e => e.release_filename === currentPlayingEp.release_filename);
-      if (idx > 0) {
-        loadAndPlayEpisode(PODCAST_DATA.episodes[idx - 1]);
-      }
+      playAdjacent(-1);
     }
 
     function skipTime(delta) {
-      audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + delta));
+      const media = getActiveMedia();
+      if (!media || !media.src) return;
+      const dur = isNaN(media.duration) ? Infinity : media.duration;
+      media.currentTime = Math.max(0, Math.min(dur, media.currentTime + delta));
     }
 
     function seek(e) {
+      const media = getActiveMedia();
+      if (!media || isNaN(media.duration) || media.duration <= 0) return;
       const rect = e.currentTarget.getBoundingClientRect();
-      const pos = (e.clientX - rect.left) / rect.width;
-      audio.currentTime = pos * audio.duration;
+      const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      media.currentTime = pos * media.duration;
     }
 
     function cycleSpeed() {
       currentSpeedIdx = (currentSpeedIdx + 1) % speeds.length;
       const spd = speeds[currentSpeedIdx];
       audio.playbackRate = spd;
-      speedBtn.textContent = `${spd.toFixed(1)}x`;
+      if (video) video.playbackRate = spd;
+      const label = `${spd.toFixed(1)}x`;
+      speedBtn.textContent = label;
+      if (videoSpeedBtn) videoSpeedBtn.textContent = label;
     }
 
     // Audio Event Listeners
     audio.addEventListener('timeupdate', () => {
-      if (!isNaN(audio.duration)) {
+      if (activeMediaMode !== 'audio') return;
+      if (!isNaN(audio.duration) && audio.duration > 0) {
         const percent = (audio.currentTime / audio.duration) * 100;
         progressFill.style.width = percent + '%';
         currentTimeEl.textContent = formatSec(audio.currentTime);
@@ -1647,20 +2262,73 @@
     });
 
     audio.addEventListener('play', () => {
+      if (activeMediaMode !== 'audio') return;
       isPlaying = true;
       updatePlayIcons(true);
       updateAllCardPlayStates(true);
     });
 
     audio.addEventListener('pause', () => {
+      if (activeMediaMode !== 'audio') return;
       isPlaying = false;
       updatePlayIcons(false);
       updateAllCardPlayStates(false);
     });
 
     audio.addEventListener('ended', () => {
+      if (activeMediaMode !== 'audio') return;
       playNext();
     });
+
+    // Video Event Listeners
+    if (video) {
+      if (video.textTracks) {
+        video.textTracks.addEventListener('addtrack', () => {
+          if (!userTouchedSubs) disableAllVideoSubtitles();
+          else syncSubtitleToggleUI();
+        });
+        video.textTracks.addEventListener('change', () => {
+          syncSubtitleToggleUI();
+        });
+      }
+
+      video.addEventListener('loadedmetadata', () => {
+        if (!userTouchedSubs) disableAllVideoSubtitles();
+        if (activeMediaMode === 'video' && !isNaN(video.duration)) {
+          totalDurationEl.textContent = formatSec(video.duration);
+        }
+      });
+
+      video.addEventListener('timeupdate', () => {
+        if (activeMediaMode !== 'video') return;
+        if (!isNaN(video.duration) && video.duration > 0) {
+          const percent = (video.currentTime / video.duration) * 100;
+          progressFill.style.width = percent + '%';
+          currentTimeEl.textContent = formatSec(video.currentTime);
+          totalDurationEl.textContent = formatSec(video.duration);
+        }
+        updateActiveTheaterChapter(video.currentTime);
+      });
+
+      video.addEventListener('play', () => {
+        if (activeMediaMode !== 'video') return;
+        isPlaying = true;
+        updatePlayIcons(true);
+        updateAllCardPlayStates(true);
+      });
+
+      video.addEventListener('pause', () => {
+        if (activeMediaMode !== 'video') return;
+        isPlaying = false;
+        updatePlayIcons(false);
+        updateAllCardPlayStates(false);
+      });
+
+      video.addEventListener('ended', () => {
+        if (activeMediaMode !== 'video') return;
+        playNext();
+      });
+    }
 
     function formatSec(sec) {
       if (isNaN(sec)) return '00:00';

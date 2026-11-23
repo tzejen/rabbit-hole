@@ -23,7 +23,8 @@
       "cover_src": "G:\\My Drive\\NotebookLM\\白話文運動與日文詞彙_ModernChinese\\cover.jpg",
       "cover_dst_name": "cover_cave01.jpg",
       "season_num": 1,
-      "status": "已上線"
+      "status": "已上線",
+      "publish_mode": ""
     },
     {
       "id": "cave02",
@@ -34,7 +35,8 @@
       "cover_src": "G:\\My Drive\\NotebookLM\\日本鰻魚巡禮_Unagi\\cover.jpg",
       "cover_dst_name": "cover_cave02.jpg",
       "season_num": 2,
-      "status": "已上線"
+      "status": "已上線",
+      "publish_mode": ""
     },
     {
       "id": "cave03",
@@ -45,7 +47,20 @@
       "cover_src": "G:\\My Drive\\NotebookLM\\日本動畫全史_Anime\\cover.jpg",
       "cover_dst_name": "cover_cave03.jpg",
       "season_num": 3,
-      "status": "已上線"
+      "status": "已上線",
+      "publish_mode": ""
+    },
+    {
+      "id": "cave04",
+      "cave_number": "第四窟",
+      "title": "中國佛教造像：從漢代初傳到大唐盛世",
+      "description": "以「視覺形式與衣紋演變 × 政教關係與供養人 × 絲路跨國粉本 × 材質工藝與空間規制 × 近代海外流散史」五大維度，帶領聽眾具體學會看懂每一尊佛像的開臉、肉髻、手印、衣褶刀法與時代特徵——從東漢神仙附會、河西涼州模式、北魏雲岡與龍門、南朝萬佛寺「張家樣」、北齊「曹衣出水」與青州微笑、關中北周至隋代合流，一路走到盛唐奉先寺、天龍山、莫高窟與五臺山，並跨海輻射至日本奈良與新羅慶州。",
+      "dir": "G:\\My Drive\\NotebookLM\\中國佛教造像",
+      "cover_src": "G:\\My Drive\\NotebookLM\\中國佛教造像\\cover.jpg",
+      "cover_dst_name": "cover_cave04.jpg",
+      "season_num": 4,
+      "status": "連載中",
+      "publish_mode": "video_only"
     }
   ],
   "episodes": [
@@ -112,7 +127,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:01:00 +0000",
-      "pub_date_iso": "2026-10-24T12:01:00+00:00"
+      "pub_date_iso": "2026-10-24T12:01:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep01"
     },
     {
       "series_id": "cave01",
@@ -177,7 +198,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:02:00 +0000",
-      "pub_date_iso": "2026-10-24T12:02:00+00:00"
+      "pub_date_iso": "2026-10-24T12:02:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep02"
     },
     {
       "series_id": "cave01",
@@ -235,7 +262,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:03:00 +0000",
-      "pub_date_iso": "2026-10-24T12:03:00+00:00"
+      "pub_date_iso": "2026-10-24T12:03:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep03"
     },
     {
       "series_id": "cave01",
@@ -300,7 +333,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:04:00 +0000",
-      "pub_date_iso": "2026-10-24T12:04:00+00:00"
+      "pub_date_iso": "2026-10-24T12:04:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep04"
     },
     {
       "series_id": "cave01",
@@ -365,7 +404,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:05:00 +0000",
-      "pub_date_iso": "2026-10-24T12:05:00+00:00"
+      "pub_date_iso": "2026-10-24T12:05:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep05"
     },
     {
       "series_id": "cave01",
@@ -430,7 +475,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:06:00 +0000",
-      "pub_date_iso": "2026-10-24T12:06:00+00:00"
+      "pub_date_iso": "2026-10-24T12:06:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep06"
     },
     {
       "series_id": "cave01",
@@ -495,7 +546,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:07:00 +0000",
-      "pub_date_iso": "2026-10-24T12:07:00+00:00"
+      "pub_date_iso": "2026-10-24T12:07:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep07"
     },
     {
       "series_id": "cave01",
@@ -560,7 +617,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:08:00 +0000",
-      "pub_date_iso": "2026-10-24T12:08:00+00:00"
+      "pub_date_iso": "2026-10-24T12:08:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep08"
     },
     {
       "series_id": "cave01",
@@ -632,7 +695,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:09:00 +0000",
-      "pub_date_iso": "2026-10-24T12:09:00+00:00"
+      "pub_date_iso": "2026-10-24T12:09:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep09"
     },
     {
       "series_id": "cave01",
@@ -704,7 +773,13 @@
       ],
       "cover_image": "assets/cover_cave01.jpg",
       "pub_date_rfc822": "Sat, 24 Oct 2026 12:10:00 +0000",
-      "pub_date_iso": "2026-10-24T12:10:00+00:00"
+      "pub_date_iso": "2026-10-24T12:10:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave01/ep10"
     },
     {
       "series_id": "cave02",
@@ -726,7 +801,13 @@
       "chapters": [],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:01:00 +0000",
-      "pub_date_iso": "2026-10-29T12:01:00+00:00"
+      "pub_date_iso": "2026-10-29T12:01:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep01"
     },
     {
       "series_id": "cave02",
@@ -748,7 +829,13 @@
       "chapters": [],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:02:00 +0000",
-      "pub_date_iso": "2026-10-29T12:02:00+00:00"
+      "pub_date_iso": "2026-10-29T12:02:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep02"
     },
     {
       "series_id": "cave02",
@@ -770,7 +857,13 @@
       "chapters": [],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:03:00 +0000",
-      "pub_date_iso": "2026-10-29T12:03:00+00:00"
+      "pub_date_iso": "2026-10-29T12:03:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep03"
     },
     {
       "series_id": "cave02",
@@ -828,7 +921,13 @@
       ],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:04:00 +0000",
-      "pub_date_iso": "2026-10-29T12:04:00+00:00"
+      "pub_date_iso": "2026-10-29T12:04:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep04"
     },
     {
       "series_id": "cave02",
@@ -850,7 +949,13 @@
       "chapters": [],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:05:00 +0000",
-      "pub_date_iso": "2026-10-29T12:05:00+00:00"
+      "pub_date_iso": "2026-10-29T12:05:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep05"
     },
     {
       "series_id": "cave02",
@@ -872,7 +977,13 @@
       "chapters": [],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:06:00 +0000",
-      "pub_date_iso": "2026-10-29T12:06:00+00:00"
+      "pub_date_iso": "2026-10-29T12:06:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep06"
     },
     {
       "series_id": "cave02",
@@ -894,7 +1005,13 @@
       "chapters": [],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:07:00 +0000",
-      "pub_date_iso": "2026-10-29T12:07:00+00:00"
+      "pub_date_iso": "2026-10-29T12:07:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep07"
     },
     {
       "series_id": "cave02",
@@ -916,7 +1033,13 @@
       "chapters": [],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:08:00 +0000",
-      "pub_date_iso": "2026-10-29T12:08:00+00:00"
+      "pub_date_iso": "2026-10-29T12:08:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep08"
     },
     {
       "series_id": "cave02",
@@ -938,7 +1061,13 @@
       "chapters": [],
       "cover_image": "assets/cover_cave02.jpg",
       "pub_date_rfc822": "Thu, 29 Oct 2026 12:09:00 +0000",
-      "pub_date_iso": "2026-10-29T12:09:00+00:00"
+      "pub_date_iso": "2026-10-29T12:09:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave02/ep09"
     },
     {
       "series_id": "cave03",
@@ -996,7 +1125,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:01:00 +0000",
-      "pub_date_iso": "2026-10-28T12:01:00+00:00"
+      "pub_date_iso": "2026-10-28T12:01:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep01"
     },
     {
       "series_id": "cave03",
@@ -1054,7 +1189,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:02:00 +0000",
-      "pub_date_iso": "2026-10-28T12:02:00+00:00"
+      "pub_date_iso": "2026-10-28T12:02:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep02"
     },
     {
       "series_id": "cave03",
@@ -1112,7 +1253,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:03:00 +0000",
-      "pub_date_iso": "2026-10-28T12:03:00+00:00"
+      "pub_date_iso": "2026-10-28T12:03:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep03"
     },
     {
       "series_id": "cave03",
@@ -1170,7 +1317,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:04:00 +0000",
-      "pub_date_iso": "2026-10-28T12:04:00+00:00"
+      "pub_date_iso": "2026-10-28T12:04:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep04"
     },
     {
       "series_id": "cave03",
@@ -1235,7 +1388,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:05:00 +0000",
-      "pub_date_iso": "2026-10-28T12:05:00+00:00"
+      "pub_date_iso": "2026-10-28T12:05:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep05"
     },
     {
       "series_id": "cave03",
@@ -1293,7 +1452,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:06:00 +0000",
-      "pub_date_iso": "2026-10-28T12:06:00+00:00"
+      "pub_date_iso": "2026-10-28T12:06:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep06"
     },
     {
       "series_id": "cave03",
@@ -1365,7 +1530,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:07:00 +0000",
-      "pub_date_iso": "2026-10-28T12:07:00+00:00"
+      "pub_date_iso": "2026-10-28T12:07:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep07"
     },
     {
       "series_id": "cave03",
@@ -1437,7 +1608,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:08:00 +0000",
-      "pub_date_iso": "2026-10-28T12:08:00+00:00"
+      "pub_date_iso": "2026-10-28T12:08:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep08"
     },
     {
       "series_id": "cave03",
@@ -1509,7 +1686,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:09:00 +0000",
-      "pub_date_iso": "2026-10-28T12:09:00+00:00"
+      "pub_date_iso": "2026-10-28T12:09:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep09"
     },
     {
       "series_id": "cave03",
@@ -1581,7 +1764,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:10:00 +0000",
-      "pub_date_iso": "2026-10-28T12:10:00+00:00"
+      "pub_date_iso": "2026-10-28T12:10:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep10"
     },
     {
       "series_id": "cave03",
@@ -1646,7 +1835,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:11:00 +0000",
-      "pub_date_iso": "2026-10-28T12:11:00+00:00"
+      "pub_date_iso": "2026-10-28T12:11:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep11"
     },
     {
       "series_id": "cave03",
@@ -1718,7 +1913,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:12:00 +0000",
-      "pub_date_iso": "2026-10-28T12:12:00+00:00"
+      "pub_date_iso": "2026-10-28T12:12:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep12"
     },
     {
       "series_id": "cave03",
@@ -1790,7 +1991,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:13:00 +0000",
-      "pub_date_iso": "2026-10-28T12:13:00+00:00"
+      "pub_date_iso": "2026-10-28T12:13:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep13"
     },
     {
       "series_id": "cave03",
@@ -1862,7 +2069,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:14:00 +0000",
-      "pub_date_iso": "2026-10-28T12:14:00+00:00"
+      "pub_date_iso": "2026-10-28T12:14:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep14"
     },
     {
       "series_id": "cave03",
@@ -1927,7 +2140,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:15:00 +0000",
-      "pub_date_iso": "2026-10-28T12:15:00+00:00"
+      "pub_date_iso": "2026-10-28T12:15:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep15"
     },
     {
       "series_id": "cave03",
@@ -1985,7 +2204,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:16:00 +0000",
-      "pub_date_iso": "2026-10-28T12:16:00+00:00"
+      "pub_date_iso": "2026-10-28T12:16:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep16"
     },
     {
       "series_id": "cave03",
@@ -2050,7 +2275,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:17:00 +0000",
-      "pub_date_iso": "2026-10-28T12:17:00+00:00"
+      "pub_date_iso": "2026-10-28T12:17:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep17"
     },
     {
       "series_id": "cave03",
@@ -2122,7 +2353,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:18:00 +0000",
-      "pub_date_iso": "2026-10-28T12:18:00+00:00"
+      "pub_date_iso": "2026-10-28T12:18:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep18"
     },
     {
       "series_id": "cave03",
@@ -2194,7 +2431,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:19:00 +0000",
-      "pub_date_iso": "2026-10-28T12:19:00+00:00"
+      "pub_date_iso": "2026-10-28T12:19:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep19"
     },
     {
       "series_id": "cave03",
@@ -2259,7 +2502,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:20:00 +0000",
-      "pub_date_iso": "2026-10-28T12:20:00+00:00"
+      "pub_date_iso": "2026-10-28T12:20:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep20"
     },
     {
       "series_id": "cave03",
@@ -2317,7 +2566,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:21:00 +0000",
-      "pub_date_iso": "2026-10-28T12:21:00+00:00"
+      "pub_date_iso": "2026-10-28T12:21:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep21"
     },
     {
       "series_id": "cave03",
@@ -2382,7 +2637,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:22:00 +0000",
-      "pub_date_iso": "2026-10-28T12:22:00+00:00"
+      "pub_date_iso": "2026-10-28T12:22:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep22"
     },
     {
       "series_id": "cave03",
@@ -2447,7 +2708,13 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:23:00 +0000",
-      "pub_date_iso": "2026-10-28T12:23:00+00:00"
+      "pub_date_iso": "2026-10-28T12:23:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep23"
     },
     {
       "series_id": "cave03",
@@ -2512,7 +2779,169 @@
       ],
       "cover_image": "assets/cover_cave03.jpg",
       "pub_date_rfc822": "Wed, 28 Oct 2026 12:24:00 +0000",
-      "pub_date_iso": "2026-10-28T12:24:00+00:00"
+      "pub_date_iso": "2026-10-28T12:24:00+00:00",
+      "has_video": false,
+      "video_url": "",
+      "video_release_filename": "",
+      "video_file_size": 0,
+      "subtitle_url": "",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave03/ep24"
+    },
+    {
+      "series_id": "cave04",
+      "cave_number": "第四窟",
+      "series_title": "中國佛教造像：從漢代初傳到大唐盛世",
+      "season": 4,
+      "episode": 1,
+      "title": "H04E01 無像時代的破曉與漢代早期佛像",
+      "filename": "01_v2.1_無像時代的破曉與漢代早期佛像.m4a",
+      "release_filename": "cave04_ep01.m4a",
+      "audio_url": "https://pub-a6ff172b569e4ff0b2359afe89300c57.r2.dev/cave04_ep01.m4a",
+      "local_path": "G:\\My Drive\\NotebookLM\\中國佛教造像\\01_v2.1_無像時代的破曉與漢代早期佛像.m4a",
+      "file_size": 37029337,
+      "duration_sec": 1312.03,
+      "duration_fmt": "21:52",
+      "artist": "兔子洞筆記",
+      "summary": "從古印度長達四、五百年的「無像時代（佛足印、菩提樹、空寶座）」出發，手把手教聽眾分辨貴霜帝國「犍陀羅」與「秣菟羅」兩大造像中心，並走進東漢四川麻浩崖墓、彭山與綿陽搖錢樹、江南青瓷魂瓶，直到哈佛藝術博物館藏三至四世紀《火焰肩鎏金銅佛坐像》。",
+      "full_notes": "# 《中國佛教造像：從漢代初傳到大唐盛世》Ep01：無像時代的破曉與漢代早期佛像\n\n## 本集節目資訊\n- **集數**：第 1 集（全系列共 11 集）\n- **主題**：從印度「無佛像時代」的象徵符號、貴霜帝國兩大造像中心（犍陀羅與秣菟羅）的誕生，到東漢摩崖、四川崖墓、搖錢樹、江南青瓷魂瓶與三至四世紀早期鎏金銅佛的視覺解碼\n- **核心視角**：帶領聽眾建立第一套「看懂佛像的視覺語彙」——為何佛陀滅度後四、五百年沒有具體人像？如何一眼分辨希臘化犍陀羅（Gandhāra）與印度本土秣菟羅（Mathurā）的開臉、肉髻、手印與衣褶刀法？當這些粉本跨越蔥嶺與海洋進入東漢至三國時期的中國，工匠又如何將「外來胡神」嫁接進漢代升仙體系與墓葬神獸宇宙，最終在三、四世紀之交誕生獨立供奉的金銅主尊？\n\n### 製作規則（請勿唸出）\n1. **主持人設定與從容導覽節奏**：由兩位具備藝術史與宗教考古背景的主持人深度對談（不設定或鎖定男女角色）。預設聽眾具備基礎中國歷史常識，渴望學會**「如何在博物館或石窟現場，用肉眼看懂一尊佛像的細節」**（開臉神韻、肉髻形態、手印意義、衣褶刀法、材質肌理、空間動線與時代地域特徵）。**請在每個歷史現場與文物細節上放慢腳步，多用日常生活的觸覺、視覺與空間感來回推敲、自然交鋒與追問，將五大段落中的每一個要點充分聊透，確保節目具備充實飽滿的深度與從容呼吸感。**\n2. **開場與結尾規範**：\n   - **開場切入**：從西元前二世紀印度巴爾胡特與桑奇大塔石雕上的具體畫面切入——滿場國王、貴族與大象虔誠頂禮，但正中央的寶座上卻空無一人，只有傘蓋與石板上的雙足印。請花一點時間把這個「沒有主角的熱鬧場面」所帶來的視覺震撼與懸疑感聊開（**但嚴禁使用「想像一下」「讓我們想像一下這個畫面」「試想一個場景」等陳腔套話開場**）。\n   - **結尾收束**：在節目尾聲，請溫暖、有畫面感地幫聽眾收束本集從「印度空寶座」一路走到「貴霜雙星」、「漢代神仙墓葬配角」再到「哈佛火焰肩金銅主尊」的五百年視覺旅程，讓聽眾帶著滿滿的看展收穫離開，最後自然預告下一集五胡十六國「佛是戎神，正所應奉」與河西走廊石窟的開啟。\n3. **語言、比喻與口癖禁令**：\n   - 全程使用自然、流暢、具知性美感的**台灣華語**。\n   - **禁用電腦、科技、IT 類比喻**（如 DNA、X 光、3D 列印、作業系統、硬體軟體等），請盡情發揮日常生活、身體觸感與手工技藝（如剛拉開的椅子、冒熱氣的茶杯、吹飽氣的皮囊、打濕的棉布、翻模糕餅等）的直覺比喻。\n   - **嚴禁夾雜英文播客口癖**（如 `OK, let's unpack this`、`Here's where it gets really interesting`、`Right`、`Exactly`），**嚴禁主持人互誇比喻**（如「你這個比喻太精準了」「這個形容太貼切了」）。\n4. **首次提及原文發音規則**：節目中**第一次提到**較少見的梵文、英文專有名詞、外文著作或海外博物館時，在講完中文名稱後自然帶出一次原文發音即可，**另一位主持人切勿重複複誦原文**，第二次之後直接講中文。純中文人名、地名與術語請勿加唸拼音或英文。\n5. **史實準確與客觀學術語氣**：遇到學界尚有討論的議題（如無像時代原因、孔望山年代），請將不同學派的觀點與證據生動並陳；提及海外博物館館藏與近代收藏史時，保持客觀平實的學術語氣，不渲染悲情情緒。\n\n---\n\n## 本集不講的內容（請勿展開）\n- 東晉十六國時期西元 338 年後趙建武四年鎏金銅坐佛的細節，以及石虎「佛是戎神，正所應奉」的政教運作（留待第 2 集專論）。\n- 新疆克孜爾石窟中心柱窟、河西走廊北涼石塔與敦煌莫高窟早期三窟（留待第 2 集）。\n- 北魏雲岡石窟、龍門石窟與「秀骨清像」的南北朝審美轉型（留待第 3、4 集）。\n\n---\n\n## 發音與專有名詞對照（首次提及請自然帶出一次原文，勿一問一答複誦；中文讀音提示供發音參考，請勿唸出「讀如」二字）\n- **般涅槃**（「般」讀如「班」；梵文 Parinirvāṇa，佛陀肉身滅度、超越生死輪迴的究竟解脫）\n- **無佛像時代**（英文 Aniconic Period，早期佛教不刻畫佛陀具象人形的時期）\n- **桑奇大塔**（英文 Great Stupa at Sanchi，位於印度中央邦的早期佛教建築典範）\n- **巴爾胡特**（英文 Bharhut，印度早期覆鉢式佛塔遺址，以紅砂岩浮雕欄楯聞名；「楯」讀如「準」）\n- **佛足印**（梵文 Buddhapāda，象徵佛陀駐足說法的足跡）\n- **肉髻**（「髻」讀如「記」；梵文 Uṣṇīṣa，佛陀頭頂隆起的智慧頂骨相，三十二相之首）\n- **施無畏印**（梵文 Abhayamudrā，右手舉至胸前、掌心向外五指舒展，象徵拔除眾生恐懼）\n- **禪定印**（梵文 Dhyānamudrā，雙手仰掌交疊置於結跏趺坐雙足之上，象徵深沉冥想；「跏趺」讀如「加夫」）\n- **犍陀羅**（「犍」讀如「前」；梵文 Gandhāra，今巴基斯坦白沙瓦谷地至阿富汗東部，希臘化佛教藝術中心）\n- **秣菟羅**（「秣菟」讀如「末兔」；梵文 Mathurā，今印度北方邦閻牟那河畔，印度本土風格造像中心）\n- **阿爾弗雷德·福歇**（法文 Alfred Foucher，法國東方學家，提出希臘化犍陀羅佛像起源說與聖地紀念物說）\n- **阿南達·考馬拉斯瓦米**（英文 Ananda Coomaraswamy，斯里蘭卡裔藝術史學家，著有《佛陀的起源》*The Origin of the Buddha Image*）\n- **蘇珊·杭亭頓**（英文 Susan Huntington，美國藝術史學者，對「無佛像時代」提出朝聖禮儀實景說）\n- **哈佛藝術博物館**（英文 Harvard Art Museums，館藏三至四世紀「火焰肩鎏金銅坐佛」所在地）\n\n---\n\n## 一、空寶座與雙足印：印度「無佛像時代」的視覺留白與當代學界交鋒\n\n- **【必講】從巴爾胡特與桑奇大塔的「空座位」切入：釋迦牟尼滅度後四、五百年的留白**\n  - 帶聽眾走進西元前二至前一世紀的印度早期石雕——「巴爾胡特」（Bharhut）紅砂岩欄楯浮雕與「桑奇大塔」（Great Stupa at Sanchi）石雕塔門（Torana）。石雕畫面上擠滿了雙手合十、五體投地的國王、貴族、天人、樂師與大象，氣氛虔誠而狂熱；但當我們順著所有朝拜者的目光移向畫面正中央的主角位置時，寶座上卻空無一人！\n  - 在釋迦牟尼佛（Śākyamuni）於西元前五世紀進入「般涅槃」（Parinirvāṇa）後的四、五百年間，印度佛教藝術裡**完全沒有出現佛陀的人形造像**，藝術史稱之為「無佛像時代」（Aniconic Period）。\n  - 當時的工匠運用五種具體的視覺符號，像走進房間看見一張剛被拉開的椅子、或桌上還冒著熱氣的茶杯一樣，以「缺席」製造出更強烈的「神聖在場感」：\n    1. **菩提樹（Bodhi Tree）**：代表佛陀在菩提伽耶樹下成道。\n    2. **法輪（Dharmacakra）**：代表佛陀在鹿野苑初轉法輪、宣講教法。\n    3. **覆鉢式佛塔（Stūpa）**：代表佛陀肉身滅度、進入般涅槃。\n    4. **空座（Empty Throne）與傘蓋（Chatra）**：寶座上方撐起象徵帝王威儀的華蓋，座位卻刻意留空，凝聚無形的莊嚴氣場。\n    5. **佛足印（Buddhapāda）**：石板上刻出雙足印與千輻輪相，象徵佛陀曾經駐足說法的足跡。\n- **【學界爭議】為什麼四、五百年不刻佛陀人像？三大觀點的精彩交鋒**\n  - 針對這四、五百年為何不造佛像，請深入拆解學界三個層次的解釋：\n  - **第一層：傳統教義禁忌說**：早期佛教主張佛陀進入「無餘涅槃」後，已徹底擺脫五蘊肉身與生死輪迴的束縛；若再用世俗的石頭或木頭將祂雕刻成具體人形，在哲學與教義上是對「究竟解脫」的矮化與侷限，因此唯有「無形」才能象徵超越一切的佛陀。\n  - **第二層：福歇（Alfred Foucher）的聖地紀念物起源說**：法國東方學家阿爾弗雷德·福歇從圖像演變指出，菩提樹、法輪、佛塔這些符號，最初源自古代信徒前往佛陀四大聖地（誕生、成道、初轉法輪、涅槃）朝聖時所禮拜的地標與帶回的紀念徽章；工匠在尚未建立佛陀人形規範前，便自然沿用這些聖地標誌來指涉佛陀。\n  - **第三層：蘇珊·杭亭頓（Susan Huntington）的朝聖與節慶實景說 vs. 德赫賈的反駁**：1990 年代美國學者蘇珊·杭亭頓提出大膽挑戰，認為桑奇與巴爾胡特浮雕可能並非「教義禁止畫出佛陀」，而是忠實記錄阿育王之後的信徒前往聖地**禮拜菩提樹、空寶座等聖物（Relic Worship）或舉行宗教節慶遊行（Pageant）的真實歷史現場**！不過學者維迪亞·德赫賈（Vidya Dehejia）隨後提出有力反駁，指出許多浮雕明確描繪佛陀在世時的生平故事（如降伏醉象、離開王宮），畫面中的空座與足印依然是直接代替佛陀本人的象徵符號。\n- **【背景】阿育王（Ashoka）石柱的技術儲備**\n  - 西元前三世紀孔雀王朝阿育王在鹿野苑等地立起的四獅柱頭，展現了融合波斯阿契美尼德王朝與希臘化技術的高超石雕打磨工藝，為日後大型佛像誕生預備了成熟的鑿石基礎。\n- **轉場提問**：「既然菩提樹與空寶座已經完美運作了四、五百年，為什麼到了西元一世紀貴霜帝國崛起時，工匠卻突然打破沉默，同時在帝國南北兩端鑿出了佛陀的具體面容？」\n\n---\n\n## 二、諸神的面孔：貴霜帝國雙星——「犍陀羅」與「秣菟羅」的視覺解剖學\n\n- **【必講】貴霜帝國的跨文化熔爐與五大視覺鑑別指標**\n  - 西元一至二世紀，橫跨中亞與北印度的貴霜帝國（Kushan Empire）特別在名王迦膩色伽一世（Kanishka I）統治下，絲路貿易空前鼎盛，加上大乘佛教興起強烈的「觀佛三昧」與偶像禮拜需求，於是在帝國西北與東南幾乎同時誕生了兩套截然不同的佛像視覺系統。請帶領聽眾像在博物館展廳裡一樣，從五個肉眼指標做實戰鑑別：\n  1. **材質肌理**：西北印度的**犍陀羅**（Gandhāra，今巴基斯坦白沙瓦谷地至阿富汗東部）早期多用青灰色的**「灰色片岩」（Gray Schist）**，石質細密堅硬，非常適合雕刻銳利深邃的衣褶與立體五官，後期則盛行易於塑形的**「泥塑灰泥」（Stucco）**；恆河流域的**秣菟羅**（Mathurā，今印度北方邦閻牟那河畔）則清一色開採當地帶米黃色斑點的暗紅**「紅斑砂岩」（Spotted Red Sandstone）**，質地溫潤而充滿熱帶大地的生命力。\n  2. **開臉與五官**：**犍陀羅**曾受亞歷山大東征後的希臘化王國統治，工匠筆下的佛陀擁有如希臘太陽神阿波羅（Apollo）般的歐羅巴面孔——眼窩深陷、眉骨高聳、鼻樑挺直連額（希臘鼻）、雙眼半閉沉思，早期甚至常留著上翹的八字鬍，神情冷靜內斂；**秣菟羅**則植根於印度本土崇拜的「藥叉」（Yakṣa，掌管森林與財富的自然豐饒之神），佛陀臉型渾圓飽滿、雙眼外凸有神、嘴唇厚實且嘴角微揚，洋溢著溫暖外放的世俗喜悅。\n  3. **肉髻與髮式（本集主場完整講解）**：佛經記載佛陀有三十二相、八十種好，居首的便是頭頂隆起的智慧頂骨相——**「肉髻」（Uṣṇīṣa）**，以及眉間放光的**「白毫」（Ūrṇā）**。**犍陀羅**工匠不忍在唯美的希臘人頭頂刻出突兀骨瘤，遂將肉髻巧妙轉化為希臘貴族青年的**「波浪狀束髮頂髻」**；**秣菟羅**早期則在頭頂盤繞一圈如海螺殼般的**「螺旋髮髻」（Kapardin）**，稍晚更發展出布滿全頭、一顆顆向右旋轉的**「螺髮」**，成為後世東亞佛像最經典的標準髮型。\n  4. **衣著與衣褶刀法**：**犍陀羅**地處高緯度山谷、冬季寒冷，佛陀身穿厚重的毛呢大衣（僧伽梨 Saṃghāṭī），多採包覆雙肩的**「通肩式」**，刀法如古羅馬元老院托加長袍（Toga）般刻出寫實立體的管狀深褶，完全遮蔽軀體線條；**秣菟羅**地處炎熱的恆河平原，多採露出右肩與右臂的**「偏袒右肩」**，極薄的棉紗僧衣以平行的**「陰刻細線」或「雙線凸稜」**緊貼肌膚，大膽顯露寬闊胸膛與結實四肢。\n  5. **身體氣場**：**犍陀羅**講究西方外在的骨骼肌肉解剖比例；**秣菟羅**則強調古印度瑜伽修煉中內在生命氣息**「普拉納」（Prāṇa，氣息充盈）**——佛陀的胸腔就像剛深吸一口氣、由內向外飽滿撐開的皮囊一樣充滿彈性與張力，身後圓形頭光邊緣則刻滿一圈精緻的扇貝狀齒紋。\n- **【學界爭議】誰先造出人類第一尊佛像？福歇的希臘起源論 vs. 考馬拉斯瓦米的本土起源論**\n  - 二十世紀初，法國學者**福歇**提出著名的「希臘起源說」，認為是懂希臘雕塑的犍陀羅工匠率先打破無像傳統；然而斯里蘭卡裔學者**阿南達·考馬拉斯瓦米**（Ananda Coomaraswamy）在 1927 年經典專著《佛陀的起源》（*The Origin of the Buddha Image*）中強力反擊，論證印度本土高大威猛的藥叉石雕與瑜伽冥想傳統，完全具備獨立孕育佛陀形象的能力，兩地實為貴霜時代幾乎同時並蒂盛開的雙生花（在迦膩色伽一世的金幣上，甚至已經鑄有刻著希臘字母 `BODDO` 的立佛像）。\n- **轉場提問**：「當這兩種貴霜佛像模本跟隨粟特商隊與西域高僧踏上絲綢之路與南海航線，來到迷戀長生不老與西王母的東漢中國時，漢代人第一眼看到這位金光閃閃的異域神明，究竟把祂當成了什麼神？」\n\n---\n\n## 三、佛入神仙祠：東漢「浮屠祠」與孔望山摩崖、樂山麻浩崖墓的視覺解碼\n\n- **【必講】漢代人以神仙方術理解「浮屠」，以及最早摩崖、崖墓佛像現場**\n  - 佛教在西元一世紀（東漢時期）初傳中國時，並未立刻建立獨立的純佛教寺院，而是自然依附在漢代人最熟悉的「黃老神仙方術」與「祠堂墓葬圖像」之中（類似後來魏晉時期用老莊概念比附佛學的思維）。《後漢書》明確記載：西元 65 年（東漢明帝永平八年），光武帝之子**楚王劉英**在封國彭城（今江蘇徐州）「誦黃老之微言，尚浮屠之仁祠」；到了西元 166 年（延熹九年），**漢桓帝**更在洛陽皇宮裡「並祀浮屠、老子」。在當時漢代人的眼裡，這位頭頂肉髻、身放金光、能飛行變化的「浮屠（佛陀）」，簡直就是從西域崑崙山那頭飛來的得道大仙！\n  - **第一處現場：江蘇連雲港「孔望山摩崖造像」——神仙與佛陀的奇異同框**\n    - **空間與母題混搭**：在距離楚王劉英封地彭城不遠的海濱連雲港孔望山花崗片麻岩山壁上，散落雕刻著一百多個生動人像。當你站在山壁前細看，會發現戴著漢代「進賢冠」的世俗官吏、道教或神仙信仰人物（部分學者推測山巔大像為西王母或東王公），竟與外來的佛教立佛、坐佛、多達五十餘顆頭像圍繞哀悼的**「佛陀涅槃圖」**，以及**「薩埵太子捨身飼虎本生圖」**刻在同一面山崖上！\n    - **手印實戰教學——「施無畏印」（Abhayamudrā）**：孔望山的立佛深目高鼻、頭頂高肉髻，左手挽著大衣衣角，右手則高舉至胸前、五指自然舒展、掌心朝向觀眾——這正是我們在博物館最常看到的**「施無畏印」（Abhayamudrā，意為拔除眾生一切恐懼，給予安心無畏的力量）**，完全符合貴霜早期粉本特徵。\n    - **【學界爭議】孔望山年代之爭**：學界對孔望山摩崖的確切開鑿年代有不同討論。俞偉超、步連生、阮榮春等多數學者根據漢代畫像石特有的「剔地淺浮雕」技法，以及東漢彭城至東海郡的佛教傳播路線，認定其為**東漢中晚期（約西元二世紀）**；也有部分學者從複雜的密教或北朝圖像組合出發，提出可能晚至**三國或西晉以後**的不同推論。\n  - **第二處現場：四川樂山「麻浩一號崖墓門楣浮雕佛像」——四大鑑別鐵證**\n    - 順著長江與西南通道走進四川樂山，在東漢晚期至蜀漢時期的「麻浩一號崖墓」前室門楣正中央，工匠鑿出了一尊高 **37 公分**的淺浮雕坐像。過去曾有人懷疑：「在漢代家族墓穴門口，這會不會只是西王母或老子？」請帶領聽眾用肉眼找出證明祂 100% 是佛陀的**四大鑑別鐵證**：\n      1. 頭頂高高隆起的智慧**「肉髻」**；\n      2. 右手舉於胸前、掌心向外的**「施無畏印」**；\n      3. 身穿包覆雙肩、在胸前垂落成對稱 U 字形的貴霜式**「通肩大衣」**；\n      4. 最關鍵的一點——祂腦後刻著一圈正圓形的**「頭光」（Halo）**！中國先秦兩漢的西王母與神仙從來不戴圓形頭光，頭光是隨貴霜佛教藝術傳入中國的專屬神聖標記。\n- **【背景】四川什邡與彭山的東漢佛像畫像磚**\n  - 四川什邡與彭山等地亦出土模印有覆鉢式佛塔、菩提樹與坐佛的東漢墓葬畫像磚，印證巴蜀早在東漢晚期就已深入接觸印度與西域的佛教圖像粉本。\n- **轉場提問**：「除了刻在山崖與墓門上，當佛陀被縮小鑄在四川青銅搖錢樹的樹幹與陶座上，或是成排貼滿江南三國時期的青瓷魂瓶時，祂在古人的死後升仙世界裡又扮演什麼角色？」\n\n---\n\n## 四、搖錢樹上的金人與青瓷魂瓶：西南與江南的墓葬工藝與材質轉譯\n\n- **【必講】巴蜀升仙宇宙的搖錢樹陶座與樹幹 vs. 江南三國西晉的青瓷魂瓶與佛獸鏡**\n  - **四川彭山東漢墓出土「搖錢樹佛像陶座」（現藏南京博物院）與綿陽何家山青銅搖錢樹**：\n    - 東漢至三國時期的西南巴蜀墓葬，極為流行用青銅樹枝掛滿銅錢、羽人與神獸的「搖錢樹」（象徵連接人間與崑崙仙境的宇宙建木）。在這裡，我們必須幫聽眾精確區分兩個不同部位的國寶：\n    - **第一件（底座上的佛像）**：四川彭山東漢崖墓出土、現藏於**南京博物院**的高 21.5 公分灰陶搖錢樹底座。在漢代張口吐舌的辟邪神獸背上，赫然端坐著早期罕見的**「一佛二脅侍」**高浮雕！主尊佛陀高肉髻、留著貴霜式的八字鬍、右手結施無畏印、身穿厚重的通肩 U 形衣褶大衣，左右兩側還站著雙手拱於胸前、頭戴高冠的脅侍菩薩，將西域三尊像格式直接嫁接在漢代神獸底座上。\n    - **第二件（青銅樹幹上的佛像）**：四川綿陽何家山二號崖墓出土的青銅搖錢樹。工匠在中心的**青銅樹幹**上，每隔一節就鑄出一尊高約 6 公分、頭帶圓形頭光與高肉髻的結跏趺坐小佛（共五尊），而樹冠頂端與枝葉間則棲息著**西王母**、鳳鳥與玉兔搗藥！對墓主人而言，把佛陀請上搖錢樹幹，就像為通往西王母仙境的升天電梯加上了雙重保險。\n  - **江南三國東吳至西晉的「青瓷魂瓶（堆塑罐）」與手印實戰教學——「禪定印」（Dhyānamudrā）**：\n    - 把目光轉向長江中下游的江蘇、浙江（三國孫吳至西晉時期），這裡沒有四川的崖墓與搖錢樹，江南工匠卻運用越窯體系溫潤如玉的**「青瓷」**，燒造出喪葬專用的**「魂瓶（又稱堆塑罐）」**。\n    - **材質與工藝**：罐體下半部是圓腹瓷罐，上半部則堆塑出繁複的漢式重簷闕樓、飛鳥、吹笛撫琴的深目高鼻胡人伎樂，並像民間用木模印綠豆糕一樣，以**「陶范模印貼花」**技術，在罐肩與闕樓周圍貼上一整排高僅 2 至 3 公分的小佛像！\n    - **「禪定印」視覺鑑別**：仔細看青瓷魂瓶上的小佛像，祂們不再舉起右手打施無畏印，而是雙腿盤坐（結跏趺坐），**雙手仰掌、上下交疊平放於盤腿的雙足之上**——這就是象徵收攝心神、進入深沉冥想的**「禪定印」（Dhyānamudrā）**！在魂瓶上，禪定印小佛往往與麒麟、辟邪一字排開貼上四尊甚至十餘尊，說明在三國西晉的江南民間，佛像主要作為量產化的**「鎮墓安魂吉祥符」**，保佑亡魂在冥想安寧中升入天界。\n  - **湖北鄂州孫吳墓葬出土的「佛獸鏡」**：\n    - 在長江中游的湖北鄂州三國孫吳墓中，還出土了將蓮花座上的坐佛、脅侍菩薩與中國傳統的東王公、西王母、瑞獸同鑄於青銅鏡背面的**「佛獸鏡」**（這類銅鏡甚至順著黑潮海路東傳至日本古墳時代，成為日本列島最早見到的佛像圖案——「神獸鏡／佛獸鏡」）。\n- **轉場提問**：「看過這些依附在山崖、墓門、搖錢樹與魂瓶上的神仙配角後，到了三、四世紀之交的魏晉與十六國初期，中國何時才出現真正擺在佛堂案頭、專供信徒獨立頂禮的『單體鎏金銅佛』？讓我們走進美國哈佛藝術博物館，細讀那件震懾人心的鎮館之寶。」\n\n---\n\n## 五、從墓葬配角走向佛堂主尊：哈佛藝術博物館藏「三至四世紀火焰肩鎏金銅坐佛」\n\n- **【必講】哈佛藝術博物館（Harvard Art Museums）藏「三至四世紀（西晉末至十六國初期）火焰肩鎏金銅坐佛」**\n  - 隨著竺法護等西域譯經高僧在洛陽、長安與敦煌譯出大量大乘佛經，三至四世紀之交（約西晉末年至五胡十六國初期），中國北方工匠開始運用成熟的青銅失蠟法與**「火鍍鎏金」（將金溶於水銀調成金汞齊塗抹銅胎，再烘烤蒸發水銀使黃金緊密附著）**技術，鑄造出體量超過三十公分、專供佛堂獨立供奉的單體金銅主尊！\n  - 其中最震撼世界的巔峰代表作，正是現藏於美國**哈佛藝術博物館**（Harvard Art Museums）、館方定年為**西元三至四世紀、通高 32.9 公分**的《火焰肩鎏金銅坐佛》。請帶領聽眾像在展櫃前打著聚光燈一樣，由下往上逐層精讀它的四大視覺密碼：\n  1. **雙獅須彌座**：台座正面左右兩端，各鑄出一隻昂首挺胸、張口吐舌咆哮的蹲踞雄獅！在佛教中，獅子象徵「佛陀說法如獅子吼，能降伏一切外道魔障」；而工匠在塑造這對獅子時，巧妙融合了貴霜中亞獅子的威猛體魄與中國漢晉墓前「石辟邪」昂首挺胸的S形曲線。\n  2. **禪定印與階梯狀同心 U 形衣褶**：佛陀結跏趺坐於台座上，雙手在腹前結安詳的**禪定印**；身穿厚重的貴霜式通肩大衣，衣褶從雙肩向胸前自然垂落，化為一道道極為規整、如水波階梯般層層擴散的**同心 U 字形衣紋**，下擺則對稱覆蓋於雙膝之上。\n  3. **西域胡人開臉與上翹八字鬍**：抬頭細看佛陀的臉龐——頭頂是碩大飽滿、刻有波浪髮紋的高肉髻，額頭寬闊，雙眉如拱橋般高挑，眼窩深邃、鼻樑寬挺；最特別的是在人中上方、嘴唇兩側，工匠清晰刻出了兩撇微微上翹的**「八字鬍」**！這完全是一張尚未經過中原士大夫審美改造、充滿威嚴神性的西域貴霜武士與胡神面孔。\n  4. **雙肩噴湧的熊熊烈焰（火焰肩）**：這尊銅佛最令人過目難忘的特徵，是從佛陀雙肩後方往上竄起的兩簇立體雕鑄火焰！為什麼佛陀的肩膀會噴火？這直接源自阿富汗北部**「迦畢試」（Kapisa，今貝格拉姆一帶）**的貴霜犍陀羅造像傳統——當時貴霜帝國吸收了波斯祅教（拜火教）對神聖帝王「赫瓦雷納（Khvarenah，王權榮光與肩生火焰）」的崇拜，並結合佛經中釋迦牟尼在舍衛城展現**「雙神變」（肩出烈火、足湧清泉）**與進入**「焰肩三昧」**的記載。這對火焰肩就像一枚地理胎記，鐵證如山地告訴我們：這尊銅佛的圖像粉本，是沿著阿富汗、西域綠洲一路傳入中國北方的！\n- **【背景】近代收藏軌跡與歷史定位**\n  - 據學術檔案記載，這尊大佛於二十世紀初出土於中國北方（傳為河北石家莊或陝西一帶），早年曾流傳至日本並受到佛教考古學者常盤大定等人高度重視，後於 1943 年由哈佛大學福格藝術博物館（Fogg Art Museum，今哈佛藝術博物館前身）入藏。對比三國時期那些只有兩、三公分高、貼在青瓷魂瓶上當陪襯的小佛像，這尊高近三十三公分、金光奪目的哈佛火焰肩坐佛，正式宣告佛教造像在中國徹底擺脫了「墓葬神仙配角」的附庸身分，堂堂正正坐上了佛殿正中央的主尊寶座！\n- **【全集溫暖收束與下集預告】**\n  - 回望本集跨越五百年的旅程：我們從印度桑奇大塔與巴爾胡特那張「沒有主角的空寶座與佛足印」出發，學會用肉眼分辨貴霜帝國「犍陀羅（希臘波浪髮、深目直鼻、灰色片岩厚毛呢）」與「秣菟羅（紅斑砂岩、藥叉圓臉、薄衣貼體）」兩大源頭，並親眼見證佛陀初入東漢與三國時，如何在孔望山摩崖、樂山麻浩崖墓、巴蜀搖錢樹與江南青瓷魂瓶上與西王母共處，最終在哈佛這尊雙肩噴湧烈焰的鎏金銅佛上綻放出獨立的王座光芒。\n  - 當西晉覆滅、中國北方陷入五胡十六國的漫天戰火時，那些騎著戰馬入主中原的胡族君王，看著這張留著八字鬍、雙肩冒火的西域面孔，喊出了一句改變中國歷史的宣言——**「佛是戎神，正所應奉！」**下一集，我們就從西元 338 年中國第一尊有確切紀年的後趙佛像出發，沿著新疆克孜爾石窟走進河西走廊的「北涼涼州模式」。\n",
+      "chapters": [
+        {
+          "title": "Ep01-01 開場：巴爾胡特與桑奇大塔的「空寶座」",
+          "start": 0.0,
+          "end": 77.99,
+          "start_fmt": "00:00",
+          "end_fmt": "01:17"
+        },
+        {
+          "title": "Ep01-02 一、空寶座與雙足印：印度「無佛像時代」的視覺留白與當代學界交鋒",
+          "start": 77.99,
+          "end": 311.53,
+          "start_fmt": "01:17",
+          "end_fmt": "05:11"
+        },
+        {
+          "title": "Ep01-03 二、諸神的面孔：貴霜帝國雙星——「犍陀羅」與「秣菟羅」的視覺解剖學",
+          "start": 311.53,
+          "end": 624.53,
+          "start_fmt": "05:11",
+          "end_fmt": "10:24"
+        },
+        {
+          "title": "Ep01-04 三、佛入神仙祠：東漢「浮屠祠」與孔望山摩崖、樂山麻浩崖墓的視覺解碼",
+          "start": 624.53,
+          "end": 846.79,
+          "start_fmt": "10:24",
+          "end_fmt": "14:06"
+        },
+        {
+          "title": "Ep01-05 四、搖錢樹上的金人與青瓷魂瓶：西南與江南的墓葬工藝與材質轉譯",
+          "start": 846.79,
+          "end": 1002.14,
+          "start_fmt": "14:06",
+          "end_fmt": "16:42"
+        },
+        {
+          "title": "Ep01-06 五、從墓葬配角走向佛堂主尊：哈佛藝術博物館藏「三至四世紀火焰肩鎏金銅坐佛」",
+          "start": 1002.14,
+          "end": 1217.66,
+          "start_fmt": "16:42",
+          "end_fmt": "20:17"
+        },
+        {
+          "title": "Ep01-07 收尾與第 2 集預告：五百年視覺旅程與「佛是戎神，正所應奉」",
+          "start": 1217.66,
+          "end": 1312.01,
+          "start_fmt": "20:17",
+          "end_fmt": "21:52"
+        }
+      ],
+      "cover_image": "assets/cover_cave04.jpg",
+      "pub_date_rfc822": "Sun, 22 Nov 2026 12:01:00 +0000",
+      "pub_date_iso": "2026-11-22T12:01:00+00:00",
+      "has_video": true,
+      "video_url": "https://pub-a6ff172b569e4ff0b2359afe89300c57.r2.dev/cave04_ep01.mp4",
+      "video_release_filename": "cave04_ep01.mp4",
+      "video_file_size": 24344985,
+      "subtitle_url": "assets/subs/cave04_ep01.vtt",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave04/ep01"
+    },
+    {
+      "series_id": "cave04",
+      "cave_number": "第四窟",
+      "series_title": "中國佛教造像：從漢代初傳到大唐盛世",
+      "season": 4,
+      "episode": 2,
+      "title": "H04E02 絲路綠洲與北涼涼州模式",
+      "filename": "02_v3.1_絲路綠洲與北涼涼州模式.m4a",
+      "release_filename": "cave04_ep02.m4a",
+      "audio_url": "https://pub-a6ff172b569e4ff0b2359afe89300c57.r2.dev/cave04_ep02.m4a",
+      "local_path": "G:\\My Drive\\NotebookLM\\中國佛教造像\\02_v3.1_絲路綠洲與北涼涼州模式.m4a",
+      "file_size": 25447650,
+      "duration_sec": 1201.89,
+      "duration_fmt": "20:01",
+      "artist": "兔子洞筆記",
+      "summary": "帶領聽眾理解西元四至五世紀上半葉（五胡十六國時期），佛教造像如何走上國家政治舞台；並沿著絲路從西域龜茲走到河西走廊（敦煌、酒泉、張掖、武威、永靖），學會用肉眼辨識「中心柱窟」的空間觀想動線、「凹凸法」立體暈染、「木骨泥塑」與「石胎泥塑」兩大工藝，以及「交腳彌勒菩薩」身上的波斯與西域文化密碼。",
+      "full_notes": "# 《中國佛教造像：從漢代初傳到大唐盛世》Ep02：絲路綠洲與北涼涼州模式\n\n## 本集節目資訊\n- **集數**：第 2 集（全系列共 11 集）\n- **主題**：從十六國後趙「建武四年（西元 338 年）鎏金銅坐佛」、新疆龜茲克孜爾石窟中心柱窟的右繞空間禮儀，到河西走廊北涼沮渠蒙遜與宿白提出的「涼州模式」、西元 420 年炳靈寺 169 窟紀年題記，以及敦煌莫高窟早期三窟的視覺解碼\n- **核心視角**：帶領聽眾理解西元四至五世紀上半葉（五胡十六國時期），佛教造像如何走上國家政治舞台；並沿著絲路從西域龜茲走到河西走廊（敦煌、酒泉、張掖、武威、永靖），學會用肉眼辨識「中心柱窟」的空間觀想動線、「凹凸法」立體暈染、「木骨泥塑」與「石胎泥塑」兩大工藝，以及「交腳彌勒菩薩」身上的波斯與西域文化密碼。\n\n### 製作備忘\n- **語氣與節奏**：兩位具藝術史與宗教考古背景的學者型主持人深度對談，帶領具備基礎中國史常識的聽眾學會用肉眼讀懂石窟空間與造像細節。在每處現場放慢腳步，透過光影、岩石觸感、建築比例與傳統手作比喻，從容拆解五幕中的每一座洞窟與文物。\n- **本集已講過（自然銜接，不重講基礎定義）**：肉髻（Uṣṇīṣa）、禪定印（Dhyānamudrā）、施無畏印（Abhayamudrā），以及貴霜帝國「犍陀羅」與「秣菟羅」兩大源頭已在第 1 集詳述，本集遇見時直接應用對比，聚焦新的流變。\n- **本集不講的內容（留待後續集數）**：北魏太武帝滅佛後的文成帝復法與山西大同雲岡石窟（第 3 集）、洛陽龍門石窟（第 4 集）、莫高窟隋唐經變畫與盛唐彩塑（第 7、9 集）。\n\n---\n\n## 發音與專有名詞對照\n- **龜茲**：音「丘慈」，天山南麓絲路北道佛教重鎮，今新疆庫車、拜城一帶。\n- **佛圖澄**：「澄」音「成」，輔佐後趙君主石虎弘法之西域高僧。\n- **沮渠蒙遜**：「沮渠」音「舉渠」，盧水胡族首領，建立北涼政權。\n- **曇無讖**：「曇」音「談」、「讖」音「襯」，梵文 Dharmakṣema，中印度高僧，於北涼姑臧譯出《大般涅槃經》。\n- **樂僔**：音「越尊」，前秦建元二年（西元 366 年）於敦煌鳴沙山開鑿莫高窟前身洞窟的沙門。\n- **兜率天**：「率」音「帥」，梵文 Tuṣita，一生補處菩薩彌勒說法之淨土。\n- **荼毘**：音「途皮」，佛教火葬儀軌。\n- **人字披頂**：「披」音「批」，仿照漢式木構屋頂的兩面斜坡形窟頂。\n- **玄枵**：音「玄宵」，中國傳統十二星次之一，炳靈寺題記對應之歲次。\n- **右繞禮拜**：梵文 Pradakṣiṇa，以順時針方向右肩朝向中心塔柱或主尊繞行觀想的儀軌。\n- **彌勒菩薩**：梵文 Maitreya，未來佛，早期石窟常呈頭戴寶冠、雙踝交叉的「交腳彌勒菩薩」坐姿。\n- **無量壽佛**：梵文 Amitāyus，即阿彌陀佛，炳靈寺第 169 窟第 6 龕墨書題記標示的主尊。\n- **舊金山亞洲藝術博物館**：英文 Asian Art Museum of San Francisco，館藏西元 338 年後趙建武四年鎏金銅坐佛。\n- **柏林亞洲藝術博物館**：德文 Museum für Asiatische Kunst，館藏部分克孜爾石窟早期壁畫。\n\n---\n\n## 一、「佛是戎神，正所應奉」與西元 338 年的斷代標尺：舊金山亞洲藝術博物館藏《後趙建武四年鎏金銅坐佛》\n\n- **五胡十六國的政教劇變與佛圖澄的輔佐**：\n  - 承接第 1 集結尾，西元四世紀初「永嘉之亂」後，華北進入五胡十六國時期。入主中原的非漢族君王面對儒家「華夷之辨」的正統壓力，急需一套跨越部族界線的精神支柱。西元 335 年，羯族後趙君主**石虎**在西域高僧**佛圖澄**的長期輔佐下，面對朝臣質疑「漢人不得出家」的奏議，斷然頒布詔令（載於梁代慧皎《高僧傳·佛圖澄傳》）：**「朕出自邊戎，忝君諸夏；至於饗祀，應從本俗。佛是戎神，正所應奉！」** 佛教自此正式登上北方國家禮制的最高殿堂。\n- **中國現存已知最早的紀年佛像（西元 338 年）**：\n  - 短短三年後的**西元 338 年（後趙建武四年）**，北方工匠鑄造了一尊高 **39.4 公分**的鎏金銅坐佛，現藏於美國**舊金山亞洲藝術博物館（Asian Art Museum of San Francisco）**，由艾弗里·布倫戴奇（Avery Brundage）捐贈。底座背面陰刻「建武四年歲在戊戌八月卅日比丘法□……」發願銘文，為中國早期金銅佛像樹立了第一座精確的斷代標尺。\n- **四大視覺鑑別看點（對照第 1 集哈佛火焰肩坐佛）**：\n  1. **開臉從深目胡相轉向端正方圓**：與第 1 集哈佛火焰肩坐佛那張蓄八字鬍的健碩胡人面容相比，這尊 338 年坐佛的眉眼大幅柔化，臉龐方圓厚重、下頷寬實，雙眉如新月弧線，雙眼微垂俯視，流露出內斂的王者威嚴。\n  2. **高挺光滑的圓筒肉髻**：頭頂「肉髻」高高隆起，表面打磨光潔而未刻細密捲髮，腦後與頭頂留有插裝背光的固定榫孔。\n  3. **禪定印與「同心 U 形衣褶」**：雙手於腹前結禪定印，身穿厚重通肩大衣，胸前衣紋呈現層層套疊、左右對稱的**同心 U 字形弧線**，下襬宛如厚重的舞台布幔垂落台座前方，將結跏趺坐的雙足完全覆蓋。\n  4. **四足方座前緣的三個空插孔**：細看四足矩形台座正前方——今日台座正面看似素淨無飾，但前緣橫樑上清清楚楚留有**三個方形小插孔（卯眼）**！這三個卯眼原本用來插接左右一對護法蹲獅與中央的香爐（或蓮花供器），在博物館展櫃前認出這三個小孔，就能在腦海中補全十六國金銅佛最經典的護法獅座原貌。\n\n---\n\n## 二、塔里木盆地綠洲的立體觀想場：新疆龜茲「克孜爾石窟」中心柱窟、木骨泥塑與凹凸法\n\n- **絲路北道樞紐「龜茲國」與「中心柱窟」的空間右繞禮儀**：\n  - 沿塔里木盆地北緣的綠洲東行，天山南麓的**龜茲古國**（今新疆庫車、拜城一帶）是大譯經家鳩摩羅什的故鄉，也是小乘說一切有部佛學重鎮。位於拜城木扎提河北岸砂礫岩懸崖上的**克孜爾石窟**（開鑿於約三世紀末至八世紀），是西域最具代表性的大型石窟群，其主體形制在考古學上稱為**「中心柱窟」**。\n  - **身體移動的三世觀想動線（以第 38、17 窟為例）**：\n    1. **長方形縱券頂主室與當下釋迦**：踏進**長方形平面、頂部砌成半圓筒狀「縱券頂」**的主室，視線盡頭迎面矗立著象徵須彌山與佛塔的厚實方形**中心柱**。柱體正面大龕安奉泥塑釋迦牟尼坐佛，龕緣四周塑繪重巒疊嶂的須彌山，呈現佛陀禪定說法的聖境。\n    2. **幽暗甬道與後室「右繞禮拜」（Pradakṣiṇa）**：禮拜者依古印度與西域儀軌順時針繞行（右肩始終朝向中心柱），從主室左側走入低矮狹窄的甬道，繞進中心柱背面的「後室」。在油燈搖曳的暗處，橫臥眼前的是一尊巨大寧靜的**「釋迦般涅槃像」**，四壁繪滿弟子哀慟與火化「荼毘」、八王分舍利的壁畫。\n    3. **回望門楣上方的未來佛**：從右側甬道走回亮處的主室、轉身面對來時的洞窟大門，抬頭仰望門拱上方那方半圓形壁面——端坐其中的正是頭戴寶冠、居於**「兜率天宮（Tuṣita）」**說法的**「交腳彌勒菩薩（Maitreya）」**！繞行中心柱一圈，行腳本身就化為「現在釋迦→過去涅槃→未來彌勒」的三世禪觀旅程。\n- **本集工法主場（一）：「木骨泥塑」與西域「凹凸法」立體暈染**：\n  - **「木骨泥塑」為何誕生於西域**：克孜爾山崖是由鵝卵石與粗沙膠結而成的鬆散**砂礫岩**，鐵鑿一敲就會成塊崩落，無法精細雕鑿。西域工匠於是結合建築木工與泥水技藝，鍛造出完整的**「木骨泥塑」**四層結構——先在岩壁鑿孔釘入木樁，用堅韌木條捆紮成佛像骨架（木骨），外層緊密纏繞蘆葦束與草繩形成大致身軀體量，再層層敷上摻入碎麥草與動物毛髮的粗泥定型，最後抹上細篩過的泥灰並施以鮮麗彩繪。這套從鬆散山岩逼出來的泥塑技法，自此沿著綠洲一路東傳河西與敦煌。\n  - **青金石菱格本生畫與「凹凸法」**：主室頭頂弧形的縱券頂上，密密麻麻畫著一個菱形格一個佛陀前世故事的**「菱形格本生畫」**，閃耀著來自阿富汗巴達赫尚的珍貴**青金石**藍彩。壁畫人物與飛天肌膚採用西域特有的**「凹凸法」暈染**——順著臉頰、胸腹與手臂邊緣，由外向內以濃重紅棕色漸次過渡為淺肉色，讓人物肌肉在平面牆壁上鼓起立體圓潤的光影質感（現有部分克孜爾早期壁畫與塑像收藏於德國**柏林亞洲藝術博物館** Museum für Asiatische Kunst）。\n\n---\n\n## 三、河西走廊的避風港：北涼沮渠蒙遜、曇無讖與宿白定義的「涼州模式」\n\n- **北涼王沮渠蒙遜與《大般涅槃經》的譯場**：\n  - 跨越玉門關進入河西走廊，五世紀初（401–433 年）盧水胡族首領**沮渠蒙遜**建立「北涼」，定都**姑臧**（今甘肅武威／涼州）。中原戰火連綿之際，涼州反倒成了大批高僧與文士避亂棲止的佛教綠洲。沮渠蒙遜禮請中印度高僧**曇無讖（Dharmakṣema）**在姑臧譯出大乘核心經典**《大般涅槃經》**，點燃了北涼全境修習禪觀、禮懺與仰望未來彌勒的熱潮。\n- **宿白定義的中國第一個石窟母題：「涼州模式」四大支柱與兩大實地現場**：\n  - 1986 年，考古學者**宿白**將北涼時期在河西走廊開鑿的石窟群體，定名為中國佛教石窟史上第一個本土化區域範式——**「涼州模式」**：\n    1. **方形平面與四面開龕中心柱**：北涼工匠將龜茲狹長的前後室中心柱加以改造，開鑿出寬敞方正的主室與中央四方形塔柱，塔柱四面分層開龕造像，方便信徒三百六十度順時針繞塔瞻仰「過去七佛」與未來「交腳彌勒」。\n    2. **本集工法主場（二）：「石胎泥塑」與張掖金塔寺懸塑飛天**：河西走廊的山崖同樣多為粗顆粒砂礫岩，但岩體比龜茲更厚實一些，北涼工匠便在「木骨泥塑」之外，開創出第二套看家本領**「石胎泥塑」**——宛如石匠與泥塑匠的接力賽，先用鐵鑿直接把崖壁或中心柱上的大塊粗石鑿出佛像頭、肩、盤腿的大輪廓（石胎），再像捏泥胚抹釉膏那樣，一層層敷上摻麻絲的泥料去塑出細緻的鼻樑、嘴角微笑與層疊衣紋，最後貼金施彩。在**張掖金塔寺石窟**東、西兩窟的中心塔柱中上層，這種石胎高肉雕與泥塑飛天甚至大膽傾身懸空——造像上半身幾乎與塔柱垂直壁面脫開，以超過四十五度的俯衝角度向下方空間飛翔，軀幹圓實健碩，宛如在空中盤旋護法。\n    3. **皇家源頭「武威天梯山石窟」**：史書記載沮渠蒙遜在涼州南山開鑿「涼州大窟」（即今日**武威天梯山石窟**），在黃羊河水畔的丹霞砂礫岩崖壁上營造中心柱大像窟，成為北涼王室將皇權祈福與高僧禪觀合鑄的起點——這份皇家大窟藍圖後來也隨工匠一路帶往塞北平城。\n    4. **酒泉文殊山前山與後山石窟**：在河西走廊中段的**酒泉文殊山**，前山千佛洞與萬佛洞清晰保存了北涼「方形中心柱窟」的平面結構、塔柱四面分層開龕以及穹窿頂與平棊繪畫的過渡形制，是觀察涼州模式從皇室走向河西地方的活標本。\n- **佛、道、儒宇宙觀交會的微縮奇物：「北涼石塔」**：\n  - 甘肅酒泉、敦煌與新疆吐魯番一帶出土的十餘件小型砂岩或深灰石質**「北涼石塔」**（如高僅四十餘公分的**高善穆石塔**），把「涼州模式」濃縮進了掌心尺寸：塔身上半截圓柱環刻八個圓拱小龕（**過去七佛**加上一尊**交腳彌勒菩薩**），中段柱身刻滿漢字發願文與《增一阿含經》偈語，而最底下的八角形基座八個側面，工匠竟工工整整陰刻著中國《易經》的**「八卦符號」**（乾、兌、離、震、巽、坎、艮、坤）！在短短幾寸高的砂岩方寸之間，北涼工匠將印度佛教貫穿過去、現在、未來的時間軸，穩穩座落在華夏《易經》象徵宇宙八方空間的八卦大地之上。\n\n---\n\n## 四、西元 420 年的懸崖紀年標尺：甘肅永靖「炳靈寺第 169 窟」與西秦北涼交響\n\n- **中國石窟最早的明確墨書紀年（1963 年發現）**：\n  - 離開河西走廊往東南跨越黃河峽谷，在甘肅永靖小積石山高達 **60 公尺**的黃河北岸懸崖絕壁上，鑲嵌著一處巨大的天然岩洞——**炳靈寺第 169 窟**。這座洞窟當時位於鮮卑乞伏氏建立的**西秦**政權境內；西秦王室崇尚佛法，與河西走廊的**北涼**之間高僧往來頻繁（著名禪師玄高與曇摩毗曾往來兩地講學授徒），造就了甘肅東部與河西走廊高度共振的藝術技術圈。\n  - 1963 年，考古工作人員攀上高崖，在第 169 窟北壁上方第 6 號龕外壁，清理出一篇清晰的白色泥底墨書發願題記，文末赫然寫著：**「建弘元年歲在玄枵三月廿四日造」**——「建弘元年」正是西秦年號，換算為**西元 420 年**！這行墨跡不僅是目前中國石窟已知最早的確切紀年題記，更成了檢驗五世紀初西北早期石窟年代的黃金座標。\n- **手把手讀懂第 169 窟兩大造像焦點**：\n  1. **第 6 龕《無量壽佛》西方三聖（石胎泥塑與赤紅火焰背光）**：墨書榜題明確標出主尊為**無量壽佛（Amitāyus）**，左右分別是**觀世音菩薩**與**大勢至菩薩**。這組造像正是標準的**「石胎泥塑」**，臉型方圓飽滿、唇線微揚，頭後巨大的泥塑彩繪背光上，用濃烈朱砂繪出熊熊跳動的赤紅火焰紋與坐姿化佛，在天然幽暗的岩洞裡閃耀灼熱色彩。\n  2. **北壁第 7 龕旁《石胎泥塑立佛》的絲路風格對談**：順著凹凸不平的岩壁往旁側看去，一尊高約 **195 公分**的石胎泥塑立佛正靜靜佇立。他身穿極為輕薄的通肩大衣，工匠用流暢的陰刻弧線與極淺的泥條浮雕勾勒出從雙肩滑落胸口與雙膝的緊身衣褶，令佛陀的胸肌、小腹與雙腿輪廓清晰可辨。關於這尊西元 420 年前後立佛的視覺血統，藝術史界保留著耐人尋味的兩種觀察：部分學者認為其貼身透膚的質感，遙遙映照著古印度秣菟羅（Mathurā）向笈多古典時期過渡的新風；另一派學者則指認，他雙肩對稱包覆的大衣披法與胸前垂落的 U 形衣紋，其實正承襲了第 1 集談過的犍陀羅（Gandhāra）通肩立佛經西域傳入河西的變奏。西秦工匠在黃河懸崖上，正好留下這份耐看的中西合璧實物證詞。\n\n---\n\n## 五、敦煌破曉與東遷平城：莫高窟早期三窟（第 268、272、275 窟）與西元 439 年歷史大轉折\n\n- **西元 366 年樂僔開窟傳說與現存莫高窟早期三窟的年代討論**：\n  - 順著河西走廊走到最西端的敦煌綠洲，唐代《李克讓重修莫高窟佛龕碑》記載：早在前秦建元二年（**西元 366 年**），高僧沙門**樂僔**行經鳴沙山東麓時，忽見對面三危山金光萬丈、如現千佛，於是發願在崖壁上鑿下莫高窟的第一個洞窟，隨後法良禪師續鑿第二窟，開啟了莫高窟千年的序幕。\n  - 今天走進莫高窟南區懸崖中段，現存年代最早的三座洞窟是緊密相鄰的**第 268 窟、第 272 窟與第 275 窟**：\n    - **第 268 窟（禪窟）**：主室兩側牆壁精巧鑿出**四間僅容一人盤腿打坐的極小暗室（禪室）**，呈現早年西域比丘入窟面壁坐禪的真實修行生活。\n    - **第 272 窟（佛殿窟）**：方形佛殿平頂空間，中心不設塔柱，而是在西壁設大龕安奉倚坐佛像，南北兩壁上方繪製整排身姿婀娜、手舞飛帶的《天人聽法圖》，將西域凹凸法暈染與鮮麗礦物色彩潑灑滿壁。\n    - **第 275 窟（大像窟）**：頂部雕成**人字披頂**搭配平頂藻井，是三窟中規模最宏大的一座。\n    - **學界斷代的審慎視野**：這三座洞窟的平面形制與塑像風格展現出鮮明的河西涼州傳統，多數學者將它們歸為**北涼時期**作品；同時也有學者從洞窟開鑿層位與壁畫局部特徵分析，提出這三窟的營建與裝飾工程可能延續到了**北魏初期**（西元 439 年統一北方之後）。將兩種學術看法並觀，能讓我們看清朝代更迭之間工匠手藝的真實延續性。\n- **手把手讀懂第 275 窟 3.34 公尺「交腳彌勒菩薩」（木骨泥塑）的五大跨國密碼**：\n  - 站在第 275 窟西壁正龕高達 **3.34 公尺**的**交腳彌勒菩薩**面前，仔細端詳這尊以**「木骨泥塑」**塑造的五世紀巨像，處處藏著絲路交會的密碼：\n    1. **薩珊波斯風「化佛三珠冠」**：頭頂配戴由三個圓月般圓盤高高托起的高冠（中央正圓嵌一尊小化佛），直接脫胎自西亞**薩珊波斯帝國王冠**的日月王權徽記，經阿富汗巴米揚跨越蔥嶺傳來敦煌，成為天界君主的榮耀標誌。\n    2. **滿月臉龐與倒三角形雄健軀幹**：圓潤如滿月般的飽滿開臉、微帶威嚴的直鼻微笑；寬闊厚實的胸膛往下急遽收窄為纖細腰身，呈現西域貴族武士的**「倒三角形」**體魄，頸佩三角形寬項圈，上臂配戴厚實臂釧。\n    3. **雙踝交叉「交腳坐」與捲毛雙獅座**：雙腿自然垂直卻在腳踝處左右交叉，這正是源自貴霜與中亞帝王威儀的坐姿，專門標示「端坐兜率天宮、等待未來下生成佛的彌勒菩薩」；蓮座左右兩側蹲伏著兩頭捲毛泥塑雄獅，威武守護。\n    4. **貼腿陰刻衣紋與魚尾折角飄帶**：薄透貼體的長裙上，用平行陰刻線配合細泥條凸起勒出緊貼雙腿輪廓的弧形褶皺；雙臂垂落的帔巾下端則折出硬朗如木雕般的魚尾狀三角折角。\n    5. **南北壁上層「漢式雙闕龕」與「印度雙樹龕」的同場對話**：抬頭看第 275 窟南北兩側高牆上層的並列佛龕，驚人的一幕出現了——左側雕成屋檐瓦壟與斗栱分明的中國漢代宮城大門**「雙闕龕」**（龕內坐交腳彌勒），旁邊緊挨著的卻是用兩棵娑羅雙樹枝葉交纏搭成的印度**「雙樹龕」**（龕內坐半跏思惟菩薩）！中西兩大文明的建築語彙，就在同一堵土牆上肩並肩說法。\n\n---\n\n## 終幕現場與下集懸念：西元 439 年河西大道上的東遷車隊\n\n- **《魏書》裡的歷史大分流**：\n  - 西元 439 年秋，拓跋鮮卑建立的北魏大軍攻破姑臧，北涼滅亡，北方十六國的百年割據正式落幕。就在這一年，北魏太武帝下令**「徙涼州民三萬餘家于京師」**——從敦煌、酒泉到武威，三萬多戶涼州百姓被編入漫長車隊，沿著河西走廊蒼茫黃沙向東跋涉千里，前往北魏的草原都城**平城**（今山西大同）。\n  - 在這支龐大的人潮裡，有精通《涅槃》經義的高僧沙門，更有一批手裡握著粗石鑿、木骨架圖樣與泥塑印模的涼州匠師——他們隨身攜帶的，正是在龜茲與河西走廊淬鍊了百餘年的「中心柱窟」草圖、「木骨泥塑」與「石胎泥塑」全套技藝。正如史官在《魏書·釋老志》寫下的那句總結：**「自後，沙門道業東流，皆自涼州始也！」**\n  - 當這支帶著絲路綠洲全部佛教建築記憶的工匠隊伍，在塞北寒風中一步步走近鮮卑皇室的首都平城時，等待他們的卻是一場先經毀滅、後又以百尺巨石驚天重生的政治與信仰巨變。下一集，我們一起走進大同武州山，看涼州石匠的鐵鑿如何把草原帝王直接刻上懸崖。\n",
+      "chapters": [
+        {
+          "title": "開場：絲路綠洲與北涼涼州模式",
+          "start": 0.0,
+          "end": 29.56,
+          "start_fmt": "00:00",
+          "end_fmt": "00:29"
+        },
+        {
+          "title": "一、「佛是戎神，正所應奉」與西元 338 年的斷代標尺：舊金山亞洲藝術博物館藏《後趙建武四年鎏金銅坐佛》",
+          "start": 29.56,
+          "end": 253.2,
+          "start_fmt": "00:29",
+          "end_fmt": "04:13"
+        },
+        {
+          "title": "二、塔里木盆地綠洲的立體觀想場：新疆龜茲「克孜爾石窟」中心柱窟、木骨泥塑與凹凸法",
+          "start": 253.2,
+          "end": 520.76,
+          "start_fmt": "04:13",
+          "end_fmt": "08:40"
+        },
+        {
+          "title": "三、河西走廊的避風港：北涼沮渠蒙遜、曇無讖與宿白定義的「涼州模式」",
+          "start": 520.76,
+          "end": 724.62,
+          "start_fmt": "08:40",
+          "end_fmt": "12:04"
+        },
+        {
+          "title": "四、西元 420 年的懸崖紀年標尺：甘肅永靖「炳靈寺第 169 窟」與西秦北涼交響",
+          "start": 724.62,
+          "end": 907.02,
+          "start_fmt": "12:04",
+          "end_fmt": "15:07"
+        },
+        {
+          "title": "五、敦煌破曉與東遷平城：莫高窟早期三窟（第 268、272、275 窟）與西元 439 年歷史大轉折",
+          "start": 907.02,
+          "end": 1105.36,
+          "start_fmt": "15:07",
+          "end_fmt": "18:25"
+        },
+        {
+          "title": "終幕現場與下集懸念：西元 439 年河西大道上的東遷車隊",
+          "start": 1105.36,
+          "end": 1201.87,
+          "start_fmt": "18:25",
+          "end_fmt": "20:01"
+        }
+      ],
+      "cover_image": "assets/cover_cave04.jpg",
+      "pub_date_rfc822": "Sun, 22 Nov 2026 12:02:00 +0000",
+      "pub_date_iso": "2026-11-22T12:02:00+00:00",
+      "has_video": true,
+      "video_url": "https://pub-a6ff172b569e4ff0b2359afe89300c57.r2.dev/cave04_ep02.mp4",
+      "video_release_filename": "cave04_ep02.mp4",
+      "video_file_size": 24091716,
+      "subtitle_url": "assets/subs/cave04_ep02.vtt",
+      "web_episode_url": "https://tzejen.github.io/rabbit-hole/#cave04/ep02"
     }
   ]
 }

@@ -1,14 +1,13 @@
-"""Synchronize public podcast audio files (`caveXX_epYY.m4a`) to Cloudflare R2
-and GitHub Release `v1.0.0`.
+"""Synchronize public podcast audio (`caveXX_epYY.m4a`) and video (`caveXX_epYY.mp4`)
+files to Cloudflare R2, and audio assets to GitHub Release `v1.0.0`.
 
 100% softcoded via `build_podcast` (`channel.txt` + `caves.txt`).
-Streams directly from unversioned master `.m4a` files without duplicating disk storage.
+Streams directly from master files without duplicating disk storage.
 """
 
 from __future__ import annotations
 
 import argparse
-import glob
 import json
 import os
 import shutil
@@ -47,23 +46,27 @@ def resolve_wrangler_cmd() -> list[str]:
     raise RuntimeError("Could not locate wrangler or npx in environment.")
 
 
-def collect_release_items() -> list[tuple[str, str, int]]:
-    """Return list of (target_name, local_path, file_size) across all caves in caves.txt."""
-    items: list[tuple[str, str, int]] = []
+def collect_release_items() -> list[tuple[str, str, int, str]]:
+    """Return list of (target_name, local_path, file_size, content_type) across all caves."""
+    items: list[tuple[str, str, int, str]] = []
     for s_info in build_podcast.SERIES_LIST:
-        s_dir = s_info["dir"]
-        m4a_files = sorted(
-            [
-                f
-                for f in glob.glob(os.path.join(s_dir, "[0-9][0-9]_*.m4a"))
-                if "Candidate" not in os.path.basename(f)
-                and "MicroCut" not in os.path.basename(f)
-                and "_v" not in os.path.basename(f)
-            ]
-        )
-        for idx, fpath in enumerate(m4a_files, 1):
-            target_name = f"{s_info['id']}_ep{idx:02d}.m4a"
-            items.append((target_name, fpath, os.path.getsize(fpath)))
+        for media in build_podcast.discover_series_media(s_info):
+            audio_path = media["audio_path"]
+            items.append((
+                media["audio_release_name"],
+                audio_path,
+                os.path.getsize(audio_path),
+                "audio/mp4",
+            ))
+            video_path = media.get("video_path")
+            video_name = media.get("video_release_name")
+            if video_path and video_name:
+                items.append((
+                    video_name,
+                    video_path,
+                    os.path.getsize(video_path),
+                    "video/mp4",
+                ))
     return items
 
 
@@ -82,7 +85,13 @@ def r2_object_matches(audio_base_url: str, target_name: str, expected_size: int)
         return False
 
 
-def upload_one_r2(wrangler_cmd: list[str], target_name: str, fpath: str, file_size: int) -> str:
+def upload_one_r2(
+    wrangler_cmd: list[str],
+    target_name: str,
+    fpath: str,
+    file_size: int,
+    content_type: str,
+) -> str:
     size_mb = file_size / (1024 * 1024)
     cmd = wrangler_cmd + [
         "r2",
@@ -92,42 +101,44 @@ def upload_one_r2(wrangler_cmd: list[str], target_name: str, fpath: str, file_si
         "--file",
         fpath,
         "--content-type",
-        "audio/mp4",
+        content_type,
         "--remote",
     ]
     res = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if res.returncode != 0:
         raise RuntimeError(f"R2 upload failed for {target_name}: {res.stderr or res.stdout}")
-    return f"[R2 OK] {target_name} ({size_mb:.2f} MB)"
+    return f"[R2 OK] {target_name} ({size_mb:.2f} MB, {content_type})"
 
 
-def sync_r2(items: list[tuple[str, str, int]], audio_base_url: str, workers: int = 4) -> None:
-    print(f"\n=== Syncing {len(items)} audio assets to Cloudflare R2 bucket '{R2_BUCKET}' ===")
+def sync_r2(items: list[tuple[str, str, int, str]], audio_base_url: str, workers: int = 4) -> None:
+    n_audio = sum(1 for x in items if x[3] == "audio/mp4")
+    n_video = sum(1 for x in items if x[3] == "video/mp4")
+    print(f"\n=== Syncing {len(items)} media assets ({n_audio} audio, {n_video} video) to Cloudflare R2 bucket '{R2_BUCKET}' ===")
     wrangler_cmd = resolve_wrangler_cmd()
-    to_upload: list[tuple[str, str, int]] = []
+    to_upload: list[tuple[str, str, int, str]] = []
 
-    def _check(item: tuple[str, str, int]) -> tuple[tuple[str, str, int], bool]:
-        tname, _, fsize = item
+    def _check(item: tuple[str, str, int, str]) -> tuple[tuple[str, str, int, str], bool]:
+        tname, _, fsize, _ = item
         return item, r2_object_matches(audio_base_url, tname, fsize)
 
     with ThreadPoolExecutor(max_workers=8) as pool:
         for item, ok in pool.map(_check, items):
-            tname, fpath, fsize = item
+            tname, fpath, fsize, ctype = item
             size_mb = fsize / (1024 * 1024)
             if ok:
-                print(f"[R2 SKIP] {tname} ({size_mb:.2f} MB) already live with identical Content-Length.")
+                print(f"[R2 SKIP] {tname} ({size_mb:.2f} MB, {ctype}) already live with identical Content-Length.")
             else:
                 to_upload.append(item)
 
     if not to_upload:
-        print("[R2] All audio assets are already up to date.")
+        print("[R2] All audio and video assets are already up to date.")
         return
 
     print(f"[R2] Uploading {len(to_upload)} missing/updated files with {workers} workers...")
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futs = {
-            pool.submit(upload_one_r2, wrangler_cmd, tname, fpath, fsize): tname
-            for tname, fpath, fsize in to_upload
+            pool.submit(upload_one_r2, wrangler_cmd, tname, fpath, fsize, ctype): tname
+            for tname, fpath, fsize, ctype in to_upload
         }
         for fut in as_completed(futs):
             print(" ", fut.result())
@@ -243,7 +254,9 @@ def main() -> None:
     args = parser.parse_args()
 
     items = collect_release_items()
-    print(f"Discovered {len(items)} active release audio assets across {len(build_podcast.SERIES_LIST)} series.")
+    audio_items = [(tname, fpath, fsize) for tname, fpath, fsize, ctype in items if ctype == "audio/mp4"]
+    video_items = [(tname, fpath, fsize) for tname, fpath, fsize, ctype in items if ctype == "video/mp4"]
+    print(f"Discovered {len(audio_items)} audio + {len(video_items)} video release assets across {len(build_podcast.SERIES_LIST)} series.")
 
     audio_base_url = build_podcast.CHANNEL_META.get("audio_base_url")
     if not args.github_only:
@@ -253,9 +266,9 @@ def main() -> None:
             print("[WARN] No audio_base_url configured in channel.txt; skipping R2 sync.")
 
     if not args.r2_only:
-        sync_github_release(items)
+        sync_github_release(audio_items)
 
-    print("\n[COMPLETE] Audio release synchronization finished!")
+    print("\n[COMPLETE] Media release synchronization finished!")
 
 
 if __name__ == "__main__":

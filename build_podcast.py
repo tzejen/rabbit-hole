@@ -15,7 +15,7 @@ import shutil
 import subprocess
 import glob
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from xml.sax.saxutils import escape as xml_escape
 from mutagen.mp4 import MP4
 
@@ -24,9 +24,11 @@ sys.stdout.reconfigure(encoding="utf-8", line_buffering=True)
 BASE_DIR = r"G:\My Drive\NotebookLM"
 DIST_DIR = os.path.join(BASE_DIR, "podcast_distribution")
 ASSETS_DIR = os.path.join(DIST_DIR, "assets")
+SUBS_DIR = os.path.join(ASSETS_DIR, "subs")
 CHANNEL_TXT_PATH = os.path.join(DIST_DIR, "channel.txt")
 CAVES_TXT_PATH = os.path.join(DIST_DIR, "caves.txt")
 os.makedirs(ASSETS_DIR, exist_ok=True)
+os.makedirs(SUBS_DIR, exist_ok=True)
 
 # 1. Parse channel.txt
 def load_channel_meta():
@@ -111,6 +113,7 @@ def load_caves_list():
                 cave_title = parts[1]
                 custom_folder = parts[2] if len(parts) >= 4 else None
                 status = parts[3] if len(parts) >= 4 else (parts[2] if len(parts) == 3 else "已上線")
+                publish_mode = parts[4].strip().lower() if len(parts) >= 5 else ""
 
                 # Auto-detect folder when not specified in caves.txt
                 if custom_folder and os.path.isdir(os.path.join(BASE_DIR, custom_folder)):
@@ -154,11 +157,150 @@ def load_caves_list():
                         "cover_dst_name": f"cover_cave{idx:02d}.jpg",
                         "season_num": idx,
                         "status": status,
+                        "publish_mode": publish_mode,
                     })
                     idx += 1
     return caves
 
 SERIES_LIST = load_caves_list()
+
+
+def discover_series_media(s_info):
+    """Discover per-episode audio, optional video, and subtitle assets for a series."""
+    s_dir = s_info["dir"]
+    series_id = s_info["id"]
+    publish_mode = s_info.get("publish_mode", "").strip().lower()
+
+    # 1. Scan <s_dir>/Video/*.mp4
+    video_by_ep = {}
+    video_dir = os.path.join(s_dir, "Video")
+    if os.path.isdir(video_dir):
+        skip_tokens = ("candidate", "microcut", "測試", "test", "_tmp")
+        for fpath in sorted(glob.glob(os.path.join(video_dir, "*.mp4"))):
+            fname = os.path.basename(fpath)
+            fname_low = fname.lower()
+            if any(tok in fname_low for tok in skip_tokens):
+                continue
+            m = re.match(r"^ep(\d+)(?:_v(\d+)\.(\d+))?", fname, re.IGNORECASE)
+            if not m:
+                continue
+            ep_num = int(m.group(1))
+            ver = (int(m.group(2)), int(m.group(3))) if m.group(2) is not None else (0, 0)
+            mtime = os.path.getmtime(fpath)
+            cand = (ver, mtime, fpath)
+            prev = video_by_ep.get(ep_num)
+            if prev is None or (ver, mtime) > (prev[0], prev[1]):
+                video_by_ep[ep_num] = cand
+
+    # 2. Scan <s_dir>/ for unversioned .m4a first (preserves cave01-cave03 behavior)
+    unversioned_m4as = sorted([
+        f for f in glob.glob(os.path.join(s_dir, "[0-9][0-9]_*.m4a"))
+        if "Candidate" not in os.path.basename(f)
+        and "MicroCut" not in os.path.basename(f)
+        and "_v" not in os.path.basename(f)
+    ])
+
+    audio_by_ep = {}
+    if unversioned_m4as:
+        for idx, fpath in enumerate(unversioned_m4as, 1):
+            audio_by_ep[idx] = fpath
+    else:
+        grouped_m4as = {}
+        for fpath in sorted(glob.glob(os.path.join(s_dir, "[0-9][0-9]_v*.m4a"))):
+            fname = os.path.basename(fpath)
+            if "Candidate" in fname or "MicroCut" in fname:
+                continue
+            m = re.match(r"^(\d{2})_v(\d+)\.(\d+)_.*\.m4a$", fname)
+            if not m:
+                continue
+            ep_num = int(m.group(1))
+            ver = (int(m.group(2)), int(m.group(3)))
+            mtime = os.path.getmtime(fpath)
+            grouped_m4as.setdefault(ep_num, []).append((ver, mtime, fpath))
+
+        for ep_num, cands in grouped_m4as.items():
+            target_vid_ver = video_by_ep[ep_num][0] if ep_num in video_by_ep else None
+            chosen = None
+            if target_vid_ver is not None:
+                matching = [c for c in cands if c[0] == target_vid_ver]
+                if matching:
+                    chosen = max(matching, key=lambda c: (c[0], c[1]))
+            if chosen is None:
+                chosen = max(cands, key=lambda c: (c[0], c[1]))
+            audio_by_ep[ep_num] = chosen[2]
+
+    # 3. Combine audio + video + subtitle and apply publish_mode filter
+    items = []
+    for ep_num in sorted(audio_by_ep.keys()):
+        audio_path = audio_by_ep[ep_num]
+        vid_entry = video_by_ep.get(ep_num)
+        video_path = vid_entry[2] if vid_entry else None
+
+        if publish_mode == "video_only" and not video_path:
+            continue
+        if publish_mode.startswith("max_ep="):
+            try:
+                max_ep = int(publish_mode.split("=", 1)[1].strip())
+                if ep_num > max_ep:
+                    continue
+            except ValueError:
+                pass
+
+        srt_path = None
+        if video_path:
+            cand_srt = os.path.splitext(video_path)[0] + ".srt"
+            if os.path.isfile(cand_srt):
+                srt_path = cand_srt
+
+        items.append({
+            "ep_num": ep_num,
+            "audio_path": audio_path,
+            "audio_release_name": f"{series_id}_ep{ep_num:02d}.m4a",
+            "video_path": video_path,
+            "video_release_name": f"{series_id}_ep{ep_num:02d}.mp4" if video_path else None,
+            "srt_path": srt_path,
+            "vtt_filename": f"{series_id}_ep{ep_num:02d}.vtt" if srt_path else None,
+        })
+
+    return items
+
+
+def convert_srt_to_vtt(srt_path, vtt_path):
+    """Convert a UTF-8 SRT subtitle file to WebVTT (.vtt)."""
+    try:
+        with open(srt_path, "r", encoding="utf-8-sig") as f:
+            raw = f.read()
+    except Exception as e:
+        print(f"[WARN] Failed reading SRT {srt_path}: {e}")
+        return False
+
+    normalized = raw.replace("\r\n", "\n").replace("\r", "\n").strip()
+    if not normalized:
+        return False
+
+    ts_re = re.compile(r"^(\d{2}:\d{2}:\d{2}),(\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}),(\d{3}.*)$")
+    cue_blocks = []
+    for block in re.split(r"\n{2,}", normalized):
+        lines = block.split("\n")
+        if not lines:
+            continue
+        if lines[0].strip().isdigit():
+            lines = lines[1:]
+        if not lines:
+            continue
+        converted_lines = []
+        for idx, line in enumerate(lines):
+            if idx == 0:
+                m = ts_re.match(line.strip())
+                if m:
+                    line = f"{m.group(1)}.{m.group(2)}.{m.group(3)}"
+            converted_lines.append(line)
+        cue_blocks.append("\n".join(converted_lines))
+
+    vtt_text = "WEBVTT\n\n" + "\n\n".join(cue_blocks) + "\n"
+    with open(vtt_path, "w", encoding="utf-8") as f:
+        f.write(vtt_text)
+    return True
 
 
 def get_audio_chapters(file_path):
@@ -202,11 +344,16 @@ def format_duration(seconds):
 
 def scan_and_collect_episodes():
     all_episodes = []
+    active_vtt_files = set()
 
     # 1. Copy channel cover
     src_ch_cover = os.path.join(DIST_DIR, CHANNEL_META["cover_filename"])
     if os.path.exists(src_ch_cover):
         shutil.copy2(src_ch_cover, os.path.join(ASSETS_DIR, CHANNEL_META["cover_filename"]))
+
+    user = CHANNEL_META.get("github_user", "tzejen")
+    repo = CHANNEL_META.get("github_repo", "rabbit-hole")
+    audio_base_url = CHANNEL_META.get("audio_base_url") or f"https://github.com/{user}/{repo}/releases/download/v1.0.0"
 
     for s_info in SERIES_LIST:
         print(f"Scanning series: {s_info['cave_number']} - {s_info['title']}")
@@ -217,24 +364,17 @@ def scan_and_collect_episodes():
             shutil.copy2(s_info["cover_src"], dst_cover)
             print(f"  [OK] Copied series cover -> {s_info['cover_dst_name']}")
 
-        s_dir = s_info["dir"]
-        m4a_files = sorted([
-            f for f in glob.glob(os.path.join(s_dir, "[0-9][0-9]_*.m4a"))
-            if "Candidate" not in os.path.basename(f)
-            and "MicroCut" not in os.path.basename(f)
-            and "_v" not in os.path.basename(f)
-        ])
+        media_items = discover_series_media(s_info)
 
-        user = CHANNEL_META.get("github_user", "tzejen")
-        repo = CHANNEL_META.get("github_repo", "rabbit-hole")
-
-        for idx, fpath in enumerate(m4a_files, 1):
+        for item in media_items:
+            ep_num = item["ep_num"]
+            fpath = item["audio_path"]
             fname = os.path.basename(fpath)
             mp4 = MP4(fpath)
 
             title_tag = mp4.tags.get("©nam", [fname[:-4]])[0]
             clean_title = re.sub(r"^(?:Ep\d+|H\d+E\d+|\d+)[\s\-_:：]*", "", title_tag).strip()
-            formatted_title = f"H{s_info['season_num']:02d}E{idx:02d} {clean_title}"
+            formatted_title = f"H{s_info['season_num']:02d}E{ep_num:02d} {clean_title}"
 
             artist_tag = mp4.tags.get("©ART", [CHANNEL_META["author"]])[0]
             desc_tag = mp4.tags.get("desc", mp4.tags.get("©cmt", [""]))[0]
@@ -245,23 +385,40 @@ def scan_and_collect_episodes():
             chapters = get_audio_chapters(fpath)
 
             if s_info["id"] == "cave01":
-                pub_date = datetime(2026, 10, 24, 12, idx, 0, tzinfo=timezone.utc)
+                pub_date = datetime(2026, 10, 24, 12, ep_num, 0, tzinfo=timezone.utc)
             elif s_info["id"] == "cave02":
-                pub_date = datetime(2026, 10, 29, 12, idx, 0, tzinfo=timezone.utc)
+                pub_date = datetime(2026, 10, 29, 12, ep_num, 0, tzinfo=timezone.utc)
+            elif s_info["id"] == "cave03":
+                pub_date = datetime(2026, 10, 28, 12, ep_num, 0, tzinfo=timezone.utc)
             else:
-                pub_date = datetime(2026, 10, 25 + s_info["season_num"], 12, idx, 0, tzinfo=timezone.utc)
+                pub_date = datetime(2026, 11, 22, 12, 0, 0, tzinfo=timezone.utc) + timedelta(
+                    days=s_info["season_num"] - 4, minutes=ep_num
+                )
 
             # Standard ASCII release filename for CDN / R2 (streamed directly without local duplicates)
-            release_fname = f"{s_info['id']}_ep{idx:02d}.m4a"
-            audio_base_url = CHANNEL_META.get("audio_base_url") or f"https://github.com/{user}/{repo}/releases/download/v1.0.0"
+            release_fname = item["audio_release_name"]
             audio_url = f"{audio_base_url}/{release_fname}"
+
+            has_video = bool(item["video_path"])
+            video_release_fname = item["video_release_name"] or ""
+            video_url = f"{audio_base_url}/{video_release_fname}" if has_video else ""
+            video_file_size = os.path.getsize(item["video_path"]) if has_video else 0
+
+            vtt_generated = False
+            if has_video and item["srt_path"] and item["vtt_filename"]:
+                vtt_dst = os.path.join(SUBS_DIR, item["vtt_filename"])
+                vtt_generated = convert_srt_to_vtt(item["srt_path"], vtt_dst)
+                if vtt_generated:
+                    active_vtt_files.add(item["vtt_filename"])
+
+            web_episode_url = f"https://{user}.github.io/{repo}/#{s_info['id']}/ep{ep_num:02d}"
 
             ep_data = {
                 "series_id": s_info["id"],
                 "cave_number": s_info["cave_number"],
                 "series_title": s_info["title"],
                 "season": s_info["season_num"],
-                "episode": idx,
+                "episode": ep_num,
                 "title": formatted_title,
                 "filename": fname,
                 "release_filename": release_fname,
@@ -277,9 +434,25 @@ def scan_and_collect_episodes():
                 "cover_image": f"assets/{s_info['cover_dst_name']}",
                 "pub_date_rfc822": pub_date.strftime("%a, %d %b %Y %H:%M:%S +0000"),
                 "pub_date_iso": pub_date.isoformat(),
+                "has_video": has_video,
+                "video_url": video_url,
+                "video_release_filename": video_release_fname,
+                "video_file_size": video_file_size,
+                "subtitle_url": f"assets/subs/{item['vtt_filename']}" if vtt_generated else "",
+                "web_episode_url": web_episode_url,
             }
             all_episodes.append(ep_data)
-            print(f"  [OK] Ep{idx:02d} -> {release_fname}: {title_tag} ({ep_data['duration_fmt']}, {len(chapters)} chs)")
+            vid_note = f" + VIDEO ({video_file_size / (1024*1024):.1f} MB)" if has_video else ""
+            sub_note = " + VTT" if vtt_generated else ""
+            print(f"  [OK] Ep{ep_num:02d} -> {release_fname}: {title_tag} ({ep_data['duration_fmt']}, {len(chapters)} chs{vid_note}{sub_note})")
+
+    if os.path.isdir(SUBS_DIR):
+        for existing_sub in os.listdir(SUBS_DIR):
+            if existing_sub not in active_vtt_files:
+                try:
+                    os.remove(os.path.join(SUBS_DIR, existing_sub))
+                except Exception:
+                    pass
 
     return all_episodes
 
@@ -290,11 +463,14 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
         filtered_eps = [e for e in episodes if e["series_id"] == target_series_id]
         if not filtered_eps:
             return
+        series_meta = next((s for s in SERIES_LIST if s["id"] == target_series_id), {})
+        is_series_complete = (series_meta.get("status", "") == "已上線")
         feed_title = f"{CHANNEL_META['title']}・{filtered_eps[0]['cave_number']}：{filtered_eps[0]['series_title']}"
         feed_desc = f"{CHANNEL_META['title']}系列專題：{filtered_eps[0]['series_title']}"
         feed_cover = filtered_eps[0]["cover_image"]
     else:
         filtered_eps = episodes
+        is_series_complete = False
         feed_title = CHANNEL_META["title"]
         feed_desc = CHANNEL_META["description"]
         feed_cover = f"assets/{CHANNEL_META['cover_filename']}"
@@ -328,7 +504,10 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
         f'    <itunes:summary>{feed_desc_clean}</itunes:summary>',
         f'    <description>{feed_desc_clean}</description>',
         '    <itunes:type>episodic</itunes:type>',
-        '    <itunes:complete>yes</itunes:complete>',
+    ])
+    if is_series_complete:
+        xml_lines.append('    <itunes:complete>yes</itunes:complete>')
+    xml_lines.extend([
         '    <itunes:explicit>false</itunes:explicit>',
         f'    <itunes:image href="{base_url}/{feed_cover}"/>',
     ])
@@ -351,12 +530,26 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
     for ep in filtered_eps:
         audio_url = ep.get("audio_url", f"{audio_base_url}/{ep.get('release_filename', ep['filename'])}")
 
+        summary_text = ep["summary"]
+        content_prefix = ""
+        if ep.get("has_video") and ep.get("web_episode_url"):
+            video_link = ep["web_episode_url"]
+            summary_text = (
+                f"🎬 觀看本集圖文影片：{video_link}\n\n{ep['summary']}"
+                if ep["summary"]
+                else f"🎬 觀看本集圖文影片：{video_link}"
+            )
+            content_prefix = (
+                f'<p>🎬 <b>觀看本集圖文影片</b>：'
+                f'<a href="{xml_escape(video_link)}">{xml_escape(video_link)}</a></p>'
+            )
+
         ch_html = ""
         if ep["chapters"]:
             ch_rows = "".join([f"<li><b>{ch['start_fmt']}</b> {xml_escape(ch['title'])}</li>" for ch in ep["chapters"]])
             ch_html = f"<h4>【本集章節時間軸】</h4><ul>{ch_rows}</ul>"
 
-        content_encoded = f"<p>{xml_escape(ep['summary'])}</p>{ch_html}"
+        content_encoded = f"{content_prefix}<p>{xml_escape(ep['summary'])}</p>{ch_html}"
 
         xml_lines.extend([
             '    <item>',
@@ -369,8 +562,8 @@ def generate_rss_feed(episodes, output_path, is_master=True, target_series_id=No
             f'      <guid isPermaLink="false">{ep["series_id"]}_ep{ep["episode"]:02d}</guid>',
             f'      <enclosure url="{audio_url}" length="{ep["file_size"]}" type="audio/mp4"/>',
             f'      <itunes:duration>{ep["duration_sec"]}</itunes:duration>',
-            f'      <itunes:summary>{xml_escape(ep["summary"])}</itunes:summary>',
-            f'      <description>{xml_escape(ep["summary"])}</description>',
+            f'      <itunes:summary>{xml_escape(summary_text)}</itunes:summary>',
+            f'      <description>{xml_escape(summary_text)}</description>',
             f'      <content:encoded><![CDATA[{content_encoded}]]></content:encoded>',
             f'      <itunes:image href="{base_url}/{ep["cover_image"]}"/>',
             '    </item>'
